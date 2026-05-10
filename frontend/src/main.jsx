@@ -8,8 +8,12 @@ import App from './App';
 import { store } from './store/store';
 import './styles/index.css';
 
-axios.defaults.baseURL =
+const API_URL =
   import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
+axios.defaults.baseURL = API_URL;
+
+console.log('API URL:', API_URL);
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
