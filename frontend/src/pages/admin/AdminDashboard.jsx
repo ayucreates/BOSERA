@@ -1,8 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { formatPrice } from '../../utils/formatters';
-import { getMediaUrl } from '../../utils/media';
 
 const AdminDashboard = () => {
   const [products, setProducts] = useState([]);
@@ -43,6 +41,10 @@ const AdminDashboard = () => {
     fetchDashboardData();
   }, []);
 
+  const isOrderDelivered = (order) => {
+    return order.isDelivered || order.orderStatus === 'delivered';
+  };
+
   const totalProducts = products.length;
   const totalCategories = categories.length;
   const totalOrders = orders.length;
@@ -65,7 +67,7 @@ const AdminDashboard = () => {
     return total + Number(product.price || 0) * Number(productStock || 0);
   }, 0);
 
-  const pendingOrders = orders.filter((order) => !order.isDelivered).length;
+  const pendingOrders = orders.filter((order) => !isOrderDelivered(order)).length;
 
   if (loading) {
     return (
@@ -134,7 +136,7 @@ const AdminDashboard = () => {
           </h2>
 
           <p className="text-3xl font-bold">
-            {formatPrice(totalValue)}
+            ₹{totalValue.toLocaleString()}
           </p>
         </div>
       </div>
@@ -232,7 +234,7 @@ const AdminDashboard = () => {
                     <img
                       src={
                         product.images?.[0]?.url
-                          ? getMediaUrl(product.images[0].url)
+                          ? `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}${product.images[0].url}`
                           : '/placeholder.jpg'
                       }
                       alt={product.name}
@@ -245,7 +247,7 @@ const AdminDashboard = () => {
                   </td>
 
                   <td className="p-4">
-                    {formatPrice(product.price)}
+                    ₹{product.price}
                   </td>
 
                   <td className="p-4">
@@ -293,45 +295,49 @@ const AdminDashboard = () => {
             </thead>
 
             <tbody>
-              {orders.slice(0, 5).map((order) => (
-                <tr key={order._id} className="border-t">
-                  <td className="p-4 text-sm">
-                    {order._id}
-                  </td>
+              {orders.slice(0, 5).map((order) => {
+                const delivered = isOrderDelivered(order);
 
-                  <td className="p-4">
-                    {order.user?.name || order.user?.email || 'Unknown user'}
-                  </td>
+                return (
+                  <tr key={order._id} className="border-t">
+                    <td className="p-4 text-sm">
+                      {order._id}
+                    </td>
 
-                  <td className="p-4">
-                    {formatPrice(order.totalPrice)}
-                  </td>
+                    <td className="p-4">
+                      {order.user?.name || order.user?.email || 'Unknown user'}
+                    </td>
 
-                  <td className="p-4">
-                    {order.isPaid ? (
-                      <span className="text-green-600 font-medium">
-                        Paid
-                      </span>
-                    ) : (
-                      <span className="text-red-600 font-medium">
-                        Not Paid
-                      </span>
-                    )}
-                  </td>
+                    <td className="p-4">
+                      ₹{Number(order.totalPrice || 0).toLocaleString()}
+                    </td>
 
-                  <td className="p-4">
-                    {order.isDelivered ? (
-                      <span className="text-green-600 font-medium">
-                        Delivered
-                      </span>
-                    ) : (
-                      <span className="text-yellow-600 font-medium">
-                        Pending
-                      </span>
-                    )}
-                  </td>
-                </tr>
-              ))}
+                    <td className="p-4">
+                      {order.isPaid ? (
+                        <span className="text-green-600 font-medium">
+                          Paid
+                        </span>
+                      ) : (
+                        <span className="text-red-600 font-medium">
+                          Not Paid
+                        </span>
+                      )}
+                    </td>
+
+                    <td className="p-4">
+                      {delivered ? (
+                        <span className="text-green-600 font-medium">
+                          Delivered
+                        </span>
+                      ) : (
+                        <span className="text-yellow-600 font-medium">
+                          Pending
+                        </span>
+                      )}
+                    </td>
+                  </tr>
+                );
+              })}
 
               {orders.length === 0 && (
                 <tr>
