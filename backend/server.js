@@ -1,10 +1,8 @@
 import dotenv from 'dotenv';
-dotenv.config();
+dotenv.config({ path: './.env' });
 
 import express from 'express';
 import cors from 'cors';
-import path from 'path';
-import { fileURLToPath } from 'url';
 
 import connectDB from './config/db.js';
 import productRoutes from './routes/productRoutes.js';
@@ -13,23 +11,43 @@ import orderRoutes from './routes/orderRoutes.js';
 import categoryRoutes from './routes/categoryRoutes.js';
 import uploadRoutes from './routes/uploadRoutes.js';
 import paymentRoutes from './routes/paymentRoutes.js';
-
 import { notFound, errorHandler } from './middleware/errorMiddleware.js';
-
-dotenv.config();
 
 connectDB();
 
 const app = express();
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
 
-app.use(cors());
+const allowedOrigins = [
+  'http://localhost:3000',
+  'http://127.0.0.1:3000',
+  'https://lite-bouys-zone.vercel.app'
+];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin || allowedOrigins.includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    },
+    credentials: true
+  })
+);
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Static folder for uploaded product media
-app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+// Static folder for uploads
+app.use('/uploads', express.static('uploads'));
+
+// Health check
+app.get('/', (req, res) => {
+  res.json({
+    message: 'Lite Bouys Zone backend is running'
+  });
+});
 
 // Routes
 app.use('/api/products', productRoutes);
@@ -40,22 +58,10 @@ app.use('/api/upload', uploadRoutes);
 app.use('/api/payment', paymentRoutes);
 
 app.get('/api/config/razorpay', (req, res) => {
-  res.json({ keyId: process.env.RAZORPAY_KEY_ID });
-});
-
-if (process.env.NODE_ENV === 'production') {
-  const frontendDistPath = path.join(__dirname, '../frontend/dist');
-
-  app.use(express.static(frontendDistPath));
-
-  app.get('*', (req, res, next) => {
-    if (req.path.startsWith('/api')) {
-      return next();
-    }
-
-    res.sendFile(path.join(frontendDistPath, 'index.html'));
+  res.json({
+    keyId: process.env.RAZORPAY_KEY_ID
   });
-}
+});
 
 // Error handling
 app.use(notFound);
