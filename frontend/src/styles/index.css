@@ -1,0 +1,102 @@
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:wght@600;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: light;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply min-h-screen bg-[#f8f1e7] text-gray-800 font-sans antialiased;
+    background-image:
+      radial-gradient(circle at top left, rgba(255, 255, 255, 0.92), transparent 30%),
+      linear-gradient(180deg, #fbf4eb 0%, #f7efe4 42%, #f8f1e7 100%);
+  }
+
+  body::selection {
+    @apply bg-gray-900 text-white;
+  }
+
+  a,
+  button,
+  input,
+  select,
+  textarea {
+    @apply outline-none;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-full bg-gray-950 px-6 py-3 font-semibold text-white shadow-[0_12px_30px_rgba(17,24,39,0.16)] hover:-translate-y-0.5 hover:bg-gray-800 transition-all duration-300;
+  }
+  
+  .btn-secondary {
+    @apply inline-flex items-center justify-center rounded-full px-6 py-3 font-semibold text-gray-900 backdrop-blur transition-all duration-300 hover:border-gray-950 hover:bg-gray-950 hover:text-white;
+    border: 1px solid rgba(3, 7, 18, 0.15);
+    background-color: rgba(255, 255, 255, 0.8);
+  }
+  
+  .input-field {
+    @apply w-full rounded-2xl px-4 py-3 shadow-[0_10px_30px_rgba(148,163,184,0.12)] transition focus:border-gray-900 focus:ring-2 focus:ring-gray-900;
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    background-color: rgba(255, 255, 255, 0.85);
+  }
+  
+  .section-title {
+    @apply text-3xl md:text-4xl font-display font-semibold text-center mb-8;
+  }
+  
+  .product-card {
+    @apply relative overflow-hidden bg-white;
+  }
+  
+  .product-card-image {
+    @apply w-full aspect-[3/4] object-cover group-hover:scale-105 transition-transform duration-500;
+  }
+
+  .glass-panel {
+    @apply rounded-[2rem] shadow-[0_20px_60px_rgba(148,163,184,0.18)] backdrop-blur;
+    border: 1px solid rgba(255, 255, 255, 0.7);
+    background-color: rgba(255, 255, 255, 0.82);
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #efe6da;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #b8a691;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #927d64;
+}
+
+/* Swiper custom styles */
+.swiper-pagination-bullet {
+  @apply bg-gray-400;
+}
+
+.swiper-pagination-bullet-active {
+  @apply bg-gray-900;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  @apply text-gray-900;
+}
