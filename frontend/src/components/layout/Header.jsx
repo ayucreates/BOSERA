@@ -75,34 +75,34 @@ const Header = () => {
       : location.pathname.startsWith(path);
 
   return (
-    <header className="sticky top-0 z-50 px-3 pt-3 md:px-4">
-      <div className="mx-auto max-w-7xl overflow-hidden rounded-full bg-gray-950 px-4 py-2 text-center text-xs font-medium tracking-[0.18em] text-white shadow-[0_18px_40px_rgba(17,24,39,0.18)] sm:text-sm">
-        Free shipping on orders over ₹999. Use code LITE10 for 10% off.
+    <header className="sticky top-0 z-50 px-2 pt-2 sm:px-3 sm:pt-3 md:px-4">
+      <div className="mx-auto max-w-7xl overflow-hidden rounded-full bg-gray-950 px-3 py-1.5 text-center text-[11px] font-medium text-white shadow-[0_18px_40px_rgba(17,24,39,0.18)] sm:px-4 sm:py-2 sm:text-sm sm:tracking-[0.12em]">
+        Free shipping over ₹999. Use LITE10.
       </div>
 
       <nav
-        className={`mx-auto mt-3 max-w-7xl rounded-[2rem] border px-4 transition-all duration-300 md:px-6 ${
+        className={`mx-auto mt-2 max-w-7xl rounded-2xl border px-2.5 transition-all duration-300 sm:mt-3 sm:rounded-[2rem] sm:px-4 md:px-6 ${
           isScrolled
-            ? 'border-white/80 bg-white/88 shadow-[0_20px_60px_rgba(148,163,184,0.22)] backdrop-blur'
-            : 'border-white/70 bg-white/72 backdrop-blur'
+            ? 'border-white/80 bg-white/[0.88] shadow-[0_20px_60px_rgba(148,163,184,0.22)] backdrop-blur'
+            : 'border-white/70 bg-white/[0.72] backdrop-blur'
         }`}
       >
-        <div className="flex h-16 items-center justify-between md:h-20">
+        <div className="flex h-14 items-center justify-between gap-2 sm:h-16 md:h-20">
           <button
-            className="rounded-full p-2 transition hover:bg-gray-100 md:hidden"
+            className="grid h-10 w-10 shrink-0 place-items-center rounded-full transition hover:bg-gray-100 md:hidden"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
             aria-label="Toggle menu"
           >
             {isMenuOpen ? <FiX size={24} /> : <FiMenu size={24} />}
           </button>
 
-          <Link to="/" className="flex shrink-0 items-center gap-3">
-            <div className="grid h-11 w-11 place-items-center rounded-full bg-[#ead5bd] text-sm font-extrabold tracking-[0.2em] text-gray-950">
+          <Link to="/" className="flex min-w-0 flex-1 shrink items-center gap-2 sm:gap-3 md:flex-none">
+            <div className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-[#ead5bd] text-xs font-extrabold tracking-[0.16em] text-gray-950 sm:h-11 sm:w-11 sm:text-sm sm:tracking-[0.2em]">
               LB
             </div>
 
-            <div>
-              <p className="font-display text-lg font-bold tracking-[0.24em] text-gray-950 md:text-xl">
+            <div className="min-w-0">
+              <p className="truncate font-display text-sm font-bold text-gray-950 sm:text-lg sm:tracking-[0.14em] md:text-xl md:tracking-[0.24em]">
                 LITE BOUYS ZONE
               </p>
 
@@ -129,10 +129,10 @@ const Header = () => {
             ))}
           </ul>
 
-          <div className="flex items-center gap-2 md:gap-3">
+          <div className="flex shrink-0 items-center gap-0.5 sm:gap-2 md:gap-3">
             <button
               onClick={() => setIsSearchOpen(!isSearchOpen)}
-              className="rounded-full p-2 transition hover:bg-gray-100"
+              className="grid h-10 w-10 place-items-center rounded-full transition hover:bg-gray-100"
               aria-label="Search"
             >
               <FiSearch size={20} />
@@ -141,7 +141,7 @@ const Header = () => {
             <div className="relative">
               <button
                 onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
-                className="rounded-full p-2 transition hover:bg-gray-100"
+                className="grid h-10 w-10 place-items-center rounded-full transition hover:bg-gray-100"
                 aria-label="Account menu"
               >
                 <FiUser size={20} />
@@ -199,7 +199,7 @@ const Header = () => {
 
             <Link
               to="/wishlist"
-              className="relative rounded-full p-2 transition hover:bg-gray-100"
+              className="relative grid h-10 w-10 place-items-center rounded-full transition hover:bg-gray-100"
               aria-label="Wishlist"
             >
               <FiHeart size={20} />
@@ -212,7 +212,7 @@ const Header = () => {
 
             <Link
               to="/cart"
-              className="relative rounded-full p-2 transition hover:bg-gray-100"
+              className="relative grid h-10 w-10 place-items-center rounded-full transition hover:bg-gray-100"
               aria-label="Cart"
             >
               <FiShoppingBag size={20} />
@@ -232,7 +232,7 @@ const Header = () => {
               animate={{ height: 'auto', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
               onSubmit={handleSearch}
-              className="border-t border-gray-100 py-4"
+              className="border-t border-gray-100 py-3 sm:py-4"
             >
               <div className="relative">
                 <input
@@ -240,7 +240,7 @@ const Header = () => {
                   placeholder="Search for products..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="w-full rounded-2xl border border-white/70 bg-[#f9f3eb] px-4 py-3 pr-12 shadow-sm focus:border-gray-900"
+                  className="w-full rounded-xl border border-white/70 bg-[#f9f3eb] px-4 py-3 pr-12 text-base shadow-sm focus:border-gray-900 sm:rounded-2xl"
                   autoFocus
                 />
                 <button
@@ -262,12 +262,12 @@ const Header = () => {
               exit={{ height: 0, opacity: 0 }}
               className="border-t border-gray-100 md:hidden"
             >
-              <ul className="space-y-2 py-4">
+              <ul className="space-y-1 py-3 sm:space-y-2 sm:py-4">
                 {navLinks.map((link) => (
                   <li key={link.name}>
                     <Link
                       to={link.path}
-                      className="flex items-center justify-between rounded-2xl px-2 py-3 font-medium text-gray-700 transition hover:bg-[#f8f1e7] hover:text-gray-950"
+                      className="flex min-h-11 items-center justify-between rounded-xl px-3 py-2.5 font-medium text-gray-700 transition hover:bg-[#f8f1e7] hover:text-gray-950 sm:rounded-2xl"
                     >
                       {link.name}
                       <FiChevronRight size={18} className="text-gray-400" />

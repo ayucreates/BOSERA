@@ -25,29 +25,29 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="px-4 pb-4 pt-12">
-      <div className="mx-auto max-w-7xl overflow-hidden rounded-[2.5rem] border border-white/70 bg-gray-950 text-white shadow-[0_30px_80px_rgba(17,24,39,0.28)]">
-        <div className="border-b border-white/10 px-6 py-10 md:px-10">
-          <div className="grid gap-8 lg:grid-cols-[1.3fr_0.8fr] lg:items-center">
+    <footer className="px-3 pb-3 pt-8 sm:px-4 sm:pb-4 sm:pt-12">
+      <div className="mx-auto max-w-7xl overflow-hidden rounded-2xl border border-white/70 bg-gray-950 text-white shadow-[0_30px_80px_rgba(17,24,39,0.28)] sm:rounded-[2.5rem]">
+        <div className="border-b border-white/10 px-5 py-7 sm:px-6 sm:py-10 md:px-10">
+          <div className="grid gap-5 sm:gap-8 lg:grid-cols-[1.3fr_0.8fr] lg:items-center">
             <div>
-              <p className="mb-4 text-xs font-semibold uppercase tracking-[0.32em] text-gray-400">
+              <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-gray-400 sm:mb-4 sm:tracking-[0.32em]">
                 Lite Bouys Zone
               </p>
-              <h2 className="max-w-2xl font-display text-3xl font-bold leading-tight text-white md:text-5xl">
+              <h2 className="max-w-2xl font-display text-2xl font-bold leading-tight text-white sm:text-3xl md:text-5xl">
                 Everyday vintage energy, styled for clean modern fits.
               </h2>
             </div>
 
-            <div className="rounded-[2rem] border border-white/10 bg-white/5 p-6 backdrop-blur">
-              <p className="text-sm uppercase tracking-[0.28em] text-gray-400">
+            <div className="rounded-2xl border border-white/10 bg-white/5 p-4 backdrop-blur sm:rounded-[2rem] sm:p-6">
+              <p className="text-xs uppercase tracking-[0.18em] text-gray-400 sm:text-sm sm:tracking-[0.28em]">
                 Visit the store
               </p>
-              <p className="mt-3 text-lg text-gray-200">
+              <p className="mt-3 text-sm leading-relaxed text-gray-200 sm:text-lg">
                 Browse fresh drops, save your favourites, and check out with a smoother flow across every device.
               </p>
               <Link
                 to="/shop"
-                className="mt-6 inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 font-semibold text-gray-950 transition hover:bg-[#f0e6d7]"
+                className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-full bg-white px-4 py-2.5 text-sm font-semibold text-gray-950 transition hover:bg-[#f0e6d7] sm:mt-6 sm:px-5 sm:py-3 sm:text-base"
               >
                 Explore Collection
                 <FiArrowUpRight />
@@ -56,7 +56,7 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="grid gap-10 px-6 py-10 md:grid-cols-2 md:px-10 lg:grid-cols-4">
+        <div className="grid gap-8 px-5 py-8 sm:gap-10 sm:px-6 sm:py-10 md:grid-cols-2 md:px-10 lg:grid-cols-4">
           <div>
             <h3 className="font-display text-2xl font-bold">LITE BOUYS ZONE</h3>
             <p className="mt-4 max-w-sm text-gray-400">
@@ -120,8 +120,8 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="border-t border-white/10 px-6 py-5 text-sm text-gray-500 md:px-10">
-          © {new Date().getFullYear()} Lite Bouys Zone. Designed for sharper browsing and smoother checkout.
+        <div className="border-t border-white/10 px-5 py-4 text-xs leading-relaxed text-gray-500 sm:px-6 sm:py-5 sm:text-sm md:px-10">
+          &copy; {new Date().getFullYear()} Lite Bouys Zone. Designed for sharper browsing and smoother checkout.
         </div>
       </div>
     </footer>

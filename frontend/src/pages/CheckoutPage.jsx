@@ -111,20 +111,20 @@ const CheckoutPage = () => {
   };
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 md:py-12">
-      <div className="mb-8 max-w-2xl">
-        <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-gray-500">
+    <div className="mx-auto max-w-7xl px-3 py-6 sm:px-4 sm:py-8 md:py-12">
+      <div className="mb-6 max-w-2xl sm:mb-8">
+        <p className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-gray-500 sm:mb-3 sm:text-sm sm:tracking-[0.2em]">
           Checkout
         </p>
-        <h1 className="text-4xl font-bold text-gray-950 md:text-5xl">Complete your order</h1>
+        <h1 className="text-3xl font-bold text-gray-950 sm:text-4xl md:text-5xl">Complete your order</h1>
       </div>
 
       <form onSubmit={handleSubmit}>
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
-          <div className="space-y-8 lg:col-span-2">
-            <div className="glass-panel p-6">
+        <div className="grid grid-cols-1 gap-5 sm:gap-8 lg:grid-cols-3">
+          <div className="space-y-5 sm:space-y-8 lg:col-span-2">
+            <div className="glass-panel p-4 sm:p-6">
               <h2 className="mb-4 text-xl font-semibold">Shipping Address</h2>
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
+              <div className="grid grid-cols-1 gap-3 sm:gap-4 md:grid-cols-2">
                 <input name="fullName" placeholder="Full Name" value={address.fullName} onChange={handleAddressChange} className="input-field" required />
                 <input name="phone" placeholder="Phone Number" value={address.phone} onChange={handleAddressChange} className="input-field" required />
                 <input name="addressLine1" placeholder="Address Line 1" value={address.addressLine1} onChange={handleAddressChange} className="input-field md:col-span-2" required />
@@ -135,14 +135,14 @@ const CheckoutPage = () => {
               </div>
             </div>
 
-            <div className="glass-panel p-6">
+            <div className="glass-panel p-4 sm:p-6">
               <h2 className="mb-4 text-xl font-semibold">Payment Method</h2>
               <div className="space-y-3">
-                <label className="flex cursor-pointer items-center gap-3 rounded-2xl border border-gray-100 bg-white/80 p-4">
+                <label className="flex min-h-12 cursor-pointer items-center gap-3 rounded-xl border border-gray-100 bg-white/80 p-3 sm:rounded-2xl sm:p-4">
                   <input type="radio" name="payment" value="razorpay" checked={paymentMethod === 'razorpay'} onChange={(e) => setPaymentMethod(e.target.value)} />
                   <span>Pay Online (Razorpay)</span>
                 </label>
-                <label className="flex cursor-pointer items-center gap-3 rounded-2xl border border-gray-100 bg-white/80 p-4">
+                <label className="flex min-h-12 cursor-pointer items-center gap-3 rounded-xl border border-gray-100 bg-white/80 p-3 sm:rounded-2xl sm:p-4">
                   <input type="radio" name="payment" value="cod" checked={paymentMethod === 'cod'} onChange={(e) => setPaymentMethod(e.target.value)} />
                   <span>Cash on Delivery</span>
                 </label>
@@ -151,13 +151,13 @@ const CheckoutPage = () => {
           </div>
 
           <div>
-            <div className="glass-panel sticky top-24 p-6">
-              <h2 className="mb-6 text-xl font-semibold">Order Summary</h2>
-              <div className="mb-6 space-y-3">
+            <div className="glass-panel p-4 sm:sticky sm:top-24 sm:p-6">
+              <h2 className="mb-4 text-xl font-semibold sm:mb-6">Order Summary</h2>
+              <div className="mb-5 space-y-3 sm:mb-6">
                 {cartItems.map((item) => (
-                  <div key={`${item.product}-${item.size}`} className="flex justify-between gap-4 text-sm">
-                    <span>{item.name} x {item.quantity}</span>
-                    <span>{formatPrice(item.price * item.quantity)}</span>
+                  <div key={`${item.product}-${item.size}`} className="flex justify-between gap-3 text-sm">
+                    <span className="line-clamp-2 min-w-0">{item.name} x {item.quantity}</span>
+                    <span className="shrink-0">{formatPrice(item.price * item.quantity)}</span>
                   </div>
                 ))}
                 <div className="flex justify-between border-t pt-3">

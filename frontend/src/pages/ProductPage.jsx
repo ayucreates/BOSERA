@@ -187,16 +187,16 @@ const ProductPage = () => {
 
   return (
     <div className="min-h-screen bg-transparent">
-      <div className="mx-auto max-w-7xl px-4 py-8 md:py-12">
+      <div className="mx-auto max-w-7xl px-3 py-5 sm:px-4 sm:py-8 md:py-12">
         <button
           onClick={() => navigate('/shop')}
-          className="mb-6 text-sm font-medium text-gray-600 transition hover:text-gray-950"
+          className="mb-4 text-sm font-medium text-gray-600 transition hover:text-gray-950 sm:mb-6"
         >
           ← Back to shop
         </button>
 
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-2 lg:gap-14">
-          <div className="space-y-4">
+        <div className="grid grid-cols-1 gap-5 sm:gap-8 lg:grid-cols-2 lg:gap-14">
+          <div className="space-y-3 sm:space-y-4">
             <div className="glass-panel overflow-hidden">
               <Swiper
                 modules={[Thumbs, Zoom]}
@@ -207,7 +207,7 @@ const ProductPage = () => {
                       : null
                 }}
                 zoom
-                className="aspect-[3/4] bg-[#f4ede3]"
+                className="aspect-[4/5] bg-[#f4ede3] sm:aspect-[3/4]"
               >
                 {product.images?.length > 0 ? (
                   product.images.map((image, index) => (
@@ -237,15 +237,15 @@ const ProductPage = () => {
               <Swiper
                 onSwiper={setThumbsSwiper}
                 slidesPerView={4}
-                spaceBetween={12}
-                className="h-24"
+                spaceBetween={8}
+                className="h-20 sm:h-24"
               >
                 {product.images.map((image, index) => (
                   <SwiperSlide key={index} className="cursor-pointer">
                     <img
                       src={getMediaUrl(image.url)}
                       alt={image.alt || product.name}
-                      className="h-full w-full rounded-xl border border-white/70 object-cover"
+                      className="h-full w-full rounded-lg border border-white/70 object-cover sm:rounded-xl"
                     />
                   </SwiperSlide>
                 ))}
@@ -257,61 +257,61 @@ const ProductPage = () => {
             initial={{ opacity: 0, x: 24 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.3 }}
-            className="glass-panel h-fit p-6 md:p-8"
+            className="glass-panel h-fit p-4 sm:p-6 md:p-8"
           >
-            <div className="mb-6">
-              <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-gray-500">
+            <div className="mb-5 sm:mb-6">
+              <p className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-gray-500 sm:mb-3 sm:text-sm sm:tracking-[0.2em]">
                 {product.category?.name || 'Lite Bouys Zone'}
               </p>
 
-              <h1 className="mb-5 text-3xl font-bold leading-tight text-gray-950 md:text-5xl">
+              <h1 className="mb-4 text-2xl font-bold leading-tight text-gray-950 sm:text-3xl md:text-5xl">
                 {product.name}
               </h1>
 
-              <div className="mb-5 flex flex-wrap items-center gap-4">
-                <span className="text-3xl font-bold text-gray-950">
+              <div className="mb-4 flex flex-wrap items-center gap-2.5 sm:mb-5 sm:gap-4">
+                <span className="text-2xl font-bold text-gray-950 sm:text-3xl">
                   {formatPrice(product.price)}
                 </span>
 
                 {product.originalPrice && (
                   <>
-                    <span className="text-lg text-gray-400 line-through">
+                    <span className="text-base text-gray-400 line-through sm:text-lg">
                       {formatPrice(product.originalPrice)}
                     </span>
 
-                    <span className="rounded-full bg-red-100 px-3 py-1 text-sm font-semibold text-red-600">
+                    <span className="rounded-full bg-red-100 px-2.5 py-1 text-xs font-semibold text-red-600 sm:px-3 sm:text-sm">
                       {discount}% OFF
                     </span>
                   </>
                 )}
 
                 {totalStock > 0 ? (
-                  <span className="rounded-full bg-green-100 px-3 py-1 text-sm font-semibold text-green-700">
+                  <span className="rounded-full bg-green-100 px-2.5 py-1 text-xs font-semibold text-green-700 sm:px-3 sm:text-sm">
                     In Stock
                   </span>
                 ) : (
-                  <span className="rounded-full bg-red-100 px-3 py-1 text-sm font-semibold text-red-700">
+                  <span className="rounded-full bg-red-100 px-2.5 py-1 text-xs font-semibold text-red-700 sm:px-3 sm:text-sm">
                     Out of Stock
                   </span>
                 )}
               </div>
 
-              <p className="leading-relaxed text-gray-600">{product.description}</p>
+              <p className="text-sm leading-relaxed text-gray-600 sm:text-base">{product.description}</p>
             </div>
 
-            <div className="space-y-6 border-t border-gray-100 pt-6">
+            <div className="space-y-5 border-t border-gray-100 pt-5 sm:space-y-6 sm:pt-6">
               <div>
-                <div className="mb-3 flex items-center justify-between">
+                <div className="mb-3 flex items-center justify-between gap-3">
                   <h3 className="font-semibold text-gray-950">Select Size</h3>
 
                   {selectedSizeData && (
-                    <p className="text-sm text-gray-500">
+                    <p className="shrink-0 text-xs text-gray-500 sm:text-sm">
                       {selectedSizeData.stock} available
                     </p>
                   )}
                 </div>
 
-                <div className="flex flex-wrap gap-3">
+                <div className="grid grid-cols-4 gap-2 min-[420px]:grid-cols-5 sm:flex sm:flex-wrap sm:gap-3">
                   {product.sizes?.map((sizeOption) => (
                     <button
                       key={sizeOption.size}
@@ -321,7 +321,7 @@ const ProductPage = () => {
                         setQuantity(1);
                       }}
                       disabled={Number(sizeOption.stock) === 0}
-                      className={`min-w-12 rounded-xl border px-4 py-3 font-semibold transition ${
+                      className={`min-h-11 rounded-xl border px-3 py-2.5 font-semibold transition sm:min-w-12 sm:px-4 sm:py-3 ${
                         selectedSize === sizeOption.size
                           ? 'border-gray-950 bg-gray-950 text-white'
                           : Number(sizeOption.stock) === 0
@@ -338,7 +338,7 @@ const ProductPage = () => {
               <div>
                 <h3 className="mb-3 font-semibold text-gray-950">Quantity</h3>
 
-                <div className="flex w-fit items-center overflow-hidden rounded-xl border border-gray-200">
+                <div className="flex w-fit items-center overflow-hidden rounded-xl border border-gray-200 bg-white">
                   <button
                     type="button"
                     onClick={decreaseQuantity}
@@ -359,11 +359,11 @@ const ProductPage = () => {
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
+              <div className="grid grid-cols-2 gap-2 sm:gap-3">
                 <button
                   onClick={handleAddToCart}
                   disabled={!totalStock || totalStock <= 0}
-                  className="inline-flex items-center justify-center gap-2 rounded-xl border border-gray-950 bg-white px-6 py-4 font-semibold text-gray-950 transition hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
+                  className="inline-flex min-h-12 items-center justify-center gap-1.5 rounded-xl border border-gray-950 bg-white px-3 py-3 text-sm font-semibold text-gray-950 transition hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50 sm:gap-2 sm:px-6 sm:py-4 sm:text-base"
                 >
                   <FiShoppingBag size={18} />
                   Add to Cart
@@ -372,17 +372,17 @@ const ProductPage = () => {
                 <button
                   onClick={handleBuyNow}
                   disabled={!totalStock || totalStock <= 0}
-                  className="inline-flex items-center justify-center gap-2 rounded-xl bg-gray-950 px-6 py-4 font-semibold text-white transition hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-50"
+                  className="inline-flex min-h-12 items-center justify-center gap-1.5 rounded-xl bg-gray-950 px-3 py-3 text-sm font-semibold text-white transition hover:bg-gray-800 disabled:cursor-not-allowed disabled:opacity-50 sm:gap-2 sm:px-6 sm:py-4 sm:text-base"
                 >
                   <FiZap size={18} />
                   Buy Now
                 </button>
               </div>
 
-              <div className="flex gap-3">
+              <div className="grid grid-cols-2 gap-2 sm:flex sm:gap-3">
                 <button
                   onClick={handleWishlist}
-                  className={`flex flex-1 items-center justify-center gap-2 rounded-xl border px-5 py-3 font-medium transition ${
+                  className={`flex min-h-11 flex-1 items-center justify-center gap-1.5 rounded-xl border px-3 py-3 text-sm font-medium transition sm:gap-2 sm:px-5 sm:text-base ${
                     isInWishlist
                       ? 'border-red-500 bg-red-50 text-red-500'
                       : 'border-gray-200 text-gray-800 hover:border-gray-950'
@@ -394,7 +394,7 @@ const ProductPage = () => {
 
                 <button
                   onClick={handleShare}
-                  className="flex flex-1 items-center justify-center gap-2 rounded-xl border border-gray-200 px-5 py-3 font-medium text-gray-800 transition hover:border-gray-950"
+                  className="flex min-h-11 flex-1 items-center justify-center gap-1.5 rounded-xl border border-gray-200 px-3 py-3 text-sm font-medium text-gray-800 transition hover:border-gray-950 sm:gap-2 sm:px-5 sm:text-base"
                 >
                   <FiShare2 size={18} />
                   Share
@@ -402,7 +402,7 @@ const ProductPage = () => {
               </div>
             </div>
 
-            <div className="mt-8 border-t border-gray-100 pt-6">
+            <div className="mt-6 border-t border-gray-100 pt-5 sm:mt-8 sm:pt-6">
               <h3 className="mb-4 font-bold text-gray-950">Product Details</h3>
 
               <ul className="space-y-3 text-gray-600">
