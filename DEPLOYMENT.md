@@ -57,4 +57,4 @@ $env:NODE_ENV='production'
 npm start
 ```
 
-Then open `http://localhost:5000`.
+Then open `${import.meta.env.VITE_API_URL}`.
