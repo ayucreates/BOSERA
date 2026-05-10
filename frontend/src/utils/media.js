@@ -11,4 +11,8 @@ export const getImageUrl = (url) => {
   return `${API_URL}${url}`;
 };
 
+export const getMediaUrl = (url) => {
+  return getImageUrl(url);
+};
+
 export default getImageUrl;
