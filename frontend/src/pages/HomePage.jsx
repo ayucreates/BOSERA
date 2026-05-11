@@ -49,6 +49,24 @@ const HomePage = () => {
   const visibleNewArrivals = newArrivals.slice(0, 8);
   const visibleCategories = categories.slice(0, 6);
 
+  const getProductImage = (product) => {
+    const firstImage = product?.images?.[0];
+
+    if (!firstImage) {
+      return 'https://placehold.co/800x1000?text=Lite+Bouys+Zone';
+    }
+
+    if (typeof firstImage === 'string') {
+      return getMediaUrl(firstImage);
+    }
+
+    if (firstImage.url) {
+      return getMediaUrl(firstImage.url);
+    }
+
+    return 'https://placehold.co/800x1000?text=Lite+Bouys+Zone';
+  };
+
   return (
     <div className="bg-transparent">
       <section className="relative overflow-hidden bg-[#f3eadf]">
@@ -103,11 +121,7 @@ const HomePage = () => {
             >
               <div className="relative aspect-[5/4] overflow-hidden rounded-2xl bg-white shadow-2xl sm:aspect-[4/5] sm:rounded-[2rem]">
                 <img
-                  src={
-                    visibleNewArrivals[0]?.images?.[0]?.url
-                      ? getMediaUrl(visibleNewArrivals[0].images[0].url)
-                      : '/placeholder.jpg'
-                  }
+                  src={getProductImage(visibleNewArrivals[0])}
                   alt="Lite Bouys Zone hero"
                   className="h-full w-full object-cover"
                 />
@@ -262,11 +276,7 @@ const HomePage = () => {
                     className="group relative aspect-square overflow-hidden rounded-2xl bg-gray-800 sm:rounded-3xl"
                   >
                     <img
-                      src={
-                        product.images?.[0]?.url
-                          ? getMediaUrl(product.images[0].url)
-                          : '/placeholder.jpg'
-                      }
+                      src={getProductImage(product)}
                       alt={product.name}
                       className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                     />
@@ -278,7 +288,9 @@ const HomePage = () => {
                         {product.name}
                       </h3>
 
-                      <p className="text-xs text-gray-200 sm:text-sm">{formatPrice(product.price)}</p>
+                      <p className="text-xs text-gray-200 sm:text-sm">
+                        {formatPrice(product.price)}
+                      </p>
                     </div>
                   </Link>
                 ))}
@@ -293,7 +305,9 @@ const HomePage = () => {
             <p className="mb-2 text-sm font-semibold uppercase tracking-[0.2em] text-gray-500">
               Latest
             </p>
-            <h2 className="text-2xl font-bold text-gray-950 sm:text-3xl md:text-4xl">New Arrivals</h2>
+            <h2 className="text-2xl font-bold text-gray-950 sm:text-3xl md:text-4xl">
+              New Arrivals
+            </h2>
           </div>
 
           <Link
@@ -306,9 +320,13 @@ const HomePage = () => {
         </div>
 
         {loading ? (
-          <div className="rounded-2xl bg-white p-8 text-gray-500">Loading products...</div>
+          <div className="rounded-2xl bg-white p-8 text-gray-500">
+            Loading products...
+          </div>
         ) : visibleNewArrivals.length === 0 ? (
-          <div className="rounded-2xl bg-white p-8 text-gray-500">No products found.</div>
+          <div className="rounded-2xl bg-white p-8 text-gray-500">
+            No products found.
+          </div>
         ) : (
           <div className="grid grid-cols-2 gap-3 sm:gap-6 lg:grid-cols-4">
             {visibleNewArrivals.map((product) => (
