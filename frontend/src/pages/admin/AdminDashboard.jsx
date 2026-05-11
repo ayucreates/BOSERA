@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { getMediaUrl } from '../../utils/media';
 
 const AdminDashboard = () => {
   const [products, setProducts] = useState([]);
@@ -69,286 +70,279 @@ const AdminDashboard = () => {
 
   const pendingOrders = orders.filter((order) => !isOrderDelivered(order)).length;
 
+  const stats = [
+    { label: 'Total Products', value: totalProducts },
+    { label: 'Categories', value: totalCategories },
+    { label: 'Orders', value: totalOrders },
+    { label: 'Pending Orders', value: pendingOrders },
+    { label: 'Stock Value', value: `₹${totalValue.toLocaleString()}` }
+  ];
+
+  const shortcuts = [
+    {
+      to: '/admin/products',
+      title: 'Manage Products',
+      description: 'View, edit, delete, and update all store products.',
+      dark: true
+    },
+    {
+      to: '/admin/products/add',
+      title: 'Add Product',
+      description: 'Add new products with image upload and stock.'
+    },
+    {
+      to: '/admin/categories',
+      title: 'Manage Categories',
+      description: 'Add, view, edit, and delete product categories.'
+    },
+    {
+      to: '/admin/orders',
+      title: 'Manage Orders',
+      description: 'View orders and update delivery status.'
+    },
+    {
+      to: '/shop',
+      title: 'View Store',
+      description: 'Check how products look on the customer side.'
+    }
+  ];
+
   if (loading) {
     return (
-      <div className="max-w-7xl mx-auto px-4 py-10">
+      <div className="mx-auto max-w-7xl px-3 py-6 sm:px-4 sm:py-10">
         <p className="text-lg">Loading dashboard...</p>
       </div>
     );
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-10">
-      <div className="mb-10">
-        <h1 className="text-4xl font-bold mb-2">
+    <div className="mx-auto max-w-7xl px-3 py-6 sm:px-4 sm:py-10">
+      <div className="mb-8 sm:mb-10">
+        <h1 className="mb-2 text-3xl font-bold sm:text-4xl">
           Admin Dashboard
         </h1>
 
-        <p className="text-gray-600">
+        <p className="text-sm text-gray-600 sm:text-base">
           Manage Lite Bouys Zone products, categories, stock, orders, and store content.
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-6 mb-10">
-        <div className="bg-white shadow rounded-xl p-6">
-          <h2 className="text-gray-500 text-sm mb-2">
-            Total Products
-          </h2>
+      <div className="mb-8 grid grid-cols-2 gap-3 sm:mb-10 sm:gap-6 md:grid-cols-5">
+        {stats.map((stat) => (
+          <div key={stat.label} className="rounded-xl bg-white p-4 shadow sm:p-6">
+            <h2 className="mb-2 text-xs text-gray-500 sm:text-sm">
+              {stat.label}
+            </h2>
 
-          <p className="text-3xl font-bold">
-            {totalProducts}
-          </p>
-        </div>
-
-        <div className="bg-white shadow rounded-xl p-6">
-          <h2 className="text-gray-500 text-sm mb-2">
-            Categories
-          </h2>
-
-          <p className="text-3xl font-bold">
-            {totalCategories}
-          </p>
-        </div>
-
-        <div className="bg-white shadow rounded-xl p-6">
-          <h2 className="text-gray-500 text-sm mb-2">
-            Orders
-          </h2>
-
-          <p className="text-3xl font-bold">
-            {totalOrders}
-          </p>
-        </div>
-
-        <div className="bg-white shadow rounded-xl p-6">
-          <h2 className="text-gray-500 text-sm mb-2">
-            Pending Orders
-          </h2>
-
-          <p className="text-3xl font-bold">
-            {pendingOrders}
-          </p>
-        </div>
-
-        <div className="bg-white shadow rounded-xl p-6">
-          <h2 className="text-gray-500 text-sm mb-2">
-            Stock Value
-          </h2>
-
-          <p className="text-3xl font-bold">
-            ₹{totalValue.toLocaleString()}
-          </p>
-        </div>
+            <p className="break-words text-2xl font-bold sm:text-3xl">
+              {stat.value}
+            </p>
+          </div>
+        ))}
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-6 mb-10">
-        <Link
-          to="/admin/products"
-          className="bg-black text-white rounded-xl p-6 hover:bg-gray-800 transition"
-        >
-          <h2 className="text-2xl font-semibold mb-2">
-            Manage Products
-          </h2>
+      <div className="mb-8 grid grid-cols-1 gap-4 sm:mb-10 sm:grid-cols-2 sm:gap-6 lg:grid-cols-5">
+        {shortcuts.map((shortcut) => (
+          <Link
+            key={shortcut.to}
+            to={shortcut.to}
+            className={`rounded-xl p-5 transition sm:p-6 ${
+              shortcut.dark
+                ? 'bg-black text-white hover:bg-gray-800'
+                : 'bg-white shadow hover:shadow-lg'
+            }`}
+          >
+            <h2 className="mb-2 text-xl font-semibold sm:text-2xl">
+              {shortcut.title}
+            </h2>
 
-          <p className="text-gray-300">
-            View, edit, delete, and update all store products.
-          </p>
-        </Link>
-
-        <Link
-          to="/admin/products/add"
-          className="bg-white shadow rounded-xl p-6 hover:shadow-lg transition"
-        >
-          <h2 className="text-2xl font-semibold mb-2">
-            Add Product
-          </h2>
-
-          <p className="text-gray-600">
-            Add new products with image upload and stock.
-          </p>
-        </Link>
-
-        <Link
-          to="/admin/categories"
-          className="bg-white shadow rounded-xl p-6 hover:shadow-lg transition"
-        >
-          <h2 className="text-2xl font-semibold mb-2">
-            Manage Categories
-          </h2>
-
-          <p className="text-gray-600">
-            Add, view, edit, and delete product categories.
-          </p>
-        </Link>
-
-        <Link
-          to="/admin/orders"
-          className="bg-white shadow rounded-xl p-6 hover:shadow-lg transition"
-        >
-          <h2 className="text-2xl font-semibold mb-2">
-            Manage Orders
-          </h2>
-
-          <p className="text-gray-600">
-            View orders and update delivery status.
-          </p>
-        </Link>
-
-        <Link
-          to="/shop"
-          className="bg-white shadow rounded-xl p-6 hover:shadow-lg transition"
-        >
-          <h2 className="text-2xl font-semibold mb-2">
-            View Store
-          </h2>
-
-          <p className="text-gray-600">
-            Check how products look on the customer side.
-          </p>
-        </Link>
+            <p className={shortcut.dark ? 'text-sm text-gray-300' : 'text-sm text-gray-600'}>
+              {shortcut.description}
+            </p>
+          </Link>
+        ))}
       </div>
 
-      <div className="bg-white shadow rounded-xl overflow-hidden mb-10">
-        <div className="p-6 border-b">
+      <div className="mb-8 overflow-hidden rounded-xl bg-white shadow sm:mb-10">
+        <div className="border-b p-4 sm:p-6">
           <h2 className="text-2xl font-semibold">
             Recent Products
           </h2>
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="w-full border-collapse">
-            <thead className="bg-gray-100">
-              <tr>
-                <th className="text-left p-4">Image</th>
-                <th className="text-left p-4">Name</th>
-                <th className="text-left p-4">Price</th>
-                <th className="text-left p-4">Category</th>
-                <th className="text-left p-4">Stock</th>
-              </tr>
-            </thead>
+        {products.length === 0 ? (
+          <p className="p-4 text-gray-500 sm:p-6">No products found.</p>
+        ) : (
+          <>
+            <div className="divide-y divide-gray-100 md:hidden">
+              {products.slice(0, 5).map((product) => {
+                const stock = product.sizes?.reduce(
+                  (total, item) => total + Number(item.stock || 0),
+                  0
+                );
 
-            <tbody>
-              {products.slice(0, 5).map((product) => (
-                <tr key={product._id} className="border-t">
-                  <td className="p-4">
+                return (
+                  <div key={product._id} className="flex gap-4 p-4">
                     <img
                       src={
                         product.images?.[0]?.url
-                          ? `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}${product.images[0].url}`
+                          ? getMediaUrl(product.images[0].url)
                           : '/placeholder.jpg'
                       }
                       alt={product.name}
-                      className="w-16 h-16 object-cover rounded"
+                      className="h-20 w-16 shrink-0 rounded-lg object-cover"
                     />
-                  </td>
 
-                  <td className="p-4 font-medium">
-                    {product.name}
-                  </td>
+                    <div className="min-w-0 flex-1">
+                      <p className="break-words font-medium text-gray-900">
+                        {product.name}
+                      </p>
+                      <p className="text-sm text-gray-600">₹{product.price}</p>
+                      <p className="break-words text-sm text-gray-500">
+                        {product.category?.name || 'No category'}
+                      </p>
+                      <p className="text-sm text-gray-500">Stock: {stock}</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
 
-                  <td className="p-4">
-                    ₹{product.price}
-                  </td>
+            <div className="hidden md:block">
+              <table className="w-full border-collapse">
+                <thead className="bg-gray-100">
+                  <tr>
+                    <th className="p-4 text-left">Image</th>
+                    <th className="p-4 text-left">Name</th>
+                    <th className="p-4 text-left">Price</th>
+                    <th className="p-4 text-left">Category</th>
+                    <th className="p-4 text-left">Stock</th>
+                  </tr>
+                </thead>
 
-                  <td className="p-4">
-                    {product.category?.name || 'No category'}
-                  </td>
+                <tbody>
+                  {products.slice(0, 5).map((product) => (
+                    <tr key={product._id} className="border-t">
+                      <td className="p-4">
+                        <img
+                          src={
+                            product.images?.[0]?.url
+                              ? getMediaUrl(product.images[0].url)
+                              : '/placeholder.jpg'
+                          }
+                          alt={product.name}
+                          className="h-16 w-16 rounded object-cover"
+                        />
+                      </td>
 
-                  <td className="p-4">
-                    {product.sizes?.reduce(
-                      (total, item) => total + Number(item.stock || 0),
-                      0
-                    )}
-                  </td>
-                </tr>
-              ))}
-
-              {products.length === 0 && (
-                <tr>
-                  <td className="p-4" colSpan="5">
-                    No products found.
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
+                      <td className="p-4 font-medium">{product.name}</td>
+                      <td className="p-4">₹{product.price}</td>
+                      <td className="p-4">{product.category?.name || 'No category'}</td>
+                      <td className="p-4">
+                        {product.sizes?.reduce(
+                          (total, item) => total + Number(item.stock || 0),
+                          0
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </>
+        )}
       </div>
 
-      <div className="bg-white shadow rounded-xl overflow-hidden">
-        <div className="p-6 border-b">
+      <div className="overflow-hidden rounded-xl bg-white shadow">
+        <div className="border-b p-4 sm:p-6">
           <h2 className="text-2xl font-semibold">
             Recent Orders
           </h2>
         </div>
 
-        <div className="overflow-x-auto">
-          <table className="w-full border-collapse">
-            <thead className="bg-gray-100">
-              <tr>
-                <th className="text-left p-4">Order ID</th>
-                <th className="text-left p-4">Customer</th>
-                <th className="text-left p-4">Total</th>
-                <th className="text-left p-4">Paid</th>
-                <th className="text-left p-4">Delivered</th>
-              </tr>
-            </thead>
-
-            <tbody>
+        {orders.length === 0 ? (
+          <p className="p-4 text-gray-500 sm:p-6">No orders found.</p>
+        ) : (
+          <>
+            <div className="divide-y divide-gray-100 md:hidden">
               {orders.slice(0, 5).map((order) => {
                 const delivered = isOrderDelivered(order);
 
                 return (
-                  <tr key={order._id} className="border-t">
-                    <td className="p-4 text-sm">
-                      {order._id}
-                    </td>
+                  <div key={order._id} className="p-4">
+                    <p className="break-all text-xs text-gray-500">#{order._id}</p>
+                    <div className="mt-2 flex items-start justify-between gap-3">
+                      <div className="min-w-0">
+                        <p className="break-words font-medium">
+                          {order.user?.name || order.user?.email || 'Unknown user'}
+                        </p>
+                        <p className="font-semibold text-gray-900">
+                          ₹{Number(order.totalPrice || 0).toLocaleString()}
+                        </p>
+                      </div>
 
-                    <td className="p-4">
-                      {order.user?.name || order.user?.email || 'Unknown user'}
-                    </td>
+                      <span
+                        className={`shrink-0 rounded-full px-3 py-1 text-xs font-semibold ${
+                          delivered
+                            ? 'bg-green-100 text-green-700'
+                            : 'bg-yellow-100 text-yellow-700'
+                        }`}
+                      >
+                        {delivered ? 'Delivered' : 'Pending'}
+                      </span>
+                    </div>
 
-                    <td className="p-4">
-                      ₹{Number(order.totalPrice || 0).toLocaleString()}
-                    </td>
-
-                    <td className="p-4">
-                      {order.isPaid ? (
-                        <span className="text-green-600 font-medium">
-                          Paid
-                        </span>
-                      ) : (
-                        <span className="text-red-600 font-medium">
-                          Not Paid
-                        </span>
-                      )}
-                    </td>
-
-                    <td className="p-4">
-                      {delivered ? (
-                        <span className="text-green-600 font-medium">
-                          Delivered
-                        </span>
-                      ) : (
-                        <span className="text-yellow-600 font-medium">
-                          Pending
-                        </span>
-                      )}
-                    </td>
-                  </tr>
+                    <p className={order.isPaid ? 'mt-2 text-sm font-medium text-green-600' : 'mt-2 text-sm font-medium text-red-600'}>
+                      {order.isPaid ? 'Paid' : 'Not Paid'}
+                    </p>
+                  </div>
                 );
               })}
+            </div>
 
-              {orders.length === 0 && (
-                <tr>
-                  <td className="p-4" colSpan="5">
-                    No orders found.
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
+            <div className="hidden md:block">
+              <table className="w-full border-collapse">
+                <thead className="bg-gray-100">
+                  <tr>
+                    <th className="p-4 text-left">Order ID</th>
+                    <th className="p-4 text-left">Customer</th>
+                    <th className="p-4 text-left">Total</th>
+                    <th className="p-4 text-left">Paid</th>
+                    <th className="p-4 text-left">Delivered</th>
+                  </tr>
+                </thead>
+
+                <tbody>
+                  {orders.slice(0, 5).map((order) => {
+                    const delivered = isOrderDelivered(order);
+
+                    return (
+                      <tr key={order._id} className="border-t">
+                        <td className="max-w-48 break-all p-4 text-sm">{order._id}</td>
+                        <td className="p-4">{order.user?.name || order.user?.email || 'Unknown user'}</td>
+                        <td className="p-4">₹{Number(order.totalPrice || 0).toLocaleString()}</td>
+                        <td className="p-4">
+                          {order.isPaid ? (
+                            <span className="font-medium text-green-600">Paid</span>
+                          ) : (
+                            <span className="font-medium text-red-600">Not Paid</span>
+                          )}
+                        </td>
+                        <td className="p-4">
+                          {delivered ? (
+                            <span className="font-medium text-green-600">Delivered</span>
+                          ) : (
+                            <span className="font-medium text-yellow-600">Pending</span>
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );

@@ -116,14 +116,14 @@ const AdminEditProduct = () => {
   };
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-10">
-      <h1 className="text-4xl font-bold mb-8">
+    <div className="max-w-3xl mx-auto px-3 py-6 sm:px-4 sm:py-10">
+      <h1 className="text-3xl sm:text-4xl font-bold mb-6 sm:mb-8">
         Edit Product
       </h1>
 
       <form
         onSubmit={submitHandler}
-        className="space-y-6 bg-white p-6 rounded-xl shadow"
+        className="space-y-6 bg-white p-4 sm:p-6 rounded-xl shadow"
       >
         <div>
           <label className="block mb-2 font-medium">
@@ -215,7 +215,7 @@ const AdminEditProduct = () => {
           />
 
           {uploading && (
-            <p className="text-sm text-gray-500 mt-2">
+            <p className="text-sm text-gray-500 mt-2 break-all">
               Uploading image...
             </p>
           )}
@@ -232,7 +232,7 @@ const AdminEditProduct = () => {
                 className="w-40 h-40 object-cover rounded-lg border"
               />
 
-              <p className="text-sm text-gray-500 mt-2">
+              <p className="text-sm text-gray-500 mt-2 break-all">
                 {image}
               </p>
             </div>

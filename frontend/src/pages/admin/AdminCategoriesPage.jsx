@@ -121,22 +121,61 @@ const AdminCategoriesPage = () => {
     }
   };
 
+  const CategoryActions = ({ category }) =>
+    editingId === category._id ? (
+      <div className="grid grid-cols-2 gap-3 sm:flex">
+        <button
+          type="button"
+          onClick={() => updateCategoryHandler(category._id)}
+          className="rounded-lg bg-green-500 px-4 py-2 text-white transition hover:bg-green-600"
+        >
+          Save
+        </button>
+
+        <button
+          type="button"
+          onClick={cancelEditHandler}
+          className="rounded-lg bg-gray-500 px-4 py-2 text-white transition hover:bg-gray-600"
+        >
+          Cancel
+        </button>
+      </div>
+    ) : (
+      <div className="grid grid-cols-2 gap-3 sm:flex">
+        <button
+          type="button"
+          onClick={() => startEditHandler(category)}
+          className="rounded-lg bg-blue-500 px-4 py-2 text-white transition hover:bg-blue-600"
+        >
+          Edit
+        </button>
+
+        <button
+          type="button"
+          onClick={() => deleteCategoryHandler(category._id)}
+          className="rounded-lg bg-red-500 px-4 py-2 text-white transition hover:bg-red-600"
+        >
+          Delete
+        </button>
+      </div>
+    );
+
   return (
-    <div className="max-w-7xl mx-auto px-4 py-10">
-      <h1 className="text-4xl font-bold mb-8">
+    <div className="mx-auto max-w-7xl px-3 py-6 sm:px-4 sm:py-10">
+      <h1 className="mb-6 text-3xl font-bold sm:mb-8 sm:text-4xl">
         Manage Categories
       </h1>
 
       <form
         onSubmit={addCategoryHandler}
-        className="bg-white shadow rounded-xl p-6 mb-10 space-y-6"
+        className="mb-8 space-y-6 rounded-xl bg-white p-4 shadow sm:mb-10 sm:p-6"
       >
         <h2 className="text-2xl font-semibold">
           Add New Category
         </h2>
 
         <div>
-          <label className="block mb-2 font-medium">
+          <label className="mb-2 block font-medium">
             Category Name
           </label>
 
@@ -144,129 +183,146 @@ const AdminCategoriesPage = () => {
             type="text"
             value={name}
             onChange={(e) => setName(e.target.value)}
-            className="w-full border p-3 rounded-lg"
+            className="w-full rounded-lg border p-3"
             required
           />
         </div>
 
         <div>
-          <label className="block mb-2 font-medium">
+          <label className="mb-2 block font-medium">
             Description
           </label>
 
           <textarea
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            className="w-full border p-3 rounded-lg"
+            className="w-full rounded-lg border p-3"
             rows="3"
           />
         </div>
 
         <button
           type="submit"
-          className="bg-black text-white px-6 py-3 rounded-lg hover:bg-gray-800 transition"
+          className="w-full rounded-lg bg-black px-6 py-3 text-white transition hover:bg-gray-800 sm:w-auto"
         >
           Add Category
         </button>
       </form>
 
-      <div className="bg-white shadow rounded-xl overflow-hidden">
-        <div className="p-6 border-b">
+      <div className="overflow-hidden rounded-xl bg-white shadow">
+        <div className="border-b p-4 sm:p-6">
           <h2 className="text-2xl font-semibold">
             All Categories
           </h2>
         </div>
 
-        <table className="w-full border-collapse">
-          <thead className="bg-gray-100">
-            <tr>
-              <th className="text-left p-4">Name</th>
-              <th className="text-left p-4">Slug</th>
-              <th className="text-left p-4">Description</th>
-              <th className="text-left p-4">Actions</th>
-            </tr>
-          </thead>
+        {categories.length === 0 ? (
+          <p className="p-4 text-gray-500 sm:p-6">No categories found.</p>
+        ) : (
+          <>
+            <div className="divide-y divide-gray-100 md:hidden">
+              {categories.map((category) => (
+                <div key={category._id} className="p-4">
+                  <div className="space-y-4">
+                    <div>
+                      <p className="text-sm text-gray-500">Name</p>
+                      {editingId === category._id ? (
+                        <input
+                          type="text"
+                          value={editName}
+                          onChange={(e) => setEditName(e.target.value)}
+                          className="mt-1 w-full rounded-lg border p-2"
+                        />
+                      ) : (
+                        <p className="break-words font-semibold text-gray-900">
+                          {category.name}
+                        </p>
+                      )}
+                    </div>
 
-          <tbody>
-            {categories.length === 0 ? (
-              <tr>
-                <td className="p-4" colSpan="4">
-                  No categories found.
-                </td>
-              </tr>
-            ) : (
-              categories.map((category) => (
-                <tr key={category._id} className="border-t">
-                  <td className="p-4 font-medium">
-                    {editingId === category._id ? (
-                      <input
-                        type="text"
-                        value={editName}
-                        onChange={(e) => setEditName(e.target.value)}
-                        className="w-full border p-2 rounded-lg"
-                      />
-                    ) : (
-                      category.name
-                    )}
-                  </td>
+                    <div>
+                      <p className="text-sm text-gray-500">Slug</p>
+                      <p className="break-words text-gray-700">
+                        {category.slug}
+                      </p>
+                    </div>
 
-                  <td className="p-4">
-                    {category.slug}
-                  </td>
+                    <div>
+                      <p className="text-sm text-gray-500">Description</p>
+                      {editingId === category._id ? (
+                        <textarea
+                          value={editDescription}
+                          onChange={(e) => setEditDescription(e.target.value)}
+                          className="mt-1 w-full rounded-lg border p-2"
+                          rows="2"
+                        />
+                      ) : (
+                        <p className="break-words text-gray-700">
+                          {category.description || 'No description'}
+                        </p>
+                      )}
+                    </div>
 
-                  <td className="p-4">
-                    {editingId === category._id ? (
-                      <textarea
-                        value={editDescription}
-                        onChange={(e) => setEditDescription(e.target.value)}
-                        className="w-full border p-2 rounded-lg"
-                        rows="2"
-                      />
-                    ) : (
-                      category.description || 'No description'
-                    )}
-                  </td>
+                    <CategoryActions category={category} />
+                  </div>
+                </div>
+              ))}
+            </div>
 
-                  <td className="p-4">
-                    {editingId === category._id ? (
-                      <div className="flex gap-3">
-                        <button
-                          onClick={() => updateCategoryHandler(category._id)}
-                          className="bg-green-500 text-white px-4 py-2 rounded-lg hover:bg-green-600 transition"
-                        >
-                          Save
-                        </button>
+            <div className="hidden md:block">
+              <table className="w-full border-collapse">
+                <thead className="bg-gray-100">
+                  <tr>
+                    <th className="p-4 text-left">Name</th>
+                    <th className="p-4 text-left">Slug</th>
+                    <th className="p-4 text-left">Description</th>
+                    <th className="p-4 text-left">Actions</th>
+                  </tr>
+                </thead>
 
-                        <button
-                          onClick={cancelEditHandler}
-                          className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition"
-                        >
-                          Cancel
-                        </button>
-                      </div>
-                    ) : (
-                      <div className="flex gap-3">
-                        <button
-                          onClick={() => startEditHandler(category)}
-                          className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition"
-                        >
-                          Edit
-                        </button>
+                <tbody>
+                  {categories.map((category) => (
+                    <tr key={category._id} className="border-t align-top">
+                      <td className="p-4 font-medium">
+                        {editingId === category._id ? (
+                          <input
+                            type="text"
+                            value={editName}
+                            onChange={(e) => setEditName(e.target.value)}
+                            className="w-full rounded-lg border p-2"
+                          />
+                        ) : (
+                          category.name
+                        )}
+                      </td>
 
-                        <button
-                          onClick={() => deleteCategoryHandler(category._id)}
-                          className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition"
-                        >
-                          Delete
-                        </button>
-                      </div>
-                    )}
-                  </td>
-                </tr>
-              ))
-            )}
-          </tbody>
-        </table>
+                      <td className="p-4 break-words">
+                        {category.slug}
+                      </td>
+
+                      <td className="p-4 break-words">
+                        {editingId === category._id ? (
+                          <textarea
+                            value={editDescription}
+                            onChange={(e) => setEditDescription(e.target.value)}
+                            className="w-full rounded-lg border p-2"
+                            rows="2"
+                          />
+                        ) : (
+                          category.description || 'No description'
+                        )}
+                      </td>
+
+                      <td className="p-4">
+                        <CategoryActions category={category} />
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </>
+        )}
       </div>
     </div>
   );
