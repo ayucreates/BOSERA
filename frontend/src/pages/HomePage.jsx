@@ -24,16 +24,39 @@ const HomePage = () => {
     try {
       setLoading(true);
 
-      const [featuredResponse, newArrivalsResponse, categoriesResponse] =
-        await Promise.all([
-          axios.get('/api/products/featured'),
-          axios.get('/api/products/new-arrivals'),
-          axios.get('/api/categories')
-        ]);
+      const [
+        featuredResponse,
+        newArrivalsResponse,
+        allProductsResponse,
+        categoriesResponse
+      ] = await Promise.all([
+        axios.get('/api/products/featured'),
+        axios.get('/api/products/new-arrivals'),
+        axios.get('/api/products'),
+        axios.get('/api/categories')
+      ]);
 
-      setFeaturedProducts(featuredResponse.data.products || featuredResponse.data);
-      setNewArrivals(newArrivalsResponse.data.products || newArrivalsResponse.data);
-      setCategories(categoriesResponse.data.categories || categoriesResponse.data);
+      const featuredData =
+        featuredResponse.data.products || featuredResponse.data || [];
+
+      const newArrivalsData =
+        newArrivalsResponse.data.products || newArrivalsResponse.data || [];
+
+      const allProductsData =
+        allProductsResponse.data.products || allProductsResponse.data || [];
+
+      setFeaturedProducts(
+        featuredData.length ? featuredData : allProductsData.slice(0, 4)
+      );
+
+      setNewArrivals(
+        newArrivalsData.length ? newArrivalsData : allProductsData
+      );
+
+      setCategories(
+        categoriesResponse.data.categories || categoriesResponse.data || []
+      );
+
       setLoading(false);
     } catch (error) {
       console.log(error.response?.data || error);
@@ -251,7 +274,9 @@ const HomePage = () => {
                 Selected pieces
               </p>
 
-              <h2 className="mb-4 text-3xl font-bold md:text-5xl">Featured Fits</h2>
+              <h2 className="mb-4 text-3xl font-bold md:text-5xl">
+                Featured Fits
+              </h2>
 
               <p className="mb-6 text-base leading-relaxed text-gray-300 sm:mb-8 sm:text-lg">
                 Handpicked items from Lite Bouys Zone. Clean, wearable, and ready to style.
