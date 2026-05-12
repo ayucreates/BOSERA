@@ -8,7 +8,7 @@ const AdminAddProduct = () => {
   const [price, setPrice] = useState('');
   const [originalPrice, setOriginalPrice] = useState('');
   const [category, setCategory] = useState('');
-  const [image, setImage] = useState('');
+  const [images, setImages] = useState([]);
   const [categories, setCategories] = useState([]);
   const [uploading, setUploading] = useState(false);
 
@@ -83,9 +83,14 @@ const AdminAddProduct = () => {
   };
 
   const uploadImageHandler = async (e) => {
-    const file = e.target.files[0];
+    const selectedFiles = Array.from(e.target.files || []);
 
-    if (!file) return;
+    if (selectedFiles.length === 0) return;
+
+    if (images.length + selectedFiles.length > 5) {
+      alert('You can upload a maximum of 5 images per product');
+      return;
+    }
 
     try {
       setUploading(true);
@@ -93,7 +98,10 @@ const AdminAddProduct = () => {
       const userInfo = JSON.parse(localStorage.getItem('userInfo'));
 
       const formData = new FormData();
-      formData.append('images', file);
+
+      selectedFiles.forEach((file) => {
+        formData.append('images', file);
+      });
 
       const { data } = await axios.post('/api/upload', formData, {
         headers: {
@@ -102,8 +110,10 @@ const AdminAddProduct = () => {
         }
       });
 
-      setImage(data[0]);
+      setImages((prevImages) => [...prevImages, ...data]);
       setUploading(false);
+
+      e.target.value = '';
     } catch (error) {
       console.log(error.response?.data || error);
       setUploading(false);
@@ -111,11 +121,42 @@ const AdminAddProduct = () => {
     }
   };
 
+  const removeImage = (index) => {
+    setImages(images.filter((_, imageIndex) => imageIndex !== index));
+  };
+
+  const moveImageLeft = (index) => {
+    if (index === 0) return;
+
+    const updatedImages = [...images];
+    const temp = updatedImages[index - 1];
+    updatedImages[index - 1] = updatedImages[index];
+    updatedImages[index] = temp;
+
+    setImages(updatedImages);
+  };
+
+  const moveImageRight = (index) => {
+    if (index === images.length - 1) return;
+
+    const updatedImages = [...images];
+    const temp = updatedImages[index + 1];
+    updatedImages[index + 1] = updatedImages[index];
+    updatedImages[index] = temp;
+
+    setImages(updatedImages);
+  };
+
   const submitHandler = async (e) => {
     e.preventDefault();
 
     if (Number(originalPrice) < Number(price)) {
       alert('MRP should not be less than Selling Price');
+      return;
+    }
+
+    if (images.length === 0) {
+      alert('Please upload at least one product image');
       return;
     }
 
@@ -142,12 +183,10 @@ const AdminAddProduct = () => {
           price: Number(price),
           originalPrice: Number(originalPrice),
           category,
-          images: [
-            {
-              url: image,
-              alt: name
-            }
-          ],
+          images: images.map((imageUrl, index) => ({
+            url: imageUrl,
+            alt: `${name} image ${index + 1}`
+          })),
           sizes: cleanedSizes,
           isActive: true
         },
@@ -165,7 +204,7 @@ const AdminAddProduct = () => {
       setPrice('');
       setOriginalPrice('');
       setCategory('');
-      setImage('');
+      setImages([]);
       setSizes([
         {
           size: '',
@@ -349,37 +388,83 @@ const AdminAddProduct = () => {
 
         <div>
           <label className="mb-2 block font-medium">
-            Product Image
+            Product Images
           </label>
+
+          <p className="mb-3 text-sm text-gray-500">
+            Upload up to 5 images. The first image will be used as the main product image.
+          </p>
 
           <input
             type="file"
             accept="image/*"
+            multiple
             onChange={uploadImageHandler}
             className="w-full rounded-lg border p-3"
           />
 
           {uploading && (
             <p className="mt-2 text-sm text-gray-500">
-              Uploading image...
+              Uploading images...
             </p>
           )}
 
-          {image && (
+          {images.length > 0 && (
             <div className="mt-4">
-              <p className="mb-2 text-sm text-gray-500">
-                Uploaded image:
+              <p className="mb-3 text-sm font-medium text-gray-700">
+                Uploaded images:
               </p>
 
-              <img
-                src={getMediaUrl(image)}
-                alt="Product preview"
-                className="h-40 w-40 rounded-lg border object-cover"
-              />
+              <div className="grid grid-cols-2 gap-3 sm:grid-cols-3">
+                {images.map((imageUrl, index) => (
+                  <div
+                    key={`${imageUrl}-${index}`}
+                    className="rounded-lg border bg-gray-50 p-2"
+                  >
+                    <div className="relative">
+                      <img
+                        src={getMediaUrl(imageUrl)}
+                        alt={`Product preview ${index + 1}`}
+                        className="h-32 w-full rounded-lg object-cover"
+                      />
 
-              <p className="mt-2 break-all text-sm text-gray-500">
-                {image}
-              </p>
+                      {index === 0 && (
+                        <span className="absolute left-2 top-2 rounded-full bg-black px-2 py-1 text-xs font-semibold text-white">
+                          Main
+                        </span>
+                      )}
+                    </div>
+
+                    <div className="mt-2 grid grid-cols-3 gap-1">
+                      <button
+                        type="button"
+                        onClick={() => moveImageLeft(index)}
+                        disabled={index === 0}
+                        className="rounded border px-2 py-1 text-xs disabled:opacity-40"
+                      >
+                        ←
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => removeImage(index)}
+                        className="rounded border border-red-200 px-2 py-1 text-xs text-red-600"
+                      >
+                        Remove
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => moveImageRight(index)}
+                        disabled={index === images.length - 1}
+                        className="rounded border px-2 py-1 text-xs disabled:opacity-40"
+                      >
+                        →
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           )}
         </div>
