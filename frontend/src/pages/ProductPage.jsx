@@ -402,6 +402,16 @@ const ProductPage = () => {
               </div>
             </div>
 
+            <div className="mt-6 rounded-2xl border border-gray-100 bg-white/80 p-4 sm:mt-8 sm:p-5">
+              <h3 className="mb-3 font-bold text-gray-950">Return & Exchange</h3>
+
+              <ul className="list-disc space-y-2 pl-5 text-sm leading-relaxed text-gray-600 sm:text-base">
+                <li>Return and exchange are available within 3 days of delivery.</li>
+                <li>The product tag must stay attached for return or exchange.</li>
+                <li>An unboxing video is required for return or exchange claims.</li>
+              </ul>
+            </div>
+
             <div className="mt-6 border-t border-gray-100 pt-5 sm:mt-8 sm:pt-6">
               <h3 className="mb-4 font-bold text-gray-950">Product Details</h3>
 

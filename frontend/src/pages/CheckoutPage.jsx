@@ -139,14 +139,48 @@ const CheckoutPage = () => {
               <h2 className="mb-4 text-xl font-semibold">Payment Method</h2>
               <div className="space-y-3">
                 <label className="flex min-h-12 cursor-pointer items-center gap-3 rounded-xl border border-gray-100 bg-white/80 p-3 sm:rounded-2xl sm:p-4">
-                  <input type="radio" name="payment" value="razorpay" checked={paymentMethod === 'razorpay'} onChange={(e) => setPaymentMethod(e.target.value)} />
-                  <span>Pay Online (Razorpay)</span>
+                  <input
+                    type="radio"
+                    name="payment"
+                    value="razorpay"
+                    checked={paymentMethod === 'razorpay'}
+                    onChange={(e) => setPaymentMethod(e.target.value)}
+                  />
+                  <div>
+                    <span className="font-medium text-gray-950">Pay Online</span>
+                    <p className="text-sm text-gray-500">UPI, cards, wallets and net banking</p>
+                  </div>
                 </label>
-                <label className="flex min-h-12 cursor-pointer items-center gap-3 rounded-xl border border-gray-100 bg-white/80 p-3 sm:rounded-2xl sm:p-4">
-                  <input type="radio" name="payment" value="cod" checked={paymentMethod === 'cod'} onChange={(e) => setPaymentMethod(e.target.value)} />
-                  <span>Cash on Delivery</span>
+
+                <label className="flex min-h-12 cursor-not-allowed items-center gap-3 rounded-xl border border-gray-200 bg-gray-100 p-3 opacity-70 sm:rounded-2xl sm:p-4">
+                  <input
+                    type="radio"
+                    name="payment"
+                    value="cod"
+                    checked={paymentMethod === 'cod'}
+                    disabled
+                    onChange={() => {}}
+                  />
+                  <div>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="font-medium text-gray-500">Cash on Delivery</span>
+                      <span className="rounded-full bg-gray-200 px-2 py-0.5 text-xs font-semibold text-gray-600">
+                        Currently unavailable
+                      </span>
+                    </div>
+                    <p className="text-sm text-gray-500">Please use online payment for now.</p>
+                  </div>
                 </label>
               </div>
+            </div>
+
+            <div className="glass-panel p-4 sm:p-6">
+              <h2 className="mb-3 text-xl font-semibold">Return & Exchange Policy</h2>
+              <ul className="list-disc space-y-2 pl-5 text-sm leading-relaxed text-gray-600 sm:text-base">
+                <li>Return and exchange are available within 3 days of delivery.</li>
+                <li>The product tag must stay attached for return or exchange.</li>
+                <li>An unboxing video is required for return or exchange claims.</li>
+              </ul>
             </div>
           </div>
 
