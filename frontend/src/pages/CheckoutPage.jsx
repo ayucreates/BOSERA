@@ -27,9 +27,10 @@ const CheckoutPage = () => {
   const [loading, setLoading] = useState(false);
 
   const subtotal = cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
-  const shipping = subtotal >= 999 ? 0 : 99;
-  const tax = Math.round(subtotal * 0.18);
-  const total = subtotal + shipping + tax;
+  const shipping = 89;
+  const platformFee = 19;
+  const tax = 0;
+  const total = subtotal + shipping + platformFee;
 
   const handleAddressChange = (e) => {
     setAddress((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -54,6 +55,7 @@ const CheckoutPage = () => {
           paymentMethod,
           itemsPrice: subtotal,
           shippingPrice: shipping,
+          platformFee,
           taxPrice: tax,
           totalPrice: total
         },
@@ -200,11 +202,11 @@ const CheckoutPage = () => {
                 </div>
                 <div className="flex justify-between">
                   <span>Shipping</span>
-                  <span>{shipping === 0 ? 'Free' : formatPrice(shipping)}</span>
+                  <span>{formatPrice(shipping)}</span>
                 </div>
                 <div className="flex justify-between">
-                  <span>Tax (18%)</span>
-                  <span>{formatPrice(tax)}</span>
+                  <span>Platform Fee</span>
+                  <span>{formatPrice(platformFee)}</span>
                 </div>
                 <div className="flex justify-between border-t pt-3 text-lg font-semibold">
                   <span>Total</span>

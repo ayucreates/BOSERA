@@ -27,9 +27,9 @@ const CartPage = () => {
     0
   );
 
-  const shipping = subtotal >= 999 ? 0 : 99;
-  const total = subtotal + shipping;
-  const freeShippingRemaining = Math.max(999 - subtotal, 0);
+  const shipping = 89;
+  const platformFee = 19;
+  const total = subtotal + shipping + platformFee;
 
   const handleQuantityChange = (productId, size, newQuantity, stock) => {
     if (newQuantity < 1) return;
@@ -219,19 +219,20 @@ const CartPage = () => {
                 <div className="flex justify-between text-gray-600">
                   <span>Shipping</span>
                   <span className="font-medium text-gray-950">
-                    {shipping === 0 ? 'Free' : formatPrice(shipping)}
+                    {formatPrice(shipping)}
                   </span>
                 </div>
 
-                {subtotal < 999 ? (
-                  <div className="rounded-xl bg-yellow-50 p-4 text-sm text-yellow-800">
-                    Add {formatPrice(freeShippingRemaining)} more for free shipping.
-                  </div>
-                ) : (
-                  <div className="rounded-xl bg-green-50 p-4 text-sm text-green-700">
-                    You unlocked free shipping.
-                  </div>
-                )}
+                <div className="flex justify-between text-gray-600">
+                  <span>Platform Fee</span>
+                  <span className="font-medium text-gray-950">
+                    {formatPrice(platformFee)}
+                  </span>
+                </div>
+
+                <div className="rounded-xl bg-gray-50 p-4 text-sm text-gray-700">
+                  Tax removed. Shipping is fixed at {formatPrice(shipping)}.
+                </div>
 
                 <div className="flex justify-between border-t border-gray-100 pt-4 text-xl font-bold">
                   <span>Total</span>

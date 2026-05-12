@@ -77,7 +77,7 @@ const Header = () => {
   return (
     <header className="sticky top-0 z-50 px-2 pt-2 sm:px-3 sm:pt-3 md:px-4">
       <div className="mx-auto max-w-7xl overflow-hidden rounded-full bg-gray-950 px-3 py-1.5 text-center text-[11px] font-medium text-white shadow-[0_18px_40px_rgba(17,24,39,0.18)] sm:px-4 sm:py-2 sm:text-sm sm:tracking-[0.12em]">
-        Free shipping over ₹999. Use LITE10.
+        Shipping ₹89. Returns/exchanges within 3 days.
       </div>
 
       <nav

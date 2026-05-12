@@ -12,6 +12,7 @@ export const createOrder = asyncHandler(async (req, res) => {
     paymentMethod,
     itemsPrice,
     shippingPrice,
+    platformFee,
     taxPrice,
     totalPrice
   } = req.body;
@@ -40,6 +41,7 @@ export const createOrder = asyncHandler(async (req, res) => {
     paymentMethod,
     itemsPrice,
     shippingPrice,
+    platformFee,
     taxPrice,
     totalPrice
   });
