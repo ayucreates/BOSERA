@@ -35,7 +35,7 @@ export const createOrder = asyncHandler(async (req, res) => {
   }
 
   const order = new Order({
-    user: req.user._id,
+    user: req.user?._id,
     orderItems,
     shippingAddress,
     paymentMethod,
@@ -57,6 +57,18 @@ export const getOrderById = asyncHandler(async (req, res) => {
   const order = await Order.findById(req.params.id).populate('user', 'name email');
 
   if (order) {
+    if (order.user) {
+      if (!req.user) {
+        res.status(401);
+        throw new Error('Please login to view this order');
+      }
+
+      if (!req.user.isAdmin && order.user._id.toString() !== req.user._id.toString()) {
+        res.status(403);
+        throw new Error('Not authorized to view this order');
+      }
+    }
+
     res.json(order);
   } else {
     res.status(404);

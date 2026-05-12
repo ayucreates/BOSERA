@@ -83,13 +83,6 @@ const ProductCard = ({ product }) => {
     }
 
     dispatch(addToCart(cartItem));
-
-    if (!userInfo) {
-      toast.info('Please login to continue checkout');
-      navigate('/login?redirect=/checkout');
-      return;
-    }
-
     navigate('/checkout');
   };
 

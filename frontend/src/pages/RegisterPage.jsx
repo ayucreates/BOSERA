@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
 import { register, clearError } from '../store/slices/authSlice';
 import { toast } from 'react-toastify';
+import GoogleSignInButton from '../components/auth/GoogleSignInButton';
 
 const RegisterPage = () => {
   const [name, setName] = useState('');
@@ -21,7 +22,7 @@ const RegisterPage = () => {
 
   useEffect(() => {
     if (userInfo) {
-      navigate(`/${redirect}`);
+      navigate(redirect);
     }
   }, [userInfo, navigate, redirect]);
 
@@ -51,6 +52,16 @@ const RegisterPage = () => {
         <h1 className="text-3xl font-display font-semibold text-center mb-8">
           Create Account
         </h1>
+
+        <div className="mb-6 rounded-2xl border border-gray-100 bg-white p-4 shadow-sm">
+          <GoogleSignInButton text="signup_with" />
+        </div>
+
+        <div className="mb-6 flex items-center gap-3">
+          <div className="h-px flex-1 bg-gray-200" />
+          <span className="text-sm text-gray-500">or create account with email</span>
+          <div className="h-px flex-1 bg-gray-200" />
+        </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>

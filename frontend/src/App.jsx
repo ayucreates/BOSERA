@@ -46,12 +46,12 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
+          <Route path="/order/:id" element={<OrderDetailPage />} />
 
           <Route path="" element={<PrivateRoute />}>
-            <Route path="/checkout" element={<CheckoutPage />} />
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/orders" element={<OrdersPage />} />
-            <Route path="/order/:id" element={<OrderDetailPage />} />
             <Route path="/wishlist" element={<WishlistPage />} />
           </Route>
 

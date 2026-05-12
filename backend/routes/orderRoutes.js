@@ -8,14 +8,14 @@ import {
   getOrders,
   cancelOrder
 } from '../controllers/orderController.js';
-import { protect, admin } from '../middleware/authMiddleware.js';
+import { protect, optionalProtect, admin } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
-router.route('/').post(protect, createOrder).get(protect, admin, getOrders);
+router.route('/').post(optionalProtect, createOrder).get(protect, admin, getOrders);
 router.get('/myorders', protect, getMyOrders);
-router.route('/:id').get(protect, getOrderById);
-router.put('/:id/pay', protect, updateOrderToPaid);
+router.route('/:id').get(optionalProtect, getOrderById);
+router.put('/:id/pay', optionalProtect, updateOrderToPaid);
 router.put('/:id/status', protect, admin, updateOrderStatus);
 router.put('/:id/cancel', protect, cancelOrder);
 

@@ -20,7 +20,6 @@ const CartPage = () => {
   const navigate = useNavigate();
 
   const { cartItems } = useSelector((state) => state.cart);
-  const { userInfo } = useSelector((state) => state.auth);
 
   const subtotal = cartItems.reduce(
     (acc, item) => acc + Number(item.price || 0) * Number(item.quantity || 0),
@@ -48,11 +47,6 @@ const CartPage = () => {
   };
 
   const handleCheckout = () => {
-    if (!userInfo) {
-      navigate('/login?redirect=/checkout');
-      return;
-    }
-
     navigate('/checkout');
   };
 

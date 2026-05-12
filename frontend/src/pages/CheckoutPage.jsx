@@ -43,9 +43,9 @@ const CheckoutPage = () => {
     try {
       dispatch(saveShippingAddress(address));
 
-      const config = {
-        headers: { Authorization: `Bearer ${userInfo.token}` }
-      };
+      const config = userInfo?.token
+        ? { headers: { Authorization: `Bearer ${userInfo.token}` } }
+        : {};
 
       const { data: order } = await axios.post(
         '/api/orders',
@@ -115,6 +115,11 @@ const CheckoutPage = () => {
   return (
     <div className="mx-auto max-w-7xl px-3 py-6 sm:px-4 sm:py-8 md:py-12">
       <div className="mb-6 max-w-2xl sm:mb-8">
+        {!userInfo && (
+          <div className="mb-5 rounded-2xl border border-blue-100 bg-blue-50 p-4 text-sm text-blue-800">
+            You can checkout as a guest. Login is optional, but creating an account helps you track orders later.
+          </div>
+        )}
         <p className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-gray-500 sm:mb-3 sm:text-sm sm:tracking-[0.2em]">
           Checkout
         </p>

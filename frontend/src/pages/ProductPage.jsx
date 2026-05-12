@@ -105,13 +105,6 @@ const ProductPage = () => {
     if (!validateCartAction()) return;
 
     dispatch(addToCart(createCartItem()));
-
-    if (!userInfo) {
-      toast.info('Please login to continue checkout');
-      navigate('/login?redirect=/checkout');
-      return;
-    }
-
     navigate('/checkout');
   };
 

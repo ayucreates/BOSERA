@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
 import { login, clearError } from '../store/slices/authSlice';
 import { toast } from 'react-toastify';
+import GoogleSignInButton from '../components/auth/GoogleSignInButton';
 
 const LoginPage = () => {
   const [email, setEmail] = useState('');
@@ -44,6 +45,16 @@ const LoginPage = () => {
         <h1 className="text-3xl font-display font-semibold text-center mb-8">
           Welcome Back
         </h1>
+
+        <div className="mb-6 rounded-2xl border border-gray-100 bg-white p-4 shadow-sm">
+          <GoogleSignInButton text="signin_with" />
+        </div>
+
+        <div className="mb-6 flex items-center gap-3">
+          <div className="h-px flex-1 bg-gray-200" />
+          <span className="text-sm text-gray-500">or sign in with email</span>
+          <div className="h-px flex-1 bg-gray-200" />
+        </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
