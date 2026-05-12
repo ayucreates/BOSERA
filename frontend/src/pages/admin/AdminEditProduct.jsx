@@ -10,6 +10,7 @@ const AdminEditProduct = () => {
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [price, setPrice] = useState('');
+  const [originalPrice, setOriginalPrice] = useState('');
   const [category, setCategory] = useState('');
   const [image, setImage] = useState('');
   const [categories, setCategories] = useState([]);
@@ -54,6 +55,7 @@ const AdminEditProduct = () => {
         setName(product.name || '');
         setDescription(product.description || '');
         setPrice(product.price || '');
+        setOriginalPrice(product.originalPrice || product.price || '');
         setCategory(product.category?._id || product.category || '');
 
         if (typeof productImage === 'string') {
@@ -154,6 +156,11 @@ const AdminEditProduct = () => {
   const submitHandler = async (e) => {
     e.preventDefault();
 
+    if (Number(originalPrice) < Number(price)) {
+      alert('MRP should not be less than Selling Price');
+      return;
+    }
+
     const cleanedSizes = sizes
       .map((item) => ({
         size: item.size.trim(),
@@ -175,6 +182,7 @@ const AdminEditProduct = () => {
           name,
           description,
           price: Number(price),
+          originalPrice: Number(originalPrice),
           category,
           images: [
             {
@@ -238,18 +246,36 @@ const AdminEditProduct = () => {
           />
         </div>
 
-        <div>
-          <label className="mb-2 block font-medium">
-            Price
-          </label>
+        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+          <div>
+            <label className="mb-2 block font-medium">
+              MRP
+            </label>
 
-          <input
-            type="number"
-            value={price}
-            onChange={(e) => setPrice(e.target.value)}
-            className="w-full rounded-lg border p-3"
-            required
-          />
+            <input
+              type="number"
+              value={originalPrice}
+              onChange={(e) => setOriginalPrice(e.target.value)}
+              className="w-full rounded-lg border p-3"
+              placeholder="Example: 1299"
+              required
+            />
+          </div>
+
+          <div>
+            <label className="mb-2 block font-medium">
+              Selling Price
+            </label>
+
+            <input
+              type="number"
+              value={price}
+              onChange={(e) => setPrice(e.target.value)}
+              className="w-full rounded-lg border p-3"
+              placeholder="Example: 899"
+              required
+            />
+          </div>
         </div>
 
         <div>
@@ -274,7 +300,7 @@ const AdminEditProduct = () => {
         </div>
 
         <div>
-          <div className="mb-3 flex items-center justify-between gap-3">
+          <div className="mb-3 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <label className="block font-medium">
                 Size Options
@@ -287,7 +313,7 @@ const AdminEditProduct = () => {
             <button
               type="button"
               onClick={addSizeRow}
-              className="shrink-0 rounded-lg bg-gray-950 px-4 py-2 text-sm font-semibold text-white hover:bg-gray-800"
+              className="w-full rounded-lg bg-gray-950 px-4 py-2 text-sm font-semibold text-white hover:bg-gray-800 sm:w-auto"
             >
               Add Size
             </button>
@@ -392,7 +418,7 @@ const AdminEditProduct = () => {
           <button
             type="submit"
             disabled={uploading}
-            className="rounded-lg bg-black px-6 py-3 text-white transition hover:bg-gray-800 disabled:opacity-50"
+            className="w-full rounded-lg bg-black px-6 py-3 text-white transition hover:bg-gray-800 disabled:opacity-50 sm:w-auto"
           >
             {uploading ? 'Uploading...' : 'Update Product'}
           </button>
@@ -400,7 +426,7 @@ const AdminEditProduct = () => {
           <button
             type="button"
             onClick={() => navigate('/admin/products')}
-            className="rounded-lg border px-6 py-3 font-medium text-gray-700 transition hover:bg-gray-50"
+            className="w-full rounded-lg border px-6 py-3 font-medium text-gray-700 transition hover:bg-gray-50 sm:w-auto"
           >
             Cancel
           </button>
