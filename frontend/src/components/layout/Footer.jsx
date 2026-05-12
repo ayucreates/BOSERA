@@ -106,15 +106,15 @@ const Footer = () => {
             <ul className="mt-5 space-y-4 text-gray-400">
               <li className="flex gap-3">
                 <FiMail size={18} className="mt-0.5 shrink-0" />
-                <span>hello@litebouyszone.com</span>
+                <span>Litebouys4@gmail.com</span>
               </li>
               <li className="flex gap-3">
                 <FiPhone size={18} className="mt-0.5 shrink-0" />
-                <span>+91 98765 43210</span>
+                <span>+91 76368 11101</span>
               </li>
               <li className="flex gap-3">
                 <FiMapPin size={18} className="mt-0.5 shrink-0" />
-                <span>123 Fashion Street, Mumbai, Maharashtra 400001</span>
+                <span>Near Bajwi Hotel, Kokrajhar, Assam 783370</span>
               </li>
             </ul>
           </div>

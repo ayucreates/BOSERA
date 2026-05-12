@@ -27,9 +27,9 @@ const ContactPage = () => {
         </div>
         <div className="space-y-6">
           <h2 className="text-2xl font-semibold mb-6">Contact Information</h2>
-          <div className="flex items-start gap-4"><FiMail className="mt-1" size={20} /><div><p className="font-medium">Email</p><p className="text-gray-600">hello@litebouyszone.com</p></div></div>
-          <div className="flex items-start gap-4"><FiPhone className="mt-1" size={20} /><div><p className="font-medium">Phone</p><p className="text-gray-600">+91 98765 43210</p></div></div>
-          <div className="flex items-start gap-4"><FiMapPin className="mt-1" size={20} /><div><p className="font-medium">Address</p><p className="text-gray-600">123 Fashion Street, Mumbai<br/>Maharashtra 400001</p></div></div>
+          <div className="flex items-start gap-4"><FiMail className="mt-1" size={20} /><div><p className="font-medium">Email</p><p className="text-gray-600">Litebouys4@gmail.com</p></div></div>
+          <div className="flex items-start gap-4"><FiPhone className="mt-1" size={20} /><div><p className="font-medium">Phone</p><p className="text-gray-600">+91 76368 11101</p></div></div>
+          <div className="flex items-start gap-4"><FiMapPin className="mt-1" size={20} /><div><p className="font-medium">Address</p><p className="text-gray-600">Near Bajwi Hotel, Kokrajhar,<br/>Assam 783370</p></div></div>
         </div>
       </div>
     </div>
