@@ -17,7 +17,10 @@ const ProductCard = ({ product }) => {
 
   const isInWishlist = wishlistItems.some((item) => item._id === product._id);
 
-  const imageUrl = getMediaUrl(product.images?.[0]?.url);
+  const firstImage = product.images?.[0];
+  const imageUrl = getMediaUrl(
+    typeof firstImage === 'string' ? firstImage : firstImage?.url
+  );
 
   const discount = product.originalPrice
     ? Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)
@@ -35,7 +38,7 @@ const ProductCard = ({ product }) => {
     product: product._id,
     name: product.name,
     slug: product.slug,
-    image: product.images?.[0]?.url || '',
+    image: typeof firstImage === 'string' ? firstImage : firstImage?.url || '',
     price: product.price,
     size: firstAvailableSize,
     quantity: 1,
@@ -82,8 +85,8 @@ const ProductCard = ({ product }) => {
       return;
     }
 
-    dispatch(addToCart(cartItem));
-    navigate('/checkout');
+    sessionStorage.setItem('buyNowItems', JSON.stringify([cartItem]));
+    navigate('/checkout?buyNow=true');
   };
 
   return (
@@ -102,7 +105,7 @@ const ProductCard = ({ product }) => {
             className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
           />
 
-          <div className="absolute inset-0 bg-gradient-to-t from-black/0 via-transparent to-white/10 group-hover:from-black/5 group-hover:to-transparent transition-colors duration-300" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/0 via-transparent to-white/10 transition-colors duration-300 group-hover:from-black/5 group-hover:to-transparent" />
 
           <div className="absolute left-2 top-2 flex flex-col gap-1.5 sm:left-3 sm:top-3 sm:gap-2">
             {product.isNewArrival && (

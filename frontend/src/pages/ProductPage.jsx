@@ -63,11 +63,33 @@ const ProductPage = () => {
     0
   );
 
+  const getFirstImageUrl = () => {
+    const firstImage = product?.images?.[0];
+
+    if (!firstImage) return '';
+
+    if (typeof firstImage === 'string') {
+      return firstImage;
+    }
+
+    return firstImage.url || '';
+  };
+
+  const getImageUrl = (image) => {
+    if (!image) return '/placeholder.jpg';
+
+    if (typeof image === 'string') {
+      return getMediaUrl(image);
+    }
+
+    return getMediaUrl(image.url);
+  };
+
   const createCartItem = () => ({
     product: product._id,
     name: product.name,
     slug: product.slug,
-    image: product.images?.[0]?.url || '',
+    image: getFirstImageUrl(),
     price: product.price,
     size: selectedSize,
     quantity,
@@ -104,8 +126,8 @@ const ProductPage = () => {
   const handleBuyNow = () => {
     if (!validateCartAction()) return;
 
-    dispatch(addToCart(createCartItem()));
-    navigate('/checkout');
+    sessionStorage.setItem('buyNowItems', JSON.stringify([createCartItem()]));
+    navigate('/checkout?buyNow=true');
   };
 
   const handleWishlist = () => {
@@ -207,7 +229,7 @@ const ProductPage = () => {
                     <SwiperSlide key={index}>
                       <div className="swiper-zoom-container">
                         <img
-                          src={getMediaUrl(image.url)}
+                          src={getImageUrl(image)}
                           alt={image.alt || product.name}
                           className="h-full w-full object-cover"
                         />
@@ -236,7 +258,7 @@ const ProductPage = () => {
                 {product.images.map((image, index) => (
                   <SwiperSlide key={index} className="cursor-pointer">
                     <img
-                      src={getMediaUrl(image.url)}
+                      src={getImageUrl(image)}
                       alt={image.alt || product.name}
                       className="h-full w-full rounded-lg border border-white/70 object-cover sm:rounded-xl"
                     />
@@ -289,7 +311,9 @@ const ProductPage = () => {
                 )}
               </div>
 
-              <p className="text-sm leading-relaxed text-gray-600 sm:text-base">{product.description}</p>
+              <p className="text-sm leading-relaxed text-gray-600 sm:text-base">
+                {product.description}
+              </p>
             </div>
 
             <div className="space-y-5 border-t border-gray-100 pt-5 sm:space-y-6 sm:pt-6">
