@@ -1,4 +1,5 @@
-import { Routes, Route } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Routes, Route, useLocation } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -29,9 +30,25 @@ import AdminEditProduct from './pages/admin/AdminEditProduct';
 import AdminCategoriesPage from './pages/admin/AdminCategoriesPage';
 import AdminOrdersPage from './pages/admin/AdminOrdersPage';
 
+const ScrollToTop = () => {
+  const { pathname } = useLocation();
+
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'instant'
+    });
+  }, [pathname]);
+
+  return null;
+};
+
 function App() {
   return (
     <div className="relative flex min-h-screen flex-col overflow-hidden">
+      <ScrollToTop />
+
       <div className="pointer-events-none absolute inset-x-0 top-0 h-[32rem] bg-[radial-gradient(circle_at_top,_rgba(255,255,255,0.75),_transparent_55%)]" />
       <Header />
 
@@ -42,11 +59,11 @@ function App() {
           <Route path="/shop/:category" element={<ShopPage />} />
           <Route path="/product/:slug" element={<ProductPage />} />
           <Route path="/cart" element={<CartPage />} />
+          <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
-          <Route path="/checkout" element={<CheckoutPage />} />
           <Route path="/order/:id" element={<OrderDetailPage />} />
 
           <Route path="" element={<PrivateRoute />}>
