@@ -59,7 +59,7 @@ const Footer = () => {
           <div>
             <h3 className="font-display text-2xl font-bold">LITE BOUYS ZONE</h3>
             <p className="mt-4 max-w-sm text-gray-400">
-              Curated thrift-inspired clothing, relaxed essentials, and wearable statement pieces with a clean editorial feel.
+              Curated street-inspired clothing, relaxed essentials, and wearable statement pieces with a clean editorial feel.
             </p>
             <div className="mt-6 flex gap-3">
               <a
@@ -130,7 +130,7 @@ const Footer = () => {
         </div>
 
         <div className="border-t border-white/10 px-5 py-4 text-xs leading-relaxed text-gray-500 sm:px-6 sm:py-5 sm:text-sm md:px-10">
-          &copy; {new Date().getFullYear()} Lite Bouys Zone. Designed for sharper browsing and smoother checkout.
+          &copy; {new Date().getFullYear()} Lite Bouys Zone. Designed and Developed by Ayushman B.
         </div>
       </div>
     </footer>

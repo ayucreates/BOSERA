@@ -115,7 +115,7 @@ const HomePage = () => {
               </h1>
 
               <p className="mb-6 max-w-xl text-base leading-relaxed text-gray-700 sm:mb-8 md:text-xl">
-                Discover thrift-inspired outfits, relaxed streetwear, and everyday pieces made for clean fits and effortless style.
+                Discover street-inspired outfits, relaxed streetwear, and everyday pieces made for clean fits and effortless style.
               </p>
 
               <div className="grid grid-cols-1 gap-3 min-[420px]:grid-cols-2 sm:flex sm:flex-row sm:gap-4">
@@ -203,7 +203,7 @@ const HomePage = () => {
             <div>
               <h3 className="font-semibold text-gray-950">Secure Checkout</h3>
               <p className="text-sm text-gray-500">
-                Cash on delivery and online payment support.
+                Online payment support.
               </p>
             </div>
           </div>

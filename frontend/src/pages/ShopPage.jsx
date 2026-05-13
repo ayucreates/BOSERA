@@ -96,7 +96,7 @@ const ShopPage = () => {
             </h1>
 
             <p className="text-base leading-relaxed text-gray-700 sm:text-lg">
-              Browse the latest thrift-inspired pieces, streetwear essentials, and everyday outfits.
+              Browse the latest street-inspired pieces, streetwear essentials, and everyday outfits.
             </p>
           </div>
         </div>
