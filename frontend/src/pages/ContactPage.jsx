@@ -1,6 +1,6 @@
 // ContactPage.jsx
 import { useState } from 'react';
-import { FiMail, FiPhone, FiMapPin } from 'react-icons/fi';
+import { FiFacebook, FiInstagram, FiMail, FiMapPin, FiPhone } from 'react-icons/fi';
 import { toast } from 'react-toastify';
 
 const ContactPage = () => {
@@ -30,6 +30,31 @@ const ContactPage = () => {
           <div className="flex items-start gap-4"><FiMail className="mt-1" size={20} /><div><p className="font-medium">Email</p><p className="text-gray-600">Litebouys4@gmail.com</p></div></div>
           <div className="flex items-start gap-4"><FiPhone className="mt-1" size={20} /><div><p className="font-medium">Phone</p><p className="text-gray-600">+91 76368 11101</p></div></div>
           <div className="flex items-start gap-4"><FiMapPin className="mt-1" size={20} /><div><p className="font-medium">Address</p><p className="text-gray-600">Near Bajwi Hotel, Kokrajhar,<br/>Assam 783370</p></div></div>
+
+          <div>
+            <p className="mb-3 font-medium">Socials</p>
+            <div className="flex gap-3">
+              <a
+                href="https://www.instagram.com/litebouys_zone/"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 rounded-full border px-4 py-2 text-gray-700 transition hover:border-gray-950 hover:text-gray-950"
+              >
+                <FiInstagram />
+                Instagram
+              </a>
+
+              <a
+                href="https://www.facebook.com/people/Lite-Bouys-Zone/61585258894779/"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 rounded-full border px-4 py-2 text-gray-700 transition hover:border-gray-950 hover:text-gray-950"
+              >
+                <FiFacebook />
+                Facebook
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </div>

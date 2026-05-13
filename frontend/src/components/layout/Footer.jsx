@@ -5,8 +5,7 @@ import {
   FiInstagram,
   FiMail,
   FiMapPin,
-  FiPhone,
-  FiTwitter
+  FiPhone
 } from 'react-icons/fi';
 
 const Footer = () => {
@@ -63,15 +62,25 @@ const Footer = () => {
               Curated thrift-inspired clothing, relaxed essentials, and wearable statement pieces with a clean editorial feel.
             </p>
             <div className="mt-6 flex gap-3">
-              {[FiInstagram, FiFacebook, FiTwitter].map((Icon, index) => (
-                <a
-                  key={index}
-                  href="#"
-                  className="grid h-11 w-11 place-items-center rounded-full border border-white/10 bg-white/5 text-gray-200 transition hover:border-white/30 hover:bg-white/10"
-                >
-                  <Icon size={18} />
-                </a>
-              ))}
+              <a
+                href="https://www.instagram.com/litebouys_zone/"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Lite Bouys Zone on Instagram"
+                className="grid h-11 w-11 place-items-center rounded-full border border-white/10 bg-white/5 text-gray-200 transition hover:border-white/30 hover:bg-white/10"
+              >
+                <FiInstagram size={18} />
+              </a>
+
+              <a
+                href="https://www.facebook.com/people/Lite-Bouys-Zone/61585258894779/"
+                target="_blank"
+                rel="noreferrer"
+                aria-label="Lite Bouys Zone on Facebook"
+                className="grid h-11 w-11 place-items-center rounded-full border border-white/10 bg-white/5 text-gray-200 transition hover:border-white/30 hover:bg-white/10"
+              >
+                <FiFacebook size={18} />
+              </a>
             </div>
           </div>
 
