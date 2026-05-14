@@ -19,7 +19,9 @@ const orderSchema = new mongoose.Schema({
     required: false,
     ref: 'User'
   },
+
   orderItems: [orderItemSchema],
+
   shippingAddress: {
     fullName: { type: String, required: true },
     phone: { type: String, required: true },
@@ -29,72 +31,99 @@ const orderSchema = new mongoose.Schema({
     state: { type: String, required: true },
     pincode: { type: String, required: true }
   },
+
   paymentMethod: {
     type: String,
     required: true,
     enum: ['razorpay', 'cod']
   },
+
   paymentResult: {
     razorpay_order_id: String,
     razorpay_payment_id: String,
     razorpay_signature: String,
     status: String
   },
+
   itemsPrice: {
     type: Number,
     required: true,
     default: 0
   },
+
   shippingPrice: {
     type: Number,
     required: true,
     default: 0
   },
+
   platformFee: {
     type: Number,
     required: true,
     default: 0
   },
+
   taxPrice: {
     type: Number,
     required: true,
     default: 0
   },
+
   totalPrice: {
     type: Number,
     required: true,
     default: 0
   },
+
   isPaid: {
     type: Boolean,
     required: true,
     default: false
   },
+
   paidAt: Date,
+
   orderStatus: {
     type: String,
     required: true,
     enum: ['pending', 'confirmed', 'processing', 'shipped', 'delivered', 'cancelled'],
     default: 'pending'
   },
+
   deliveredAt: Date,
+
   trackingNumber: String,
+
   delhivery: {
-    awb: { type: String, default: null },
+    awb: {
+      type: String,
+      default: null
+    },
     status: {
       type: String,
-      enum: ['not_created', 'created', 'created_without_awb', 'failed'],
+      enum: ['not_created', 'created', 'failed'],
       default: 'not_created'
     },
-    trackingUrl: { type: String, default: null },
-    rawResponse: { type: mongoose.Schema.Types.Mixed, default: null },
-    error: { type: mongoose.Schema.Types.Mixed, default: null },
+    trackingUrl: {
+      type: String,
+      default: null
+    },
+    rawResponse: {
+      type: mongoose.Schema.Types.Mixed,
+      default: null
+    },
+    error: {
+      type: mongoose.Schema.Types.Mixed,
+      default: null
+    },
     createdAt: Date
   },
+
   notes: String
 }, {
   timestamps: true
 });
 
 const Order = mongoose.model('Order', orderSchema);
+
 export default Order;

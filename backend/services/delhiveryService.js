@@ -46,6 +46,11 @@ function getTotalQuantity(order) {
   }, 0);
 }
 
+function buildTrackingUrl(awb) {
+  if (!awb) return null;
+  return `https://www.delhivery.com/track/package/${awb}`;
+}
+
 export async function createDelhiveryShipment(order) {
   if (!DELHIVERY_API_TOKEN) {
     throw new Error("DELHIVERY_API_TOKEN is missing");
@@ -187,6 +192,47 @@ export async function createDelhiveryShipment(order) {
   return {
     success: true,
     awb,
+    trackingUrl: buildTrackingUrl(awb),
     rawResponse: data,
   };
+}
+
+export async function createShipmentForPaidOrder(order) {
+  try {
+    if (!order) {
+      throw new Error("Order is missing");
+    }
+
+    if (!order.isPaid) {
+      return order;
+    }
+
+    if (order.delhivery?.awb) {
+      return order;
+    }
+
+    const delhiveryResult = await createDelhiveryShipment(order);
+
+    order.delhivery = {
+      awb: delhiveryResult.awb,
+      status: "created",
+      trackingUrl: delhiveryResult.trackingUrl,
+      rawResponse: delhiveryResult.rawResponse,
+      error: null,
+      createdAt: new Date(),
+    };
+
+    return await order.save();
+  } catch (error) {
+    order.delhivery = {
+      awb: null,
+      status: "failed",
+      trackingUrl: null,
+      rawResponse: null,
+      error: error.message,
+      createdAt: new Date(),
+    };
+
+    return await order.save();
+  }
 }
