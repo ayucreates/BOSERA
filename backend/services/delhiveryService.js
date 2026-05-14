@@ -6,7 +6,7 @@ const DELHIVERY_API_URL =
 const DELHIVERY_API_TOKEN = process.env.DELHIVERY_API_TOKEN;
 
 const DELHIVERY_CLIENT_NAME =
-  process.env.DELHIVERY_CLIENT_NAME || "Litebouys zone";
+  process.env.DELHIVERY_CLIENT_NAME || "Lite Bouys Zone";
 
 const DELHIVERY_PICKUP_LOCATION =
   process.env.DELHIVERY_PICKUP_LOCATION || "Litebouys zone";
@@ -49,6 +49,10 @@ function getTotalQuantity(order) {
 function buildTrackingUrl(awb) {
   if (!awb) return null;
   return `https://www.delhivery.com/track/package/${awb}`;
+}
+
+function getTodayDate() {
+  return new Date().toISOString().split("T")[0];
 }
 
 export async function createDelhiveryShipment(order) {
@@ -114,27 +118,38 @@ export async function createDelhiveryShipment(order) {
     phone: String(phone),
 
     order: orderId,
-    payment_mode: "Pre-paid",
+
+    // Important: Delhivery docs use "Prepaid", not "Pre-paid"
+    payment_mode: "Prepaid",
+
+    return_pin: String(process.env.STORE_RETURN_PIN || "784526"),
+    return_city: cleanText(process.env.STORE_RETURN_CITY || "Kokrajhar"),
+    return_phone: String(process.env.STORE_RETURN_PHONE || "7636811101"),
+    return_add: cleanText(process.env.STORE_RETURN_ADDRESS || "Kalikhol, Assam"),
+    return_state: cleanText(process.env.STORE_RETURN_STATE || "Assam"),
+    return_country: "India",
 
     products_desc: cleanText(getProductsDescription(order)),
-    quantity: String(getTotalQuantity(order)),
-
+    hsn_code: "",
+    cod_amount: "",
+    order_date: getTodayDate(),
     total_amount: String(totalAmount),
-    cod_amount: "0",
 
+    seller_add: cleanText(process.env.STORE_RETURN_ADDRESS || "Kalikhol, Assam"),
     seller_name: cleanText(DELHIVERY_CLIENT_NAME),
-    client: cleanText(DELHIVERY_CLIENT_NAME),
+    seller_inv: orderId,
 
-    pickup_location: {
-      name: cleanText(DELHIVERY_PICKUP_LOCATION),
-    },
+    quantity: String(getTotalQuantity(order)),
+    waybill: "",
 
-    return_name: cleanText(DELHIVERY_CLIENT_NAME),
-    return_add: cleanText(process.env.STORE_RETURN_ADDRESS || addressLine),
-    return_city: cleanText(process.env.STORE_RETURN_CITY || city),
-    return_state: cleanText(process.env.STORE_RETURN_STATE || state),
-    return_pin: String(process.env.STORE_RETURN_PIN || pincode),
-    return_phone: String(process.env.STORE_RETURN_PHONE || phone),
+    // Delhivery sample includes these. Better to include them.
+    shipment_width: "10",
+    shipment_height: "10",
+    shipment_length: "10",
+    weight: "0.5",
+
+    shipping_mode: "Surface",
+    address_type: "home"
   };
 
   const payload = {
@@ -144,18 +159,18 @@ export async function createDelhiveryShipment(order) {
     },
   };
 
-  const formBody = new URLSearchParams();
-  formBody.append("format", "json");
-  formBody.append("data", JSON.stringify(payload));
+  const requestBody = `format=json&data=${JSON.stringify(payload)}`;
 
   const response = await axios.post(
     `${DELHIVERY_API_URL}/api/cmu/create.json`,
-    formBody.toString(),
+    requestBody,
     {
       headers: {
         Authorization: `Token ${DELHIVERY_API_TOKEN}`,
-        "Content-Type": "application/x-www-form-urlencoded",
         Accept: "application/json",
+
+        // Important: this matches your Delhivery portal sample
+        "Content-Type": "application/json",
       },
       timeout: 20000,
     }
@@ -221,6 +236,9 @@ export async function createShipmentForPaidOrder(order) {
       error: null,
       createdAt: new Date(),
     };
+
+    order.trackingNumber = delhiveryResult.awb;
+    order.orderStatus = "confirmed";
 
     return await order.save();
   } catch (error) {
