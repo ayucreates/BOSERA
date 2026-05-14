@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
@@ -8,6 +8,8 @@ import { getMediaUrl } from '../utils/media';
 
 const OrderDetailPage = () => {
   const { id } = useParams();
+  const fileInputRefs = useRef({});
+
   const [order, setOrder] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -82,6 +84,9 @@ const OrderDetailPage = () => {
       toast.error(err.response?.data?.message || 'Review image upload failed');
     } finally {
       setUploadingReviewImages('');
+      if (fileInputRefs.current[productId]) {
+        fileInputRefs.current[productId].value = '';
+      }
     }
   };
 
@@ -119,6 +124,8 @@ const OrderDetailPage = () => {
 
       toast.success('Review submitted');
       updateReviewForm(productId, 'comment', '');
+      updateReviewForm(productId, 'images', []);
+      fetchOrder();
     } catch (err) {
       toast.error(err.response?.data?.message || 'Could not submit review');
     } finally {
@@ -149,8 +156,10 @@ const OrderDetailPage = () => {
   const canReview = order.orderStatus === 'delivered';
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="mb-8 text-3xl font-semibold">Order Details</h1>
+    <div className="mx-auto w-full max-w-6xl px-4 py-6 sm:px-6 sm:py-8">
+      <h1 className="mb-6 text-2xl font-semibold text-gray-950 sm:mb-8 sm:text-3xl">
+        Order Details
+      </h1>
 
       {!userInfo && (
         <div className="mb-6 rounded-2xl border border-yellow-100 bg-yellow-50 p-4 text-sm text-yellow-800">
@@ -164,25 +173,31 @@ const OrderDetailPage = () => {
         </div>
       )}
 
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 lg:gap-8">
         <div className="space-y-6 lg:col-span-2">
-          <div className="rounded-2xl border bg-white p-4">
+          <div className="rounded-2xl border bg-white p-4 sm:p-5">
             <h2 className="mb-2 font-semibold">Shipping Address</h2>
-            <p className="leading-relaxed text-gray-700">
+            <p className="break-words text-sm leading-relaxed text-gray-700 sm:text-base">
               {order.shippingAddress.fullName}
               <br />
               {order.shippingAddress.phone}
               <br />
               {order.shippingAddress.addressLine1}
-              {order.shippingAddress.addressLine2 ? <><br />{order.shippingAddress.addressLine2}</> : null}
+              {order.shippingAddress.addressLine2 ? (
+                <>
+                  <br />
+                  {order.shippingAddress.addressLine2}
+                </>
+              ) : null}
               <br />
               {order.shippingAddress.city}, {order.shippingAddress.state} {order.shippingAddress.pincode}
             </p>
           </div>
 
-          <div className="rounded-2xl border bg-white p-4">
+          <div className="rounded-2xl border bg-white p-4 sm:p-5">
             <h2 className="mb-4 font-semibold">Order Items</h2>
-            <div className="space-y-5">
+
+            <div className="space-y-6">
               {order.orderItems.map((item) => {
                 const productId = item.product;
                 const form = reviewForms[productId] || {
@@ -191,33 +206,37 @@ const OrderDetailPage = () => {
                   images: []
                 };
 
+                const remainingImages = 3 - (form.images?.length || 0);
+                const isUploading = uploadingReviewImages === productId;
+
                 return (
                   <div
                     key={`${item.product}-${item.size}`}
-                    className="border-b pb-5 last:border-0 last:pb-0"
+                    className="border-b pb-6 last:border-0 last:pb-0"
                   >
-                    <div className="flex gap-4">
+                    <div className="flex gap-3 sm:gap-4">
                       <img
                         src={getMediaUrl(item.image)}
                         alt={item.name}
-                        className="h-20 w-16 rounded-lg object-cover"
+                        className="h-20 w-16 flex-shrink-0 rounded-lg object-cover sm:h-24 sm:w-20"
                       />
-                      <div>
-                        <p className="font-medium">{item.name}</p>
-                        <p className="text-sm text-gray-500">
+
+                      <div className="min-w-0 flex-1">
+                        <p className="break-words font-medium text-gray-950">{item.name}</p>
+                        <p className="mt-1 text-sm text-gray-500">
                           Size: {item.size} | Qty: {item.quantity}
                         </p>
-                        <p className="font-semibold">{formatPrice(item.price)}</p>
+                        <p className="mt-1 font-semibold">{formatPrice(item.price)}</p>
                       </div>
                     </div>
 
                     {canReview && (
-                      <div className="mt-4 rounded-2xl border border-gray-100 bg-gray-50 p-4">
-                        <h3 className="mb-3 font-semibold text-gray-950">
+                      <div className="mt-4 rounded-2xl border border-gray-100 bg-gray-50 p-4 sm:p-5">
+                        <h3 className="mb-4 text-base font-semibold text-gray-950">
                           Leave a review
                         </h3>
 
-                        <div className="mb-3 grid grid-cols-1 gap-3 sm:grid-cols-[160px_1fr]">
+                        <div className="grid grid-cols-1 gap-4 sm:grid-cols-[160px_1fr]">
                           <div>
                             <label className="mb-1 block text-sm font-medium text-gray-700">
                               Rating
@@ -225,7 +244,7 @@ const OrderDetailPage = () => {
                             <select
                               value={form.rating}
                               onChange={(e) => updateReviewForm(productId, 'rating', e.target.value)}
-                              className="w-full rounded-xl border bg-white p-3"
+                              className="w-full rounded-xl border bg-white p-3 text-base outline-none focus:border-gray-900"
                             >
                               <option value="5">5 stars</option>
                               <option value="4">4 stars</option>
@@ -239,32 +258,51 @@ const OrderDetailPage = () => {
                             <label className="mb-1 block text-sm font-medium text-gray-700">
                               Review images
                             </label>
+
                             <input
+                              ref={(element) => {
+                                fileInputRefs.current[productId] = element;
+                              }}
                               type="file"
                               accept="image/*"
                               multiple
+                              className="hidden"
                               onChange={(e) => handleReviewImageUpload(productId, e.target.files)}
-                              className="w-full rounded-xl border bg-white p-3 text-sm"
                             />
-                            {uploadingReviewImages === productId && (
-                              <p className="mt-1 text-xs text-gray-500">Uploading images...</p>
-                            )}
+
+                            <button
+                              type="button"
+                              onClick={() => fileInputRefs.current[productId]?.click()}
+                              disabled={isUploading || remainingImages <= 0}
+                              className="flex min-h-12 w-full items-center justify-center rounded-xl border border-dashed border-gray-300 bg-white px-4 py-3 text-center text-sm font-semibold text-gray-900 transition hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
+                            >
+                              {isUploading
+                                ? 'Uploading images...'
+                                : remainingImages > 0
+                                  ? `Upload images (${remainingImages} left)`
+                                  : 'Maximum 3 images uploaded'}
+                            </button>
+
+                            <p className="mt-2 text-xs leading-relaxed text-gray-500">
+                              Upload up to 3 images. On mobile, tap the button and choose Gallery or Camera.
+                            </p>
                           </div>
                         </div>
 
                         {form.images?.length > 0 && (
-                          <div className="mb-3 grid grid-cols-3 gap-2 sm:grid-cols-6">
+                          <div className="mt-4 grid grid-cols-3 gap-2 sm:grid-cols-6">
                             {form.images.map((imageUrl, index) => (
-                              <div key={`${imageUrl}-${index}`} className="relative">
+                              <div key={`${imageUrl}-${index}`} className="relative overflow-hidden rounded-xl">
                                 <img
                                   src={getMediaUrl(imageUrl)}
                                   alt={`Review upload ${index + 1}`}
-                                  className="h-20 w-full rounded-lg object-cover"
+                                  className="aspect-square w-full object-cover"
                                 />
                                 <button
                                   type="button"
                                   onClick={() => removeReviewImage(productId, index)}
-                                  className="absolute right-1 top-1 rounded-full bg-black/70 px-2 py-0.5 text-xs text-white"
+                                  className="absolute right-1 top-1 flex h-7 w-7 items-center justify-center rounded-full bg-black/70 text-base leading-none text-white"
+                                  aria-label="Remove image"
                                 >
                                   ×
                                 </button>
@@ -273,19 +311,24 @@ const OrderDetailPage = () => {
                           </div>
                         )}
 
-                        <textarea
-                          value={form.comment}
-                          onChange={(e) => updateReviewForm(productId, 'comment', e.target.value)}
-                          rows="3"
-                          placeholder="Write your experience with this product"
-                          className="mb-3 w-full rounded-xl border bg-white p-3"
-                        />
+                        <div className="mt-4">
+                          <label className="mb-1 block text-sm font-medium text-gray-700">
+                            Your review
+                          </label>
+                          <textarea
+                            value={form.comment}
+                            onChange={(e) => updateReviewForm(productId, 'comment', e.target.value)}
+                            rows="4"
+                            placeholder="Write your experience with this product"
+                            className="w-full resize-none rounded-xl border bg-white p-3 text-base outline-none focus:border-gray-900"
+                          />
+                        </div>
 
                         <button
                           type="button"
                           onClick={() => submitReview(item)}
                           disabled={submittingReview === productId}
-                          className="rounded-xl bg-gray-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-gray-800 disabled:opacity-50"
+                          className="mt-4 min-h-12 w-full rounded-xl bg-gray-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-gray-800 disabled:opacity-50 sm:w-auto"
                         >
                           {submittingReview === productId ? 'Submitting...' : 'Submit Review'}
                         </button>
@@ -298,27 +341,32 @@ const OrderDetailPage = () => {
           </div>
         </div>
 
-        <div className="h-fit rounded-2xl bg-gray-50 p-6">
+        <div className="h-fit rounded-2xl bg-gray-50 p-5 sm:p-6 lg:sticky lg:top-24">
           <h2 className="mb-4 font-semibold">Order Summary</h2>
-          <div className="space-y-2">
-            <div className="flex justify-between">
+
+          <div className="space-y-3 text-sm sm:text-base">
+            <div className="flex justify-between gap-3">
               <span>Status</span>
-              <span className="font-medium capitalize">{order.orderStatus}</span>
+              <span className="text-right font-medium capitalize">{order.orderStatus}</span>
             </div>
-            <div className="flex justify-between">
+
+            <div className="flex justify-between gap-3">
               <span>Payment</span>
-              <span>{order.isPaid ? 'Paid' : 'Pending'}</span>
+              <span className="text-right">{order.isPaid ? 'Paid' : 'Pending'}</span>
             </div>
-            <div className="flex justify-between">
+
+            <div className="flex justify-between gap-3">
               <span>Payment Method</span>
-              <span className="capitalize">{order.paymentMethod}</span>
+              <span className="text-right capitalize">{order.paymentMethod}</span>
             </div>
+
             <div className="flex justify-between gap-3">
               <span>Tracking ID</span>
-              <span className="text-right font-medium">
+              <span className="break-all text-right font-medium">
                 {order.delhivery?.awb || order.trackingNumber || 'Not generated yet'}
               </span>
             </div>
+
             {(order.delhivery?.trackingUrl || order.trackingNumber) && (
               <a
                 href={order.delhivery?.trackingUrl || `https://www.delhivery.com/track/package/${order.trackingNumber}`}
@@ -329,15 +377,18 @@ const OrderDetailPage = () => {
                 Track with Delhivery
               </a>
             )}
-            <div className="flex justify-between">
+
+            <div className="flex justify-between gap-3">
               <span>Shipping</span>
               <span>{formatPrice(order.shippingPrice)}</span>
             </div>
-            <div className="flex justify-between">
+
+            <div className="flex justify-between gap-3">
               <span>Platform Fee</span>
               <span>{formatPrice(order.platformFee || 0)}</span>
             </div>
-            <div className="flex justify-between border-t pt-2 font-semibold">
+
+            <div className="flex justify-between gap-3 border-t pt-3 font-semibold">
               <span>Total</span>
               <span>{formatPrice(order.totalPrice)}</span>
             </div>
