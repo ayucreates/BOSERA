@@ -1,16 +1,37 @@
 import mongoose from 'mongoose';
 import slugify from 'slugify';
 
-const reviewSchema = new mongoose.Schema({
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    required: true,
-    ref: 'User'
+const reviewImageSchema = new mongoose.Schema(
+  {
+    url: String,
+    alt: String
   },
-  name: { type: String, required: true },
-  rating: { type: Number, required: true },
-  comment: { type: String, required: true }
-}, { timestamps: true });
+  { _id: false }
+);
+
+const reviewSchema = new mongoose.Schema(
+  {
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: false,
+      ref: 'User'
+    },
+    order: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: false,
+      ref: 'Order'
+    },
+    name: { type: String, required: true },
+    rating: { type: Number, required: true },
+    comment: { type: String, required: true },
+    images: [reviewImageSchema],
+    verifiedPurchase: {
+      type: Boolean,
+      default: false
+    }
+  },
+  { timestamps: true }
+);
 
 const productSchema = new mongoose.Schema({
   name: {

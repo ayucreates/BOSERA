@@ -22,6 +22,18 @@ import 'swiper/css';
 import 'swiper/css/thumbs';
 import 'swiper/css/zoom';
 
+const RatingStars = ({ rating = 0 }) => {
+  const roundedRating = Math.round(Number(rating) || 0);
+
+  return (
+    <div className="flex items-center gap-0.5 text-yellow-500">
+      {[1, 2, 3, 4, 5].map((star) => (
+        <span key={star}>{star <= roundedRating ? '★' : '☆'}</span>
+      ))}
+    </div>
+  );
+};
+
 const ProductPage = () => {
   const { slug } = useParams();
   const navigate = useNavigate();
@@ -199,6 +211,7 @@ const ProductPage = () => {
     : 0;
 
   const selectedSizeData = getSelectedSizeData();
+  const reviews = product.reviews || [];
 
   return (
     <div className="min-h-screen bg-transparent">
@@ -282,6 +295,13 @@ const ProductPage = () => {
               <h1 className="mb-4 text-2xl font-bold leading-tight text-gray-950 sm:text-3xl md:text-5xl">
                 {product.name}
               </h1>
+
+              <div className="mb-3 flex flex-wrap items-center gap-2">
+                <RatingStars rating={product.rating} />
+                <span className="text-sm text-gray-500">
+                  {product.numReviews || 0} review{product.numReviews === 1 ? '' : 's'}
+                </span>
+              </div>
 
               <div className="mb-4 flex flex-wrap items-center gap-2.5 sm:mb-5 sm:gap-4">
                 <span className="text-2xl font-bold text-gray-950 sm:text-3xl">
@@ -462,6 +482,76 @@ const ProductPage = () => {
             </div>
           </motion.div>
         </div>
+
+        <section className="mt-10 rounded-2xl border border-gray-100 bg-white/90 p-4 shadow-sm sm:mt-14 sm:rounded-[2rem] sm:p-6 md:p-8">
+          <div className="mb-6 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-gray-500 sm:text-sm">
+                Reviews
+              </p>
+              <h2 className="text-2xl font-bold text-gray-950 sm:text-3xl">
+                Customer Reviews
+              </h2>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <RatingStars rating={product.rating} />
+              <span className="text-sm text-gray-500">
+                {product.rating ? Number(product.rating).toFixed(1) : '0.0'} out of 5
+              </span>
+            </div>
+          </div>
+
+          {reviews.length === 0 ? (
+            <div className="rounded-2xl bg-gray-50 p-5 text-gray-600">
+              No reviews yet. Reviews can be added after delivery from the order details page.
+            </div>
+          ) : (
+            <div className="space-y-4">
+              {reviews
+                .slice()
+                .reverse()
+                .map((review) => (
+                  <div key={review._id} className="rounded-2xl border border-gray-100 bg-gray-50 p-4">
+                    <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
+                      <div>
+                        <div className="flex items-center gap-2">
+                          <p className="font-semibold text-gray-950">{review.name}</p>
+                          {review.verifiedPurchase && (
+                            <span className="rounded-full bg-green-100 px-2 py-0.5 text-xs font-semibold text-green-700">
+                              Verified purchase
+                            </span>
+                          )}
+                        </div>
+                        <RatingStars rating={review.rating} />
+                      </div>
+
+                      <p className="text-xs text-gray-500">
+                        {review.createdAt ? new Date(review.createdAt).toLocaleDateString() : ''}
+                      </p>
+                    </div>
+
+                    <p className="text-sm leading-relaxed text-gray-700 sm:text-base">
+                      {review.comment}
+                    </p>
+
+                    {review.images?.length > 0 && (
+                      <div className="mt-3 grid grid-cols-3 gap-2 sm:grid-cols-6">
+                        {review.images.map((image, index) => (
+                          <img
+                            key={`${image.url}-${index}`}
+                            src={getMediaUrl(image.url)}
+                            alt={image.alt || `Review image ${index + 1}`}
+                            className="h-24 w-full rounded-xl object-cover"
+                          />
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                ))}
+            </div>
+          )}
+        </section>
       </div>
     </div>
   );

@@ -1,5 +1,6 @@
 import asyncHandler from 'express-async-handler';
 import Product from '../models/Product.js';
+import Order from '../models/Order.js';
 
 // @desc    Fetch all products
 // @route   GET /api/products
@@ -161,38 +162,105 @@ export const deleteProduct = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc    Create product review
+// @desc    Create product review after delivery
 // @route   POST /api/products/:id/reviews
-// @access  Private
+// @access  Public for guest order links / Private for logged in orders
 export const createProductReview = asyncHandler(async (req, res) => {
-  const { rating, comment } = req.body;
+  const { rating, comment, orderId, images = [] } = req.body;
+
+  const numericRating = Number(rating);
+
+  if (!orderId) {
+    res.status(400);
+    throw new Error('Order ID is required to review this product');
+  }
+
+  if (!numericRating || numericRating < 1 || numericRating > 5) {
+    res.status(400);
+    throw new Error('Please select a rating between 1 and 5');
+  }
+
+  if (!comment || !comment.trim()) {
+    res.status(400);
+    throw new Error('Please write a review comment');
+  }
+
   const product = await Product.findById(req.params.id);
 
-  if (product) {
-    const alreadyReviewed = product.reviews.find(
-      (r) => r.user.toString() === req.user._id.toString()
-    );
-
-    if (alreadyReviewed) {
-      res.status(400);
-      throw new Error('Product already reviewed');
-    }
-
-    const review = {
-      name: req.user.name,
-      rating: Number(rating),
-      comment,
-      user: req.user._id
-    };
-
-    product.reviews.push(review);
-    product.numReviews = product.reviews.length;
-    product.rating = product.reviews.reduce((acc, item) => item.rating + acc, 0) / product.reviews.length;
-
-    await product.save();
-    res.status(201).json({ message: 'Review added' });
-  } else {
+  if (!product) {
     res.status(404);
     throw new Error('Product not found');
   }
+
+  const order = await Order.findById(orderId);
+
+  if (!order) {
+    res.status(404);
+    throw new Error('Order not found');
+  }
+
+  if (order.user) {
+    if (!req.user) {
+      res.status(401);
+      throw new Error('Please login to review this order');
+    }
+
+    const isOwner = order.user.toString() === req.user._id.toString();
+    const isAdmin = req.user.isAdmin;
+
+    if (!isOwner && !isAdmin) {
+      res.status(403);
+      throw new Error('Not authorized to review this order');
+    }
+  }
+
+  if (order.orderStatus !== 'delivered') {
+    res.status(400);
+    throw new Error('You can review only after the product is delivered');
+  }
+
+  const productInOrder = order.orderItems.some(
+    (item) => item.product.toString() === product._id.toString()
+  );
+
+  if (!productInOrder) {
+    res.status(400);
+    throw new Error('This product is not part of the selected order');
+  }
+
+  const alreadyReviewed = product.reviews.find(
+    (review) => review.order?.toString() === order._id.toString()
+  );
+
+  if (alreadyReviewed) {
+    res.status(400);
+    throw new Error('This order has already reviewed this product');
+  }
+
+  const reviewImages = Array.isArray(images)
+    ? images.slice(0, 3).map((imageUrl, index) => ({
+        url: imageUrl,
+        alt: `${product.name} review image ${index + 1}`
+      }))
+    : [];
+
+  const review = {
+    name: req.user?.name || order.shippingAddress?.fullName || 'Verified Customer',
+    rating: numericRating,
+    comment: comment.trim(),
+    user: req.user?._id,
+    order: order._id,
+    images: reviewImages,
+    verifiedPurchase: true
+  };
+
+  product.reviews.push(review);
+  product.numReviews = product.reviews.length;
+  product.rating =
+    product.reviews.reduce((acc, item) => item.rating + acc, 0) /
+    product.reviews.length;
+
+  await product.save();
+
+  res.status(201).json({ message: 'Review added' });
 });

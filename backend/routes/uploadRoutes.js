@@ -1,7 +1,7 @@
 import express from 'express';
 import multer from 'multer';
 import { v2 as cloudinary } from 'cloudinary';
-import { protect, admin } from '../middleware/authMiddleware.js';
+import { protect, optionalProtect, admin } from '../middleware/authMiddleware.js';
 
 const router = express.Router();
 
@@ -33,11 +33,21 @@ const upload = multer({
   }
 });
 
-const uploadToCloudinary = (fileBuffer) => {
+const ensureCloudinaryConfig = () => {
+  if (
+    !process.env.CLOUDINARY_CLOUD_NAME ||
+    !process.env.CLOUDINARY_API_KEY ||
+    !process.env.CLOUDINARY_API_SECRET
+  ) {
+    throw new Error('Cloudinary environment variables are missing');
+  }
+};
+
+const uploadToCloudinary = (fileBuffer, folder = 'lite-bouys-zone/products') => {
   return new Promise((resolve, reject) => {
     const uploadStream = cloudinary.uploader.upload_stream(
       {
-        folder: 'lite-bouys-zone/products',
+        folder,
         resource_type: 'image',
         transformation: [
           { width: 1200, height: 1200, crop: 'limit' },
@@ -57,16 +67,9 @@ const uploadToCloudinary = (fileBuffer) => {
   });
 };
 
-router.post('/', protect, admin, upload.array('images', 5), async (req, res) => {
+router.post('/reviews', optionalProtect, upload.array('images', 3), async (req, res) => {
   try {
-    if (
-      !process.env.CLOUDINARY_CLOUD_NAME ||
-      !process.env.CLOUDINARY_API_KEY ||
-      !process.env.CLOUDINARY_API_SECRET
-    ) {
-      res.status(500);
-      throw new Error('Cloudinary environment variables are missing');
-    }
+    ensureCloudinaryConfig();
 
     if (!req.files || req.files.length === 0) {
       res.status(400);
@@ -75,7 +78,30 @@ router.post('/', protect, admin, upload.array('images', 5), async (req, res) => 
 
     const uploadedImages = await Promise.all(
       req.files.map(async (file) => {
-        const result = await uploadToCloudinary(file.buffer);
+        const result = await uploadToCloudinary(file.buffer, 'lite-bouys-zone/reviews');
+        return result.secure_url;
+      })
+    );
+
+    res.json(uploadedImages);
+  } catch (error) {
+    res.status(res.statusCode === 200 ? 500 : res.statusCode);
+    res.json({ message: error.message || 'Review image upload failed' });
+  }
+});
+
+router.post('/', protect, admin, upload.array('images', 5), async (req, res) => {
+  try {
+    ensureCloudinaryConfig();
+
+    if (!req.files || req.files.length === 0) {
+      res.status(400);
+      throw new Error('No images uploaded');
+    }
+
+    const uploadedImages = await Promise.all(
+      req.files.map(async (file) => {
+        const result = await uploadToCloudinary(file.buffer, 'lite-bouys-zone/products');
         return result.secure_url;
       })
     );
