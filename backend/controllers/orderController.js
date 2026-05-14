@@ -1,6 +1,7 @@
 import asyncHandler from 'express-async-handler';
 import Order from '../models/Order.js';
 import Product from '../models/Product.js';
+import { createShipmentForPaidOrder } from '../services/delhiveryService.js';
 
 // @desc    Create new order
 // @route   POST /api/orders
@@ -93,7 +94,8 @@ export const updateOrderToPaid = asyncHandler(async (req, res) => {
     };
     order.orderStatus = 'confirmed';
 
-    const updatedOrder = await order.save();
+    await order.save();
+    const updatedOrder = await createShipmentForPaidOrder(order);
     res.json(updatedOrder);
   } else {
     res.status(404);

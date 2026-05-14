@@ -79,6 +79,18 @@ const orderSchema = new mongoose.Schema({
   },
   deliveredAt: Date,
   trackingNumber: String,
+  delhivery: {
+    awb: { type: String, default: null },
+    status: {
+      type: String,
+      enum: ['not_created', 'created', 'created_without_awb', 'failed'],
+      default: 'not_created'
+    },
+    trackingUrl: { type: String, default: null },
+    rawResponse: { type: mongoose.Schema.Types.Mixed, default: null },
+    error: { type: mongoose.Schema.Types.Mixed, default: null },
+    createdAt: Date
+  },
   notes: String
 }, {
   timestamps: true
