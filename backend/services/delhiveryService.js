@@ -159,22 +159,22 @@ export async function createDelhiveryShipment(order) {
     },
   };
 
-  const requestBody = `format=json&data=${JSON.stringify(payload)}`;
+const formBody = new URLSearchParams();
+formBody.append("format", "json");
+formBody.append("data", JSON.stringify(payload));
 
-  const response = await axios.post(
-    `${DELHIVERY_API_URL}/api/cmu/create.json`,
-    requestBody,
-    {
-      headers: {
-        Authorization: `Token ${DELHIVERY_API_TOKEN}`,
-        Accept: "application/json",
-
-        // Important: this matches your Delhivery portal sample
-        "Content-Type": "application/json",
-      },
-      timeout: 20000,
-    }
-  );
+const response = await axios.post(
+  `${DELHIVERY_API_URL}/api/cmu/create.json`,
+  formBody.toString(),
+  {
+    headers: {
+      Authorization: `Token ${DELHIVERY_API_TOKEN}`,
+      Accept: "application/json",
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    timeout: 20000,
+  }
+);
 
   const data = response.data;
 
