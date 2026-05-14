@@ -313,6 +313,22 @@ const OrderDetailPage = () => {
               <span>Payment Method</span>
               <span className="capitalize">{order.paymentMethod}</span>
             </div>
+            <div className="flex justify-between gap-3">
+              <span>Tracking ID</span>
+              <span className="text-right font-medium">
+                {order.delhivery?.awb || order.trackingNumber || 'Not generated yet'}
+              </span>
+            </div>
+            {(order.delhivery?.trackingUrl || order.trackingNumber) && (
+              <a
+                href={order.delhivery?.trackingUrl || `https://www.delhivery.com/track/package/${order.trackingNumber}`}
+                target="_blank"
+                rel="noreferrer"
+                className="block rounded-xl bg-gray-950 px-4 py-3 text-center text-sm font-semibold text-white"
+              >
+                Track with Delhivery
+              </a>
+            )}
             <div className="flex justify-between">
               <span>Shipping</span>
               <span>{formatPrice(order.shippingPrice)}</span>

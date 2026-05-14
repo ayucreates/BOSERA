@@ -16,6 +16,7 @@ import RegisterPage from './pages/RegisterPage';
 import ProfilePage from './pages/ProfilePage';
 import OrdersPage from './pages/OrdersPage';
 import OrderDetailPage from './pages/OrderDetailPage';
+import OrderSuccessPage from './pages/OrderSuccessPage';
 import WishlistPage from './pages/WishlistPage';
 import AboutPage from './pages/AboutPage';
 import ContactPage from './pages/ContactPage';
@@ -65,6 +66,7 @@ function App() {
           <Route path="/about" element={<AboutPage />} />
           <Route path="/contact" element={<ContactPage />} />
           <Route path="/order/:id" element={<OrderDetailPage />} />
+          <Route path="/order-success/:id" element={<OrderSuccessPage />} />
 
           <Route path="" element={<PrivateRoute />}>
             <Route path="/profile" element={<ProfilePage />} />

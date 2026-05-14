@@ -73,7 +73,7 @@ const CheckoutPage = () => {
     }
 
     toast.success('Order placed successfully!');
-    navigate(`/order/${orderId}`);
+    navigate(`/order-success/${orderId}`);
   };
 
   const handleAddressChange = (e) => {
@@ -141,7 +141,7 @@ const CheckoutPage = () => {
               }
 
               toast.success('Payment successful!');
-              navigate(`/order/${order._id}`);
+              navigate(`/order-success/${order._id}`);
             } catch {
               toast.error('Payment verification failed');
             }
