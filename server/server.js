@@ -67,7 +67,7 @@ app.get('/profile', authenticate, (req, res) => {
   }
 });
 
-const pages = ['new-arrivals', 'clothing', 'footwear', 'track-order', 'about-us', 'support'];
+const pages = ['new-arrivals', 'clothing', 'footwear', 'track-order', 'about-us', 'support', 'wishlist'];
 pages.forEach(p => {
   app.get('/' + p, (req, res) => {
     res.sendFile(path.join(__dirname, '..', p + '.html'));

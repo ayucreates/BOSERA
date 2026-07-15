@@ -259,6 +259,10 @@ function toggleWishlist(name, img, price) {
 
 function updateWishlistBadge() {
   document.querySelectorAll('.wishlist-icon .badge').forEach(b => b.textContent = wishlist.length);
+  // Reload page if on wishlist page to reflect changes
+  if (window.location.pathname === '/wishlist') {
+    window.location.reload();
+  }
 }
 
 function reRenderProducts() {
@@ -270,7 +274,41 @@ function reRenderProducts() {
   renderProducts('coordsGrid', products.coords);
   renderProducts('newArrivalsGrid', allProducts);
   renderProducts('clothingGrid', allProducts);
-  renderProducts('footwearPageGrid', products.footwear);
+renderProducts('footwearPageGrid', products.footwear);
+
+// Wishlist page
+const wishlistData = JSON.parse(localStorage.getItem('lbz_wishlist')) || [];
+const wishlistGrid = document.getElementById('wishlistPageGrid');
+const wishlistEmpty = document.getElementById('wishlistEmpty');
+const wishlistCount = document.getElementById('wishlistCount');
+if (wishlistGrid) {
+  if (wishlistData.length === 0) {
+    wishlistGrid.style.display = 'none';
+    if (wishlistEmpty) wishlistEmpty.style.display = 'block';
+  } else {
+    if (wishlistEmpty) wishlistEmpty.style.display = 'none';
+    if (wishlistCount) wishlistCount.textContent = wishlistData.length + ' items saved';
+    wishlistGrid.innerHTML = wishlistData.map(p => {
+      const nameEscaped = p.name.replace(/'/g, "\\'");
+      const inWishlist = wishlist.some(w => w.name === p.name);
+      return `
+        <div class="product-card">
+          <div class="product-image">
+            <img src="${p.img}" alt="${p.name}" loading="lazy">
+            <div class="product-actions always-visible">
+              <button onclick="toggleWishlist('${nameEscaped}', '${p.img}', ${p.price})" title="Remove from Wishlist"><i class="fas fa-heart" style="color:#f9488e;"></i></button>
+              <button onclick="addToCart('${nameEscaped}', '${p.img}', ${p.price})" title="Add to Cart"><i class="fas fa-shopping-bag"></i></button>
+            </div>
+          </div>
+          <div class="product-info">
+            <div class="product-name">${p.name}</div>
+            <div class="product-price">₹${p.price.toLocaleString()}</div>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+}
 }
 
 // =====================
