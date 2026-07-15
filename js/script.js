@@ -122,6 +122,12 @@ renderProducts('footwearGrid', products.footwear);
 renderProducts('trousersGrid', products.trousers);
 renderProducts('coordsGrid', products.coords);
 
+// Page-specific grids
+const allProducts = [...products.tops, ...products.dresses, ...products.handbags, ...products.footwear, ...products.trousers, ...products.coords];
+renderProducts('newArrivalsGrid', allProducts);
+renderProducts('clothingGrid', allProducts);
+renderProducts('footwearPageGrid', products.footwear);
+
 // =====================
 // Cart
 // =====================
@@ -220,6 +226,9 @@ function reRenderProducts() {
   renderProducts('footwearGrid', products.footwear);
   renderProducts('trousersGrid', products.trousers);
   renderProducts('coordsGrid', products.coords);
+  renderProducts('newArrivalsGrid', allProducts);
+  renderProducts('clothingGrid', allProducts);
+  renderProducts('footwearPageGrid', products.footwear);
 }
 
 // =====================

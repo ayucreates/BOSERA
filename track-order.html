@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Track Order – Lite Bouys Zone</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+<div class="announcement-bar">
+  Free Shipping on Orders Above ₹499 | COD Available Across India
+</div>
+<header class="header">
+  <div class="header-top">
+    <div class="container">
+      <div class="header-row">
+        <button class="mobile-menu-btn" id="mobileMenuBtn"><i class="fas fa-bars"></i></button>
+        <a href="/" class="logo"><span class="logo-text">Lite Bouys Zone</span></a>
+        <nav class="navbar" id="navbar">
+          <ul class="nav-list">
+            <li class="nav-item"><a href="/new-arrivals" class="nav-link">New Arrivals</a></li>
+            <li class="nav-item dropdown">
+              <a href="/clothing" class="nav-link">Clothing <i class="fas fa-chevron-down"></i></a>
+              <div class="dropdown-menu">
+                <div class="dropdown-grid">
+                  <div class="dropdown-col">
+                    <h4>Dresses</h4>
+                    <a href="#">All Dresses</a><a href="#">Mini Dresses</a><a href="#">Maxi Dresses</a><a href="#">Party Wear</a>
+                  </div>
+                  <div class="dropdown-col">
+                    <h4>Tops</h4>
+                    <a href="#">All Tops</a><a href="#">Crop Tops</a><a href="#">Corset Tops</a><a href="#">Off-Shoulder</a>
+                  </div>
+                  <div class="dropdown-col">
+                    <h4>Bottoms</h4>
+                    <a href="#">Trousers</a><a href="#">Skirts</a><a href="#">Shorts</a><a href="#">Cargo Pants</a>
+                  </div>
+                  <div class="dropdown-col">
+                    <h4>Coords</h4>
+                    <a href="#">Top & Skirt Sets</a><a href="#">Top & Trouser Sets</a><a href="#">Blazer Sets</a>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="nav-item"><a href="/footwear" class="nav-link">Footwear</a></li>
+            <li class="nav-item"><a href="/track-order" class="nav-link">Track Order</a></li>
+            <li class="nav-item"><a href="/about-us" class="nav-link">About Us</a></li>
+            <li class="nav-item"><a href="/support" class="nav-link">Support</a></li>
+          </ul>
+        </nav>
+        <div class="header-right">
+          <a href="#" class="header-icon" id="searchBtn"><i class="fas fa-search"></i></a>
+          <div class="header-icon account-wrap" id="accountWrap">
+            <a href="#" class="header-icon" id="accountBtn"><i class="far fa-user"></i></a>
+            <div class="account-dropdown" id="accountDropdown">
+              <div class="account-dropdown-header" id="accountDropdownHeader">
+                <strong id="accountName">My Account</strong><span id="accountEmail"></span>
+              </div>
+              <a href="#">My Orders</a><a href="#">Wishlist</a><a href="#">Settings</a>
+              <a href="#" id="logoutBtn">Logout</a>
+              <div class="account-dropdown-footer" id="accountDropdownFooter">
+                <a href="#" id="loginOpenBtn">Login</a><a href="#" id="signupOpenBtn">Sign Up</a>
+              </div>
+            </div>
+          </div>
+          <a href="#" class="header-icon wishlist-icon" id="wishlistIcon"><i class="far fa-heart"></i><span class="badge">0</span></a>
+          <a href="#" class="header-icon cart-icon" id="cartIcon"><i class="fas fa-shopping-bag"></i><span class="badge">0</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-menu-header"><span>Menu</span><button id="closeMenu"><i class="fas fa-times"></i></button></div>
+  <ul class="mobile-nav-list">
+    <li><a href="/new-arrivals">New Arrivals</a></li>
+    <li class="has-submenu"><a href="/clothing">Clothing <i class="fas fa-chevron-right"></i></a>
+      <ul class="submenu"><li><a href="#">Dresses</a></li><li><a href="#">Tops</a></li><li><a href="#">Bottoms</a></li><li><a href="#">Coords</a></li></ul>
+    </li>
+    <li><a href="/footwear">Footwear</a></li>
+    <li><a href="/track-order">Track Order</a></li>
+    <li><a href="/about-us">About Us</a></li>
+    <li><a href="/support">Support</a></li>
+  </ul>
+</div>
+<div class="overlay" id="overlay"></div>
+
+<section style="padding:60px 24px;">
+  <div class="container" style="max-width:600px;">
+    <h1 style="font-size:32px;font-weight:700;margin-bottom:8px;text-align:center;">Track Your Order</h1>
+    <p style="color:#888;margin-bottom:32px;text-align:center;">Enter your order ID to check the status.</p>
+    <form style="display:flex;gap:12px;">
+      <input type="text" placeholder="Enter Order ID" style="flex:1;padding:14px 16px;border:1px solid #ddd;border-radius:8px;font-size:14px;">
+      <button type="submit" style="padding:14px 28px;background:#f9488e;color:#fff;font-weight:600;border-radius:8px;font-size:14px;">Track</button>
+    </form>
+    <div style="margin-top:48px;padding:32px;background:#fafafa;border-radius:12px;text-align:center;">
+      <i class="fas fa-box" style="font-size:48px;color:#ddd;margin-bottom:16px;"></i>
+      <p style="color:#888;">Enter an order ID above to see tracking details.</p>
+    </div>
+  </div>
+</section>
+
+<section class="newsletter">
+  <div class="container">
+    <div class="newsletter-content">
+      <h2>Join the Fam</h2>
+      <p>Subscribe for exclusive deals, new drops & style inspo</p>
+      <form class="newsletter-form">
+        <input type="email" placeholder="Enter your email" required>
+        <button type="submit">Subscribe</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>Lite Bouys Zone</h4>
+        <p>Kokrajhar's go-to destination for trendy fashion.</p>
+        <div class="social-links">
+          <a href="https://www.instagram.com/litebouys_zone/" target="_blank"><i class="fab fa-instagram"></i></a>
+          <a href="https://www.facebook.com/people/Lite-Bouys-Zone/61585258894779/" target="_blank"><i class="fab fa-facebook-f"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <a href="/new-arrivals">New Arrivals</a><a href="#">Best Sellers</a><a href="#">Sale</a><a href="/track-order">Track Order</a><a href="#">Size Guide</a>
+      </div>
+      <div class="footer-col">
+        <h4>Categories</h4>
+        <a href="#">Tops</a><a href="#">Dresses</a><a href="/footwear">Footwear</a><a href="#">Handbags</a><a href="#">Coords</a>
+      </div>
+      <div class="footer-col">
+        <h4>Customer Care</h4>
+        <a href="/support">Contact Us</a><a href="#">FAQs</a><a href="#">Shipping Policy</a><a href="#">Return Policy</a><a href="#">Privacy Policy</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <p><i class="fas fa-map-marker-alt"></i><span>Jwhwlao Dwimalu Rd, near Vishal Mega Mart, Boro Bhatarmari, Kokrajhar, Assam 783370</span></p>
+        <p><i class="fas fa-phone"></i><span>+91 76368 11101</span></p>
+        <p><i class="fas fa-envelope"></i><span>Litebouys4@gmail.com</span></p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Lite Bouys Zone. All rights reserved.</p>
+      <p style="font-size:12px;color:#666;margin-top:4px;">Made with Love By Ayushman B.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="js/script.js"></script>
+</body>
+</html>
