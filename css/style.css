@@ -857,7 +857,7 @@ input, textarea { outline: none; font-family: inherit; }
 
 @media (max-width: 768px) {
   .mobile-menu-btn { display: block; }
-  .navbar { display: none; }
+  .header-row .navbar { display: none; }
 
   .header-top { padding: 6px 0; }
   .header-row { gap: 4px; }
