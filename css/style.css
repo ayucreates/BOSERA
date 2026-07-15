@@ -860,12 +860,12 @@ input, textarea { outline: none; font-family: inherit; }
   .navbar { display: none; }
 
   .header-top { padding: 8px 0; }
-  .header-row { gap: 8px; }
-  .logo-text { font-size: 14px; letter-spacing: -0.3px; }
-  .header-right { gap: 8px; }
-  .header-icon { font-size: 16px; }
-  .mobile-menu-btn { font-size: 18px; }
-  #searchBtn { display: none; }
+  .header-row { gap: 6px; }
+  .logo-text { font-size: 13px; letter-spacing: -0.3px; }
+  .header-right { gap: 6px; }
+  .header-icon { font-size: 15px; }
+  .mobile-menu-btn { font-size: 17px; padding: 2px; }
+  #searchBtn, #accountWrap { display: none; }
 
   .hero-slide img { max-height: 280px; }
   .hero-controls { bottom: 12px; gap: 8px; }
