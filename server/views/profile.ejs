@@ -1,0 +1,21 @@
+<div class="max-w-2xl mx-auto">
+  <h1 class="text-3xl font-bold mb-2"><%= user.name %></h1>
+  <p class="text-gray-500 mb-8"><%= user.email %></p>
+
+  <h2 class="text-xl font-semibold mb-4">Shopping Cart</h2>
+  <% if (cartItems.length === 0) { %>
+    <p class="text-gray-400">Your cart is empty.</p>
+  <% } else { %>
+    <div class="space-y-4">
+      <% cartItems.forEach(function(item) { %>
+        <div class="flex items-center gap-4 bg-white rounded-lg p-4 shadow-sm border">
+          <div class="flex-1">
+            <p class="font-medium"><%= item.name %></p>
+            <p class="text-sm text-gray-500">Qty: <%= item.quantity %></p>
+          </div>
+          <p class="font-semibold">$<%= parseFloat(item.price).toFixed(2) %></p>
+        </div>
+      <% }); %>
+    </div>
+  <% } %>
+</div>

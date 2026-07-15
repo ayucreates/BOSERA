@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lite Bouys Zone – Online Clothing Store in Kokrajhar</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+<!-- Announcement Bar -->
+<div class="announcement-bar">
+  Free Shipping on Orders Above ₹499 | COD Available Across India
+</div>
+
+<!-- Header -->
+<header class="header">
+  <div class="header-top">
+    <div class="container">
+      <div class="header-row">
+        <button class="mobile-menu-btn" id="mobileMenuBtn">
+          <i class="fas fa-bars"></i>
+        </button>
+        <a href="/" class="logo">
+          <span class="logo-text">Lite Bouys Zone</span>
+        </a>
+        <nav class="navbar" id="navbar">
+          <ul class="nav-list">
+            <li class="nav-item"><a href="#" class="nav-link">New Arrivals</a></li>
+            <li class="nav-item dropdown">
+              <a href="#" class="nav-link">Clothing <i class="fas fa-chevron-down"></i></a>
+              <div class="dropdown-menu">
+                <div class="dropdown-grid">
+                  <div class="dropdown-col">
+                    <h4>Dresses</h4>
+                    <a href="#">All Dresses</a>
+                    <a href="#">Mini Dresses</a>
+                    <a href="#">Maxi Dresses</a>
+                    <a href="#">Party Wear</a>
+                  </div>
+                  <div class="dropdown-col">
+                    <h4>Tops</h4>
+                    <a href="#">All Tops</a>
+                    <a href="#">Crop Tops</a>
+                    <a href="#">Corset Tops</a>
+                    <a href="#">Off-Shoulder</a>
+                  </div>
+                  <div class="dropdown-col">
+                    <h4>Bottoms</h4>
+                    <a href="#">Trousers</a>
+                    <a href="#">Skirts</a>
+                    <a href="#">Shorts</a>
+                    <a href="#">Cargo Pants</a>
+                  </div>
+                  <div class="dropdown-col">
+                    <h4>Coords</h4>
+                    <a href="#">Top & Skirt Sets</a>
+                    <a href="#">Top & Trouser Sets</a>
+                    <a href="#">Blazer Sets</a>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="nav-item"><a href="#" class="nav-link">Footwear</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">Track Order</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">About Us</a></li>
+            <li class="nav-item"><a href="#" class="nav-link">Support</a></li>
+          </ul>
+        </nav>
+        <div class="header-right">
+          <a href="#" class="header-icon" id="searchBtn"><i class="fas fa-search"></i></a>
+          <div class="header-icon account-wrap" id="accountWrap">
+            <a href="#" class="header-icon" id="accountBtn"><i class="far fa-user"></i></a>
+            <div class="account-dropdown" id="accountDropdown">
+              <div class="account-dropdown-header" id="accountDropdownHeader">
+                <strong id="accountName">My Account</strong>
+                <span id="accountEmail"></span>
+              </div>
+              <a href="#">My Orders</a>
+              <a href="#">Wishlist</a>
+              <a href="#">Settings</a>
+              <a href="#" id="logoutBtn">Logout</a>
+              <div class="account-dropdown-footer" id="accountDropdownFooter">
+                <a href="#" id="loginOpenBtn">Login</a>
+                <a href="#" id="signupOpenBtn">Sign Up</a>
+              </div>
+            </div>
+          </div>
+          <a href="#" class="header-icon wishlist-icon" id="wishlistIcon">
+            <i class="far fa-heart"></i><span class="badge">0</span>
+          </a>
+          <a href="#" class="header-icon cart-icon" id="cartIcon">
+            <i class="fas fa-shopping-bag"></i><span class="badge">0</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Auth Modals -->
+<div class="auth-modal" id="loginModal">
+  <div class="auth-modal-content">
+    <button class="auth-close" id="loginClose">&times;</button>
+    <h2>Login</h2>
+    <form id="loginForm">
+      <input type="email" placeholder="Email" required>
+      <input type="password" placeholder="Password" required>
+      <button type="submit">Login</button>
+      <p>Don't have an account? <a href="#" id="loginToSignup">Sign Up</a></p>
+    </form>
+  </div>
+</div>
+
+<div class="auth-modal" id="signupModal">
+  <div class="auth-modal-content">
+    <button class="auth-close" id="signupClose">&times;</button>
+    <h2>Sign Up</h2>
+    <form id="signupForm">
+      <input type="text" placeholder="Full Name" required>
+      <input type="email" placeholder="Email" required>
+      <input type="password" placeholder="Password" minlength="6" required>
+      <button type="submit">Create Account</button>
+      <p>Already have an account? <a href="#" id="signupToLogin">Login</a></p>
+    </form>
+  </div>
+</div>
+
+<!-- Cart Slideout -->
+<div class="cart-slideout" id="cartSlideout">
+  <div class="cart-slideout-header">
+    <h3>Shopping Cart</h3>
+    <button id="cartClose">&times;</button>
+  </div>
+  <div class="cart-slideout-body" id="cartBody">
+    <p class="cart-empty">Your cart is empty.</p>
+  </div>
+  <div class="cart-slideout-footer">
+    <div class="cart-total">
+      <span>Total</span>
+      <span id="cartTotal">₹0</span>
+    </div>
+    <button class="checkout-btn">Checkout</button>
+  </div>
+</div>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mobile-menu-header">
+    <span>Menu</span>
+    <button id="closeMenu"><i class="fas fa-times"></i></button>
+  </div>
+  <ul class="mobile-nav-list">
+    <li><a href="#">New Arrivals</a></li>
+    <li class="has-submenu">
+      <a href="#">Clothing <i class="fas fa-chevron-right"></i></a>
+      <ul class="submenu">
+        <li><a href="#">Dresses</a></li>
+        <li><a href="#">Tops</a></li>
+        <li><a href="#">Bottoms</a></li>
+        <li><a href="#">Coords</a></li>
+      </ul>
+    </li>
+    <li><a href="#">Footwear</a></li>
+    <li><a href="#">Track Order</a></li>
+    <li><a href="#">About Us</a></li>
+    <li><a href="#">Support</a></li>
+  </ul>
+</div>
+<div class="overlay" id="overlay"></div>
+
+<!-- Hero Banner -->
+<section class="hero">
+  <div class="hero-slider" id="heroSlider">
+    <div class="hero-slide active">
+      <img src="https://littleboxindia.com/cdn/shop/files/new-arrivals_web_banner_July.webp?v=1783656790&width=1920" alt="New Arrivals">
+    </div>
+    <div class="hero-slide">
+      <img src="https://littleboxindia.com/cdn/shop/files/New_Arrival_Curve_July-desktop.webp?v=1783656823&width=1920" alt="Curve New Arrivals">
+    </div>
+    <div class="hero-slide">
+      <img src="https://littleboxindia.com/cdn/shop/files/Vacation_banner_1920_750_f62efc58-1280-4649-af29-432ac5abbfe4.webp?v=1780587939&width=1920" alt="Vacation Collection">
+    </div>
+    <div class="hero-slide">
+      <img src="https://littleboxindia.com/cdn/shop/files/web_banner_bag_updated_29-5-26.webp?v=1780046788&width=1920" alt="Handbags">
+    </div>
+  </div>
+  <div class="hero-controls">
+    <button class="hero-btn prev" id="prevSlide"><i class="fas fa-chevron-left"></i></button>
+    <div class="hero-dots" id="heroDots"></div>
+    <button class="hero-btn next" id="nextSlide"><i class="fas fa-chevron-right"></i></button>
+  </div>
+</section>
+
+<!-- WhatsApp Floating Button -->
+<a href="https://wa.me/917636811101" target="_blank" class="whatsapp-float" aria-label="Chat on WhatsApp">
+  <i class="fab fa-whatsapp"></i>
+</a>
+
+<!-- Banner Strip -->
+<section class="banner-row">
+  <div class="marquee">
+    <div class="marquee-inner">
+      <span>Fast Delivery</span>
+      <span>★</span>
+      <span>Free Shipping</span>
+      <span>★</span>
+      <span>Easy Returns</span>
+      <span>★</span>
+      <span>COD Available</span>
+      <span>★</span>
+      <span>Secure Payments</span>
+      <span>★</span>
+      <span>Fast Delivery</span>
+      <span>★</span>
+      <span>Free Shipping</span>
+      <span>★</span>
+      <span>Easy Returns</span>
+      <span>★</span>
+      <span>COD Available</span>
+      <span>★</span>
+      <span>Secure Payments</span>
+      <span>★</span>
+    </div>
+  </div>
+</section>
+
+<!-- Shop by Category -->
+<section class="shop-by-category">
+  <div class="container">
+    <div class="section-title">
+      <h2>Shop by Category</h2>
+    </div>
+    <div class="category-tags">
+      <a href="#" class="cat-tag">Tops</a>
+      <a href="#" class="cat-tag">Dresses</a>
+      <a href="#" class="cat-tag">Handbags</a>
+      <a href="#" class="cat-tag">Curve</a>
+      <a href="#" class="cat-tag">Footwear</a>
+      <a href="#" class="cat-tag">Trousers</a>
+      <a href="#" class="cat-tag">Coords</a>
+      <a href="#" class="cat-tag">Skirts</a>
+      <a href="#" class="cat-tag">Jumpsuits</a>
+      <a href="#" class="cat-tag">Winters</a>
+    </div>
+  </div>
+</section>
+
+<!-- Products: Tops -->
+<section class="product-section">
+  <div class="container">
+    <div class="section-title">
+      <h2>Tops</h2>
+      <a href="#" class="view-all">View All</a>
+    </div>
+    <div class="product-grid" id="topsGrid"></div>
+  </div>
+</section>
+
+<!-- Products: Dresses -->
+<section class="product-section">
+  <div class="container">
+    <div class="section-title">
+      <h2>Dresses</h2>
+      <a href="#" class="view-all">View All</a>
+    </div>
+    <div class="product-grid" id="dressesGrid"></div>
+  </div>
+</section>
+
+<!-- Products: Handbags -->
+<section class="product-section">
+  <div class="container">
+    <div class="section-title">
+      <h2>Handbags</h2>
+      <a href="#" class="view-all">View All</a>
+    </div>
+    <div class="product-grid" id="handbagsGrid"></div>
+  </div>
+</section>
+
+<!-- Products: Footwear -->
+<section class="product-section">
+  <div class="container">
+    <div class="section-title">
+      <h2>Footwear</h2>
+      <a href="#" class="view-all">View All</a>
+    </div>
+    <div class="product-grid" id="footwearGrid"></div>
+  </div>
+</section>
+
+<!-- Products: Trousers -->
+<section class="product-section">
+  <div class="container">
+    <div class="section-title">
+      <h2>Trousers</h2>
+      <a href="#" class="view-all">View All</a>
+    </div>
+    <div class="product-grid" id="trousersGrid"></div>
+  </div>
+</section>
+
+<!-- Products: Coords -->
+<section class="product-section">
+  <div class="container">
+    <div class="section-title">
+      <h2>Coords</h2>
+      <a href="#" class="view-all">View All</a>
+    </div>
+    <div class="product-grid" id="coordsGrid"></div>
+  </div>
+</section>
+
+<!-- Features Strip -->
+<section class="features-strip">
+  <div class="container">
+    <div class="features-grid">
+      <div class="feature-item">
+        <i class="fas fa-truck"></i>
+        <div>
+          <h4>Free Shipping</h4>
+          <p>On orders above ₹499</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <i class="fas fa-rotate-left"></i>
+        <div>
+          <h4>Easy Returns</h4>
+          <p>7-day exchange policy</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <i class="fas fa-shield"></i>
+        <div>
+          <h4>Secure Payments</h4>
+          <p>100% secure checkout</p>
+        </div>
+      </div>
+      <div class="feature-item">
+        <i class="fas fa-headset"></i>
+        <div>
+          <h4>24/7 Support</h4>
+          <p>Dedicated customer care</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Newsletter -->
+<section class="newsletter">
+  <div class="container">
+    <div class="newsletter-content">
+      <h2>Join the Fam</h2>
+      <p>Subscribe for exclusive deals, new drops & style inspo</p>
+      <form class="newsletter-form">
+        <input type="email" placeholder="Enter your email" required>
+        <button type="submit">Subscribe</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>Lite Bouys Zone</h4>
+        <p>Kokrajhar's go-to destination for trendy fashion. We bring you the latest styles at the best prices.</p>
+        <div class="social-links">
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-youtube"></i></a>
+          <a href="#"><i class="fab fa-whatsapp"></i></a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <a href="#">New Arrivals</a>
+        <a href="#">Best Sellers</a>
+        <a href="#">Sale</a>
+        <a href="#">Track Order</a>
+        <a href="#">Size Guide</a>
+      </div>
+      <div class="footer-col">
+        <h4>Categories</h4>
+        <a href="#">Tops</a>
+        <a href="#">Dresses</a>
+        <a href="#">Footwear</a>
+        <a href="#">Handbags</a>
+        <a href="#">Coords</a>
+      </div>
+      <div class="footer-col">
+        <h4>Customer Care</h4>
+        <a href="#">Contact Us</a>
+        <a href="#">FAQs</a>
+        <a href="#">Shipping Policy</a>
+        <a href="#">Return Policy</a>
+        <a href="#">Privacy Policy</a>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <p><i class="fas fa-map-marker-alt"></i> Kokrajhar, Assam</p>
+        <p><i class="fas fa-phone"></i> +91 98765 43210</p>
+        <p><i class="fas fa-envelope"></i> hello@litebouyszone.in</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2026 Lite Bouys Zone. All rights reserved.</p>
+    </div>
+  </div>
+</footer>
+
+<script src="js/script.js"></script>
+</body>
+</html>
