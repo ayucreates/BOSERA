@@ -465,6 +465,8 @@ input { outline: none; font-family: inherit; }
 .newsletter-content p { color: #888; font-size: 14px; margin-bottom: 20px; }
 .newsletter-form {
   display: flex;
+  max-width: 420px;
+  margin: 0 auto;
 }
 .newsletter-form input {
   flex: 1;
