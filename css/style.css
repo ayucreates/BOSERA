@@ -516,7 +516,9 @@ input { outline: none; font-family: inherit; }
   transition: color 0.2s;
 }
 .footer-col a:hover { color: #f9488e; }
-.footer-col p i { width: 20px; margin-right: 4px; color: #f9488e; }
+.footer-col p { display: flex; gap: 6px; }
+.footer-col p i { width: 16px; color: #f9488e; flex-shrink: 0; margin-top: 2px; }
+.footer-col p span { flex: 1; }
 
 .social-links { display: flex; gap: 10px; margin-top: 16px; }
 .social-links a {
