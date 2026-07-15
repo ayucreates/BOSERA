@@ -344,6 +344,8 @@ document.querySelectorAll('.has-submenu > a').forEach(link => {
 // =====================
 // Event Listeners
 // =====================
+window.addEventListener('beforeunload', () => { window.scrollTo(0, 0); });
+
 document.addEventListener('DOMContentLoaded', () => {
   // Init state
   saveCart();
