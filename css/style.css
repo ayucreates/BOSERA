@@ -860,9 +860,10 @@ input, textarea { outline: none; font-family: inherit; }
   .header-row .navbar { display: none; }
 
   .header-top { padding: 10px 0; }
-  .header-row { gap: 10px; }
+  .header-row { gap: 10px; position: relative; }
+  .header-row .logo { position: absolute; left: 50%; transform: translateX(-50%); }
   .logo-text { font-size: 16px; letter-spacing: -0.3px; }
-  .header-right { gap: 12px; }
+  .header-right { gap: 12px; margin-left: auto; }
   .header-icon { font-size: 18px; }
   .mobile-menu-btn { font-size: 20px; padding: 4px; }
 
