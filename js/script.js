@@ -131,7 +131,48 @@ renderProducts('footwearPageGrid', products.footwear);
 // =====================
 // Cart
 // =====================
+// Splash configs
+const splashConfigs = {
+  wishlist: {
+    icon: 'far fa-heart',
+    title: 'Save to Wishlist',
+    text: 'Login to save your favourite items and never lose track of what you love.'
+  },
+  cart: {
+    icon: 'fas fa-shopping-bag',
+    title: 'Add to Cart',
+    text: 'Login to start shopping and add items to your cart.'
+  },
+  account: {
+    icon: 'far fa-user',
+    title: 'My Account',
+    text: 'Login to view your orders, wishlist, and account details.'
+  },
+  checkout: {
+    icon: 'fas fa-credit-card',
+    title: 'Proceed to Checkout',
+    text: 'Login to complete your purchase quickly and securely.'
+  }
+};
+
+function showSplash(feature) {
+  const config = splashConfigs[feature] || splashConfigs.account;
+  document.getElementById('splashIcon').innerHTML = `<i class="${config.icon}"></i>`;
+  document.getElementById('splashTitle').textContent = config.title;
+  document.getElementById('splashText').textContent = config.text;
+  document.getElementById('splashModal').classList.add('active');
+  document.getElementById('overlay').classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeSplash() {
+  document.getElementById('splashModal').classList.remove('active');
+  document.getElementById('overlay').classList.remove('active');
+  document.body.style.overflow = '';
+}
+
 function addToCart(name, img, price) {
+  if (!user) { showSplash('cart'); return; }
   const existing = cart.find(item => item.name === name);
   if (existing) {
     existing.qty += 1;
@@ -202,6 +243,7 @@ function renderCart() {
 // Wishlist
 // =====================
 function toggleWishlist(name, img, price) {
+  if (!user) { showSplash('wishlist'); return; }
   const idx = wishlist.findIndex(w => w.name === name);
   if (idx > -1) {
     wishlist.splice(idx, 1);
@@ -372,6 +414,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Cart toggle
   document.getElementById('cartIcon').addEventListener('click', (e) => {
     e.preventDefault();
+    if (!user && cart.length === 0) { showSplash('cart'); return; }
     document.getElementById('cartSlideout').classList.toggle('active');
     overlay.classList.toggle('active');
   });

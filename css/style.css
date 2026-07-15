@@ -744,6 +744,89 @@ input, textarea { outline: none; font-family: inherit; }
 }
 .checkout-btn:hover { background: #e43d7a; }
 
+/* Splash Modal */
+.splash-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 3500;
+  background: rgba(0,0,0,0.5);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+.splash-modal.active { display: flex; }
+.splash-modal-content {
+  background: #fff;
+  border-radius: 20px;
+  padding: 48px 32px 32px;
+  width: 100%;
+  max-width: 420px;
+  position: relative;
+  text-align: center;
+}
+.splash-close {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  font-size: 28px;
+  color: #999;
+  line-height: 1;
+  transition: color 0.2s;
+}
+.splash-close:hover { color: #333; }
+.splash-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: #fef0f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  font-size: 30px;
+  color: #f9488e;
+}
+.splash-modal-content h2 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #111;
+  margin-bottom: 8px;
+}
+.splash-modal-content p {
+  font-size: 14px;
+  color: #888;
+  line-height: 1.5;
+  margin-bottom: 24px;
+}
+.splash-buttons { display: flex; flex-direction: column; gap: 10px; }
+.splash-btn {
+  display: block;
+  padding: 14px;
+  border-radius: 50px;
+  font-size: 14px;
+  font-weight: 600;
+  transition: all 0.2s;
+}
+.splash-btn-primary {
+  background: #f9488e;
+  color: #fff;
+}
+.splash-btn-primary:hover { background: #e43d7a; color: #fff; }
+.splash-btn-secondary {
+  background: #f5f5f5;
+  color: #333;
+}
+.splash-btn-secondary:hover { background: #eee; }
+.splash-continue { margin-top: 16px; }
+.splash-continue a {
+  font-size: 13px;
+  color: #999;
+  border-bottom: 1px solid #ddd;
+  padding-bottom: 1px;
+}
+.splash-continue a:hover { color: #f9488e; border-color: #f9488e; }
+
 /* Toast */
 .toast {
   position: fixed;
