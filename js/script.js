@@ -355,6 +355,13 @@ document.querySelectorAll('.has-submenu > a').forEach(link => {
 // =====================
 window.addEventListener('beforeunload', () => { window.scrollTo(0, 0); });
 
+// Touch device: make product actions always visible
+if ('ontouchstart' in window) {
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.product-actions').forEach(el => el.classList.add('always-visible'));
+  });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   // Init state
   saveCart();
@@ -373,10 +380,20 @@ document.addEventListener('DOMContentLoaded', () => {
     overlay.classList.remove('active');
   });
 
+  // Active nav link
+  const page = window.location.pathname.replace(/^\//, '') || 'index';
+  document.querySelectorAll('.nav-link').forEach(link => {
+    const href = link.getAttribute('href').replace(/^\//, '');
+    if (page === href || (page === 'index' && href === 'index')) {
+      link.classList.add('active');
+    }
+  });
+
   // Auth modals
   document.getElementById('accountBtn').addEventListener('click', (e) => {
     e.preventDefault();
     if (!user) { openModal('loginModal'); }
+    else { document.getElementById('accountDropdown').classList.toggle('open'); }
   });
 
   document.getElementById('loginClose').addEventListener('click', () => closeModal('loginModal'));
