@@ -43,7 +43,7 @@ const ensureCloudinaryConfig = () => {
   }
 };
 
-const uploadToCloudinary = (fileBuffer, folder = 'lite-bouys-zone/products') => {
+const uploadToCloudinary = (fileBuffer, folder = 'bosera/products') => {
   return new Promise((resolve, reject) => {
     const uploadStream = cloudinary.uploader.upload_stream(
       {
@@ -78,7 +78,7 @@ router.post('/reviews', optionalProtect, upload.array('images', 3), async (req, 
 
     const uploadedImages = await Promise.all(
       req.files.map(async (file) => {
-        const result = await uploadToCloudinary(file.buffer, 'lite-bouys-zone/reviews');
+        const result = await uploadToCloudinary(file.buffer, 'bosera/reviews');
         return result.secure_url;
       })
     );
@@ -101,7 +101,7 @@ router.post('/', protect, admin, upload.array('images', 5), async (req, res) => 
 
     const uploadedImages = await Promise.all(
       req.files.map(async (file) => {
-        const result = await uploadToCloudinary(file.buffer, 'lite-bouys-zone/products');
+        const result = await uploadToCloudinary(file.buffer, 'bosera/products');
         return result.secure_url;
       })
     );

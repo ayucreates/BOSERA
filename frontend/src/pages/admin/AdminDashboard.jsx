@@ -123,7 +123,7 @@ const AdminDashboard = () => {
         </h1>
 
         <p className="text-sm text-gray-600 sm:text-base">
-          Manage Lite Bouys Zone products, categories, stock, orders, and store content.
+          Manage BOSERA products, categories, stock, orders, and store content.
         </p>
       </div>
 

@@ -1,4 +1,4 @@
-# Lite Bouys Zone - E-Commerce Clothing Store
+# BOSERA - Unisex Clothing & Streetwear Store
 
 A full-stack e-commerce platform built with React, Redux Toolkit, Node.js, Express, and MongoDB.
 

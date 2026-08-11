@@ -88,7 +88,7 @@ const ShopPage = () => {
         <div className="mx-auto max-w-7xl px-4 py-10 sm:py-14 md:py-20">
           <div className="max-w-3xl">
             <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-gray-600 sm:text-sm sm:tracking-[0.2em]">
-              Lite Bouys Zone
+              BOSERA
             </p>
 
             <h1 className="mb-4 text-3xl font-bold text-gray-950 sm:text-4xl md:text-6xl">

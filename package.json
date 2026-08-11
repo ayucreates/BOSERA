@@ -1,7 +1,7 @@
 {
-  "name": "litebouyszone",
+  "name": "bosera",
   "version": "1.0.0",
-  "description": "Lite Bouys Zone - Online Clothing Store",
+  "description": "BOSERA - Unisex Clothing Store",
   "main": "server/server.js",
   "scripts": {
     "start": "node server/server.js",

@@ -296,7 +296,7 @@ if (wishlistGrid) {
           <div class="product-image">
             <img src="${p.img}" alt="${p.name}" loading="lazy">
             <div class="product-actions always-visible">
-              <button onclick="toggleWishlist('${nameEscaped}', '${p.img}', ${p.price})" title="Remove from Wishlist"><i class="fas fa-heart" style="color:#f9488e;"></i></button>
+              <button onclick="toggleWishlist('${nameEscaped}', '${p.img}', ${p.price})" title="Remove from Wishlist"><i class="fas fa-heart" style="color:#ff4d00;"></i></button>
               <button onclick="addToCart('${nameEscaped}', '${p.img}', ${p.price})" title="Add to Cart"><i class="fas fa-shopping-bag"></i></button>
             </div>
           </div>
@@ -359,7 +359,7 @@ function showToast(msg) {
   const toast = document.createElement('div');
   toast.className = 'toast';
   toast.textContent = msg;
-  toast.style.cssText = 'position:fixed;bottom:80px;right:24px;z-index:9999;background:#f9488e;color:#fff;padding:12px 20px;border-radius:8px;font-size:14px;font-weight:500;box-shadow:0 8px 32px rgba(0,0,0,0.15);transform:translateY(20px);opacity:0;transition:all 0.3s ease;';
+  toast.style.cssText = 'position:fixed;bottom:80px;right:24px;z-index:9999;background:#ff4d00;color:#fff;padding:12px 20px;border-radius:8px;font-size:14px;font-weight:500;box-shadow:0 8px 32px rgba(0,0,0,0.15);transform:translateY(20px);opacity:0;transition:all 0.3s ease;';
   document.body.appendChild(toast);
   requestAnimationFrame(() => { toast.style.transform = 'translateY(0)'; toast.style.opacity = '1'; });
   setTimeout(() => {

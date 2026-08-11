@@ -98,7 +98,7 @@ const seedData = async () => {
     // Create admin user
     await User.create({
       name: 'Admin',
-      email: 'admin@litebouyszone.com',
+      email: 'admin@bosera.shop',
       password: 'admin123',
       isAdmin: true
     });

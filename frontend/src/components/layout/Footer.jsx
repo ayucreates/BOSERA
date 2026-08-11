@@ -30,10 +30,10 @@ const Footer = () => {
           <div className="grid gap-5 sm:gap-8 lg:grid-cols-[1.3fr_0.8fr] lg:items-center">
             <div>
               <p className="mb-3 text-xs font-semibold uppercase tracking-[0.18em] text-gray-400 sm:mb-4 sm:tracking-[0.32em]">
-                Lite Bouys Zone
+                BOSERA
               </p>
               <h2 className="max-w-2xl font-display text-2xl font-bold leading-tight text-white sm:text-3xl md:text-5xl">
-                Everyday vintage energy, styled for clean modern fits.
+                Unisex streetwear, styled for bold everyday fits.
               </h2>
             </div>
 
@@ -57,16 +57,16 @@ const Footer = () => {
 
         <div className="grid gap-8 px-5 py-8 sm:gap-10 sm:px-6 sm:py-10 md:grid-cols-2 md:px-10 lg:grid-cols-4">
           <div>
-            <h3 className="font-display text-2xl font-bold">LITE BOUYS ZONE</h3>
+            <h3 className="font-display text-2xl font-bold">BOSERA</h3>
             <p className="mt-4 max-w-sm text-gray-400">
-              Curated street-inspired clothing, relaxed essentials, and wearable statement pieces with a clean editorial feel.
+              Unisex clothing and streetwear essentials built for every body. Bold, wearable, and made for all.
             </p>
             <div className="mt-6 flex gap-3">
               <a
                 href="https://www.instagram.com/litebouys_zone/"
                 target="_blank"
                 rel="noreferrer"
-                aria-label="Lite Bouys Zone on Instagram"
+                aria-label="BOSERA on Instagram"
                 className="grid h-11 w-11 place-items-center rounded-full border border-white/10 bg-white/5 text-gray-200 transition hover:border-white/30 hover:bg-white/10"
               >
                 <FiInstagram size={18} />
@@ -76,7 +76,7 @@ const Footer = () => {
                 href="https://www.facebook.com/people/Lite-Bouys-Zone/61585258894779/"
                 target="_blank"
                 rel="noreferrer"
-                aria-label="Lite Bouys Zone on Facebook"
+                aria-label="BOSERA on Facebook"
                 className="grid h-11 w-11 place-items-center rounded-full border border-white/10 bg-white/5 text-gray-200 transition hover:border-white/30 hover:bg-white/10"
               >
                 <FiFacebook size={18} />
@@ -130,7 +130,7 @@ const Footer = () => {
         </div>
 
         <div className="border-t border-white/10 px-5 py-4 text-xs leading-relaxed text-gray-500 sm:px-6 sm:py-5 sm:text-sm md:px-10">
-          &copy; {new Date().getFullYear()} Lite Bouys Zone. Designed and Developed by Ayushman B.
+          &copy; {new Date().getFullYear()} BOSERA. Designed and Developed by Ayushman B.
         </div>
       </div>
     </footer>

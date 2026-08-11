@@ -6,10 +6,10 @@ const DELHIVERY_API_URL =
 const DELHIVERY_API_TOKEN = process.env.DELHIVERY_API_TOKEN;
 
 const DELHIVERY_CLIENT_NAME =
-  process.env.DELHIVERY_CLIENT_NAME || "Lite Bouys Zone";
+  process.env.DELHIVERY_CLIENT_NAME || "BOSERA";
 
 const DELHIVERY_PICKUP_LOCATION =
-  process.env.DELHIVERY_PICKUP_LOCATION || "Litebouys zone";
+  process.env.DELHIVERY_PICKUP_LOCATION || "BOSERA";
 
 function cleanText(value = "") {
   return String(value)

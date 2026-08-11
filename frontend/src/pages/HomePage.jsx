@@ -76,7 +76,7 @@ const HomePage = () => {
     const firstImage = product?.images?.[0];
 
     if (!firstImage) {
-      return 'https://placehold.co/800x1000?text=Lite+Bouys+Zone';
+      return 'https://placehold.co/800x1000?text=BOSERA';
     }
 
     if (typeof firstImage === 'string') {
@@ -87,7 +87,7 @@ const HomePage = () => {
       return getMediaUrl(firstImage.url);
     }
 
-    return 'https://placehold.co/800x1000?text=Lite+Bouys+Zone';
+    return 'https://placehold.co/800x1000?text=BOSERA';
   };
 
   return (
@@ -107,15 +107,15 @@ const HomePage = () => {
             >
               <p className="mb-4 inline-flex items-center gap-2 rounded-full bg-white/80 px-3 py-2 text-xs font-medium text-gray-700 shadow-sm sm:mb-6 sm:px-4 sm:text-sm">
                 <FiStar />
-                Vintage inspired clothing store
+                Unisex clothing & streetwear store
               </p>
 
               <h1 className="mb-4 text-4xl font-bold leading-tight text-gray-950 sm:text-5xl md:text-7xl">
-                Lite Bouys Zone
+                BOSERA
               </h1>
 
               <p className="mb-6 max-w-xl text-base leading-relaxed text-gray-700 sm:mb-8 md:text-xl">
-                Discover street-inspired outfits, relaxed streetwear, and everyday pieces made for clean fits and effortless style.
+                Discover bold unisex fits, relaxed streetwear, and everyday pieces made for everyone — no rules, no limits.
               </p>
 
               <div className="grid grid-cols-1 gap-3 min-[420px]:grid-cols-2 sm:flex sm:flex-row sm:gap-4">
@@ -145,7 +145,7 @@ const HomePage = () => {
               <div className="relative aspect-[5/4] overflow-hidden rounded-2xl bg-white shadow-2xl sm:aspect-[4/5] sm:rounded-[2rem]">
                 <img
                   src={getProductImage(visibleNewArrivals[0])}
-                  alt="Lite Bouys Zone hero"
+                  alt="BOSERA hero"
                   className="h-full w-full object-cover"
                 />
 
@@ -279,7 +279,7 @@ const HomePage = () => {
               </h2>
 
               <p className="mb-6 text-base leading-relaxed text-gray-300 sm:mb-8 sm:text-lg">
-                Handpicked items from Lite Bouys Zone. Clean, wearable, and ready to style.
+                Handpicked items from BOSERA. Bold, wearable, and ready to style.
               </p>
 
               <Link
@@ -374,7 +374,7 @@ const HomePage = () => {
       <section className="mx-auto max-w-7xl px-4 pb-12 sm:pb-20">
         <div className="rounded-2xl border border-gray-100 bg-white p-5 text-center shadow-sm sm:rounded-[2rem] sm:p-8 md:p-12">
           <p className="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-gray-500">
-            Lite Bouys Zone
+            BOSERA
           </p>
 
           <h2 className="mb-4 text-2xl font-bold text-gray-950 sm:text-3xl md:text-5xl">

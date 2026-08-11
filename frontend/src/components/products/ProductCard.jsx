@@ -180,7 +180,7 @@ const ProductCard = ({ product }) => {
               </h3>
 
               <p className="mt-1 line-clamp-1 text-xs text-gray-500 sm:text-sm">
-                {product.category?.name || 'Lite Bouys Zone'}
+                {product.category?.name || 'BOSERA'}
               </p>
             </div>
 

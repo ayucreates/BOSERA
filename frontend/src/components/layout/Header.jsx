@@ -97,17 +97,17 @@ const Header = () => {
           </button>
 
           <Link to="/" className="flex min-w-0 flex-1 shrink items-center gap-2 sm:gap-3 md:flex-none">
-            <div className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-[#ead5bd] text-xs font-extrabold tracking-[0.16em] text-gray-950 sm:h-11 sm:w-11 sm:text-sm sm:tracking-[0.2em]">
-              LB
+            <div className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-[#ff4d00] text-xs font-extrabold tracking-[0.16em] text-white sm:h-11 sm:w-11 sm:text-sm sm:tracking-[0.2em]">
+              B
             </div>
 
             <div className="min-w-0">
               <p className="truncate font-display text-sm font-bold text-gray-950 sm:text-lg sm:tracking-[0.14em] md:text-xl md:tracking-[0.24em]">
-                LITE BOUYS ZONE
+                BOSERA
               </p>
 
               <p className="hidden text-xs uppercase tracking-[0.28em] text-gray-500 sm:block">
-                Vintage and streetwear
+                Unisex streetwear
               </p>
             </div>
           </Link>

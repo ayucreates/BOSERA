@@ -3,3 +3,5 @@ server/data/
 .env
 *.db
 .DS_Store
+frontend/dist/
+

@@ -92,7 +92,7 @@ const AdminProductsPage = () => {
           </h1>
 
           <p className="mt-2 text-sm text-gray-500 sm:text-base">
-            Manage, edit, and organize all Lite Bouys Zone products.
+            Manage, edit, and organize all BOSERA products.
           </p>
         </div>
 

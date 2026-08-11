@@ -126,7 +126,7 @@ const CheckoutPage = () => {
           key: keyId,
           amount: razorpayOrder.amount,
           currency: razorpayOrder.currency,
-          name: 'Lite Bouys Zone',
+          name: 'BOSERA',
           description: 'Order Payment',
           order_id: razorpayOrder.id,
           handler: async (response) => {

@@ -289,7 +289,7 @@ const ProductPage = () => {
           >
             <div className="mb-5 sm:mb-6">
               <p className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-gray-500 sm:mb-3 sm:text-sm sm:tracking-[0.2em]">
-                {product.category?.name || 'Lite Bouys Zone'}
+                {product.category?.name || 'BOSERA'}
               </p>
 
               <h1 className="mb-4 text-2xl font-bold leading-tight text-gray-950 sm:text-3xl md:text-5xl">

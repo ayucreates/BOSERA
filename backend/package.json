@@ -1,7 +1,7 @@
 {
-  "name": "lite-bouys-zone-backend",
+  "name": "bosera-backend",
   "version": "1.0.0",
-  "description": "Backend for Lite Bouys Zone clothing store",
+  "description": "Backend for BOSERA unisex clothing store",
   "main": "server.js",
   "type": "module",
   "scripts": {

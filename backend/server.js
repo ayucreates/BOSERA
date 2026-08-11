@@ -20,7 +20,8 @@ const app = express();
 const allowedOrigins = [
   'http://localhost:3000',
   'http://127.0.0.1:3000',
-  'https://lite-bouys-zone.vercel.app'
+  'https://lite-bouys-zone.vercel.app',
+  'https://bosera.vercel.app'
 ];
 
 app.use(
@@ -45,7 +46,7 @@ app.use('/uploads', express.static('uploads'));
 // Health check
 app.get('/', (req, res) => {
   res.json({
-    message: 'Lite Bouys Zone backend is running'
+    message: 'BOSERA backend is running'
   });
 });
 
