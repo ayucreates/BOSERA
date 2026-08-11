@@ -11,3 +11,14 @@ services:
         value: 7d
       - key: NODE_ENV
         value: production
+
+  - type: cron
+    name: keep-alive
+    schedule: "*/10 * * * *"
+    env: node
+    buildCommand: npm install
+    startCommand: node server/keepalive.js
+    envVars:
+      - key: PING_URL
+        sync: false
+

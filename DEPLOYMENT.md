@@ -2,6 +2,14 @@
 
 This project can be deployed as one Node web service. The backend serves the API, uploaded product images, and the built React frontend.
 
+## Keep-Alive Cron Job
+
+Render free tier sleeps the web service after ~15 minutes of inactivity. A `cron` service (`keep-alive`) is defined in `render.yaml` and runs `server/keepalive.js` every 10 minutes to wake the app.
+
+- Set the **`PING_URL`** env var on the cron job to your app's URL (e.g. `https://bosera.onrender.com`). It hits `<PING_URL>/health`.
+- Test locally: `npm run keepalive` with `PING_URL` set.
+- Local run: `node server/keepalive.js --help` style logging goes to the job's logs in Render.
+
 ## Required Environment Variables
 
 Set these in your hosting provider dashboard:
