@@ -1,10 +1,10 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Track Order â€“ BOSERA</title>
-  <link rel="stylesheet" href="css/style.css?v=2">
+  <title>Track Order – BOSERA</title>
+  <link rel="stylesheet" href="css/style.css?v=3">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -12,7 +12,10 @@
 <body>
 
 <div class="announcement-bar">
-  Free Shipping on Orders Above â‚¹499 | COD Available Across India
+  <div class="announcement-track">
+    <span>Extra 10% OFF</span><span class="sep">|</span><span>Use Code WELCOME10</span><span class="sep">|</span><span>Free Shipping Above ₹499</span><span class="sep">|</span><span>COD Available</span><span class="sep">|</span><span>As Seen On Instagram</span><span class="sep">|</span>
+    <span>Extra 10% OFF</span><span class="sep">|</span><span>Use Code WELCOME10</span><span class="sep">|</span><span>Free Shipping Above ₹499</span><span class="sep">|</span><span>COD Available</span><span class="sep">|</span><span>As Seen On Instagram</span><span class="sep">|</span>
+  </div>
 </div>
 <header class="header">
   <div class="header-top">
@@ -88,15 +91,21 @@
 </div>
 <div class="overlay" id="overlay"></div>
 
-<section style="padding:60px 24px;">
+<section class="page-hero">
+  <div class="container">
+    <span class="eyebrow">BOSERA</span>
+    <h1>Track Your Order</h1>
+    <p>Enter your order ID to check the status.</p>
+  </div>
+</section>
+
+<section style="padding:40px 0;">
   <div class="container" style="max-width:600px;">
-    <h1 style="font-size:32px;font-weight:700;margin-bottom:8px;text-align:center;">Track Your Order</h1>
-    <p style="color:#888;margin-bottom:32px;text-align:center;">Enter your order ID to check the status.</p>
     <form style="display:flex;gap:12px;">
-      <input type="text" placeholder="Enter Order ID" style="flex:1;padding:14px 16px;border:1px solid #ddd;border-radius:8px;font-size:14px;">
-      <button type="submit" style="padding:14px 28px;background:#ff4d00;color:#fff;font-weight:600;border-radius:8px;font-size:14px;">Track</button>
+      <input type="text" placeholder="Enter Order ID" style="flex:1;padding:14px 16px;border:1px solid #ddd;border-radius:2px;font-size:14px;">
+      <button type="submit" style="padding:14px 28px;background:#0a0a0a;color:#fff;font-weight:800;border-radius:2px;font-size:14px;text-transform:uppercase;letter-spacing:0.08em;">Track</button>
     </form>
-    <div style="margin-top:48px;padding:32px;background:#fafafa;border-radius:12px;text-align:center;">
+    <div style="margin-top:48px;padding:32px;background:#fafafa;border-radius:2px;text-align:center;">
       <i class="fas fa-box" style="font-size:48px;color:#ddd;margin-bottom:16px;"></i>
       <p style="color:#888;">Enter an order ID above to see tracking details.</p>
     </div>
@@ -106,7 +115,7 @@
 <section class="newsletter">
   <div class="container">
     <div class="newsletter-content">
-      <h2>Join the Fam</h2>
+      <h2>We've Got You Covered</h2>
       <p>Subscribe for exclusive deals, new drops & style inspo</p>
       <form class="newsletter-form">
         <input type="email" placeholder="Enter your email" required>

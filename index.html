@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>BOSERA – Unisex Clothing & Streetwear Store</title>
-  <link rel="stylesheet" href="css/style.css?v=2">
+  <link rel="stylesheet" href="css/style.css?v=3">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -13,7 +13,10 @@
 
 <!-- Announcement Bar -->
 <div class="announcement-bar">
-  Free Shipping on Orders Above ₹499 | COD Available Across India
+  <div class="announcement-track">
+    <span>Extra 10% OFF</span><span class="sep">|</span><span>Use Code WELCOME10</span><span class="sep">|</span><span>Free Shipping Above ₹499</span><span class="sep">|</span><span>COD Available</span><span class="sep">|</span><span>As Seen On Instagram</span><span class="sep">|</span>
+    <span>Extra 10% OFF</span><span class="sep">|</span><span>Use Code WELCOME10</span><span class="sep">|</span><span>Free Shipping Above ₹499</span><span class="sep">|</span><span>COD Available</span><span class="sep">|</span><span>As Seen On Instagram</span><span class="sep">|</span>
+  </div>
 </div>
 
 <!-- Header -->
@@ -26,8 +29,7 @@
         </button>
         <a href="/" class="logo">
           <span class="logo-text">BOSERA</span>
-        </a>
-        <nav class="navbar" id="navbar">
+        </a>        <nav class="navbar" id="navbar">
           <ul class="nav-list">
             <li class="nav-item"><a href="/new-arrivals" class="nav-link">New Arrivals</a></li>
             <li class="nav-item dropdown">
@@ -196,15 +198,39 @@
   <div class="hero-slider" id="heroSlider">
     <div class="hero-slide active">
       <img src="https://littleboxindia.com/cdn/shop/files/new-arrivals_web_banner_July.webp?v=1783656790&width=1920" alt="New Arrivals">
+      <div class="hero-content">
+        <span class="hero-eyebrow">New Drop</span>
+        <h1 class="hero-title">New Arrivals</h1>
+        <p class="hero-subtitle">Fresh fits just landed. Be the first to rock them.</p>
+        <a href="/new-arrivals" class="hero-cta">Shop Now</a>
+      </div>
     </div>
     <div class="hero-slide">
       <img src="https://littleboxindia.com/cdn/shop/files/New_Arrival_Curve_July-desktop.webp?v=1783656823&width=1920" alt="Curve New Arrivals">
+      <div class="hero-content">
+        <span class="hero-eyebrow">Trending</span>
+        <h1 class="hero-title">Curve Collection</h1>
+        <p class="hero-subtitle">Sizes and styles that move with you.</p>
+        <a href="/clothing" class="hero-cta">Explore</a>
+      </div>
     </div>
     <div class="hero-slide">
       <img src="https://littleboxindia.com/cdn/shop/files/Vacation_banner_1920_750_f62efc58-1280-4649-af29-432ac5abbfe4.webp?v=1780587939&width=1920" alt="Vacation Collection">
+      <div class="hero-content">
+        <span class="hero-eyebrow">Summer</span>
+        <h1 class="hero-title">Vacation Edit</h1>
+        <p class="hero-subtitle">Bold fits for every getaway.</p>
+        <a href="/clothing" class="hero-cta">Shop Now</a>
+      </div>
     </div>
     <div class="hero-slide">
       <img src="https://littleboxindia.com/cdn/shop/files/web_banner_bag_updated_29-5-26.webp?v=1780046788&width=1920" alt="Handbags">
+      <div class="hero-content">
+        <span class="hero-eyebrow">Accessories</span>
+        <h1 class="hero-title">Bags & More</h1>
+        <p class="hero-subtitle">Complete the look.</p>
+        <a href="/footwear" class="hero-cta">Shop Now</a>
+      </div>
     </div>
   </div>
   <div class="hero-controls">
@@ -251,7 +277,10 @@
 <section class="shop-by-category">
   <div class="container">
     <div class="section-title">
-      <h2>Shop by Category</h2>
+      <div>
+        <h2>Shop by Category</h2>
+        <p class="sub">Find your next fit across the store</p>
+      </div>
     </div>
     <div class="category-tags">
       <a href="#" class="cat-tag">Tops</a>
@@ -268,8 +297,11 @@
 <section class="product-section">
   <div class="container">
     <div class="section-title">
-      <h2>Tops</h2>
-      <a href="#" class="view-all">View All</a>
+      <div>
+        <h2>Tops</h2>
+        <p class="sub">Statement tops for every mood</p>
+      </div>
+      <a href="/clothing" class="view-all">View All</a>
     </div>
     <div class="product-grid" id="topsGrid"></div>
   </div>
@@ -279,8 +311,11 @@
 <section class="product-section">
   <div class="container">
     <div class="section-title">
-      <h2>Dresses</h2>
-      <a href="#" class="view-all">View All</a>
+      <div>
+        <h2>Dresses</h2>
+        <p class="sub">Easier fits, bolder energy</p>
+      </div>
+      <a href="/clothing" class="view-all">View All</a>
     </div>
     <div class="product-grid" id="dressesGrid"></div>
   </div>
@@ -290,8 +325,11 @@
 <section class="product-section">
   <div class="container">
     <div class="section-title">
-      <h2>Handbags</h2>
-      <a href="#" class="view-all">View All</a>
+      <div>
+        <h2>Handbags</h2>
+        <p class="sub">Carry it all in style</p>
+      </div>
+      <a href="/clothing" class="view-all">View All</a>
     </div>
     <div class="product-grid" id="handbagsGrid"></div>
   </div>
@@ -301,8 +339,11 @@
 <section class="product-section">
   <div class="container">
     <div class="section-title">
-      <h2>Footwear</h2>
-      <a href="#" class="view-all">View All</a>
+      <div>
+        <h2>Footwear</h2>
+        <p class="sub">Step up your everyday look</p>
+      </div>
+      <a href="/footwear" class="view-all">View All</a>
     </div>
     <div class="product-grid" id="footwearGrid"></div>
   </div>
@@ -312,8 +353,11 @@
 <section class="product-section">
   <div class="container">
     <div class="section-title">
-      <h2>Trousers</h2>
-      <a href="#" class="view-all">View All</a>
+      <div>
+        <h2>Trousers</h2>
+        <p class="sub">Clean lines, relaxed fits</p>
+      </div>
+      <a href="/clothing" class="view-all">View All</a>
     </div>
     <div class="product-grid" id="trousersGrid"></div>
   </div>
@@ -323,8 +367,11 @@
 <section class="product-section">
   <div class="container">
     <div class="section-title">
-      <h2>Coords</h2>
-      <a href="#" class="view-all">View All</a>
+      <div>
+        <h2>Coords</h2>
+        <p class="sub">Match it up, dress it down</p>
+      </div>
+      <a href="/clothing" class="view-all">View All</a>
     </div>
     <div class="product-grid" id="coordsGrid"></div>
   </div>
@@ -366,11 +413,33 @@
   </div>
 </section>
 
+<!-- Our Story -->
+<section class="story-section">
+  <div class="container">
+    <div class="story-grid">
+      <div class="story-text">
+        <p class="story-eyebrow">Our Story</p>
+        <h2>Time To Get Weird</h2>
+        <p class="story-desc">If found possessed, blame the fashion. The drop you didn't see coming — BOSERA is unisex streetwear built for the bold. No rules, just fits.</p>
+        <a href="/about-us" class="story-link">About BOSERA →</a>
+      </div>
+      <div class="story-cta">
+        <h3>Join the club!</h3>
+        <p>Be the first to know about drops, sales & exclusive deals.</p>
+        <form class="newsletter-form">
+          <input type="email" placeholder="Enter your email" required>
+          <button type="submit">Subscribe</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- Newsletter -->
 <section class="newsletter">
   <div class="container">
     <div class="newsletter-content">
-      <h2>Join the Fam</h2>
+      <h2>We've Got You Covered</h2>
       <p>Subscribe for exclusive deals, new drops & style inspo</p>
       <form class="newsletter-form">
         <input type="email" placeholder="Enter your email" required>

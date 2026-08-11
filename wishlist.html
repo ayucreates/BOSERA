@@ -1,10 +1,10 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Wishlist â€“ BOSERA</title>
-  <link rel="stylesheet" href="css/style.css?v=2">
+  <title>Wishlist – BOSERA</title>
+  <link rel="stylesheet" href="css/style.css?v=3">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -12,7 +12,10 @@
 <body>
 
 <div class="announcement-bar">
-  Free Shipping on Orders Above â‚¹499 | COD Available Across India
+  <div class="announcement-track">
+    <span>Extra 10% OFF</span><span class="sep">|</span><span>Use Code WELCOME10</span><span class="sep">|</span><span>Free Shipping Above ₹499</span><span class="sep">|</span><span>COD Available</span><span class="sep">|</span><span>As Seen On Instagram</span><span class="sep">|</span>
+    <span>Extra 10% OFF</span><span class="sep">|</span><span>Use Code WELCOME10</span><span class="sep">|</span><span>Free Shipping Above ₹499</span><span class="sep">|</span><span>COD Available</span><span class="sep">|</span><span>As Seen On Instagram</span><span class="sep">|</span>
+  </div>
 </div>
 <header class="header">
   <div class="header-top">
@@ -93,21 +96,25 @@
 </div>
 <div class="overlay" id="overlay"></div>
 
-<section style="padding:48px 24px;min-height:60vh;">
+<section class="page-hero">
   <div class="container">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:32px;">
-      <div>
-        <h1 style="font-size:28px;font-weight:700;">My Wishlist</h1>
-        <p style="color:#888;font-size:14px;margin-top:4px;" id="wishlistCount">0 items saved</p>
-      </div>
-      <a href="/" class="cat-tag" style="border-color:#ff4d00;color:#ff4d00;">Continue Shopping</a>
+    <span class="eyebrow">BOSERA</span>
+    <h1>My Wishlist</h1>
+    <p id="wishlistCount" style="margin-top:12px;">0 items saved</p>
+  </div>
+</section>
+
+<section style="padding:40px 0;min-height:40vh;">
+  <div class="container">
+    <div style="display:flex;justify-content:flex-end;align-items:center;margin-bottom:24px;">
+      <a href="/" class="cat-tag" style="border-color:#0a0a0a;color:#0a0a0a;">Continue Shopping</a>
     </div>
     <div id="wishlistPageGrid" class="product-grid"></div>
     <div id="wishlistEmpty" style="display:none;text-align:center;padding:80px 20px;">
       <i class="far fa-heart" style="font-size:48px;color:#ddd;margin-bottom:16px;"></i>
-      <h2 style="font-size:20px;font-weight:600;margin-bottom:8px;">Your wishlist is empty</h2>
+      <h2 style="font-size:20px;font-weight:800;margin-bottom:8px;text-transform:uppercase;">Your wishlist is empty</h2>
       <p style="color:#888;margin-bottom:24px;">Save items you love by tapping the heart icon on any product.</p>
-      <a href="/" class="splash-btn splash-btn-primary" style="display:inline-block;padding:12px 32px;border-radius:50px;">Start Shopping</a>
+      <a href="/" class="splash-btn splash-btn-primary" style="display:inline-block;padding:12px 32px;border-radius:2px;">Start Shopping</a>
     </div>
   </div>
 </section>
@@ -115,7 +122,7 @@
 <section class="newsletter">
   <div class="container">
     <div class="newsletter-content">
-      <h2>Join the Fam</h2>
+      <h2>We've Got You Covered</h2>
       <p>Subscribe for exclusive deals, new drops & style inspo</p>
       <form class="newsletter-form">
         <input type="email" placeholder="Enter your email" required>

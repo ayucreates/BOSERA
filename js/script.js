@@ -92,7 +92,14 @@ function renderProducts(categoryId, productsArray) {
 
   grid.innerHTML = productsArray.map(p => {
     const oldPriceHtml = p.oldPrice ? `<span class="old-price">₹${p.oldPrice.toLocaleString()}</span>` : '';
-    const badgeHtml = p.badge ? `<span class="product-badge">${p.badge}</span>` : '';
+    let badgeHtml = '';
+    if (p.badge) {
+      const badgeClass = p.badge === 'New' ? 'new' : p.badge === 'Sale' ? 'sale' : '';
+      badgeHtml = `<span class="product-badge ${badgeClass}">${p.badge}</span>`;
+    } else if (p.oldPrice) {
+      const savePct = Math.round(((p.oldPrice - p.price) / p.oldPrice) * 100);
+      badgeHtml = `<span class="product-badge">Save ${savePct}%</span>`;
+    }
     const nameEscaped = p.name.replace(/'/g, "\\'");
     const inWishlist = wishlist.some(w => w.name === p.name);
 
@@ -100,11 +107,9 @@ function renderProducts(categoryId, productsArray) {
       <div class="product-card">
         <div class="product-image">
           ${badgeHtml}
+          <button class="wishlist-btn ${inWishlist ? 'active' : ''}" onclick="toggleWishlist('${nameEscaped}', '${p.img}', ${p.price})" title="Wishlist"><i class="${inWishlist ? 'fas' : 'far'} fa-heart"></i></button>
           <img src="${p.img}" alt="${p.name}" loading="lazy">
-          <div class="product-actions">
-            <button onclick="toggleWishlist('${nameEscaped}', '${p.img}', ${p.price})" title="Wishlist"><i class="${inWishlist ? 'fas' : 'far'} fa-heart"></i></button>
-            <button onclick="addToCart('${nameEscaped}', '${p.img}', ${p.price})" title="Add to Cart"><i class="fas fa-shopping-bag"></i></button>
-          </div>
+          <button class="add-to-cart" onclick="addToCart('${nameEscaped}', '${p.img}', ${p.price})">Add To Cart</button>
         </div>
         <div class="product-info">
           <div class="product-name">${p.name}</div>
@@ -294,11 +299,9 @@ if (wishlistGrid) {
       return `
         <div class="product-card">
           <div class="product-image">
+            <button class="wishlist-btn active" onclick="toggleWishlist('${nameEscaped}', '${p.img}', ${p.price})" title="Remove from Wishlist"><i class="fas fa-heart"></i></button>
             <img src="${p.img}" alt="${p.name}" loading="lazy">
-            <div class="product-actions always-visible">
-              <button onclick="toggleWishlist('${nameEscaped}', '${p.img}', ${p.price})" title="Remove from Wishlist"><i class="fas fa-heart" style="color:#ff4d00;"></i></button>
-              <button onclick="addToCart('${nameEscaped}', '${p.img}', ${p.price})" title="Add to Cart"><i class="fas fa-shopping-bag"></i></button>
-            </div>
+            <button class="add-to-cart always-visible" onclick="addToCart('${nameEscaped}', '${p.img}', ${p.price})">Add To Cart</button>
           </div>
           <div class="product-info">
             <div class="product-name">${p.name}</div>
@@ -438,7 +441,7 @@ window.addEventListener('beforeunload', () => { window.scrollTo(0, 0); });
 // Touch device: make product actions always visible
 if ('ontouchstart' in window) {
   document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.product-actions').forEach(el => el.classList.add('always-visible'));
+    document.querySelectorAll('.add-to-cart').forEach(el => el.classList.add('always-visible'));
   });
 }
 
