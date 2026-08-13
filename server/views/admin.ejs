@@ -55,7 +55,16 @@
             <td class="py-2 pr-2">
               <span class="px-2 py-0.5 rounded text-xs font-semibold <%= u.role === 'admin' ? 'bg-red-100 text-red-700' : 'bg-gray-100 text-gray-600' %>"><%= u.role %></span>
             </td>
-            <td class="py-2 text-gray-500"><%= u.provider %></td>
+            <td class="py-2 pr-2 text-gray-500"><%= u.provider %></td>
+            <td class="py-2 text-right">
+              <% if (u.id !== admin.id) { %>
+              <button
+                data-delete-user="<%= u.id %>"
+                data-delete-user-email="<%= u.email %>"
+                class="text-xs font-semibold text-red-600 hover:text-red-800 disabled:opacity-40"
+              >Delete</button>
+              <% } %>
+            </td>
           </tr>
           <% }); %>
         </tbody>
@@ -153,6 +162,25 @@
       return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
     });
   }
+
+  document.addEventListener('click', async function (e) {
+    const btn = e.target.closest('[data-delete-user]');
+    if (!btn) return;
+    const id = btn.getAttribute('data-delete-user');
+    const email = btn.getAttribute('data-delete-user-email');
+    if (!window.confirm('Delete user ' + email + '? This cannot be undone.')) return;
+    btn.disabled = true;
+    try {
+      const res = await fetch('/api/admin/users/' + id, { method: 'DELETE' });
+      const data = await res.json();
+      alert(data.message || data.error || 'Done');
+      if (res.ok) window.location.reload();
+    } catch (err) {
+      alert('Delete failed');
+    } finally {
+      btn.disabled = false;
+    }
+  });
 
   setInterval(refreshLogs, 10000);
 </script>

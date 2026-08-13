@@ -44,6 +44,27 @@ module.exports = function (db) {
     }
   });
 
+  // Delete a user (admin only). Admins cannot delete themselves.
+  router.delete('/users/:id', (req, res) => {
+    try {
+      const id = Number(req.params.id);
+      if (!Number.isInteger(id) || id < 1) {
+        return res.status(400).json({ error: 'Invalid user id' });
+      }
+      if (id === req.dbUser.id) {
+        return res.status(400).json({ error: 'You cannot delete your own account' });
+      }
+      const target = db.prepare('SELECT id, email FROM users WHERE id = ?').get(id);
+      if (!target) return res.status(404).json({ error: 'User not found' });
+
+      db.prepare('DELETE FROM cart_items WHERE user_id = ?').run(id);
+      db.prepare('DELETE FROM users WHERE id = ?').run(id);
+      res.json({ message: `Deleted user ${target.email}` });
+    } catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+  });
+
   router.get('/products', (req, res) => {
     try {
       const products = db.prepare(
