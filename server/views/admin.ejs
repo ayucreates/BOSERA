@@ -1,0 +1,158 @@
+<div class="mb-8 flex items-center justify-between flex-wrap gap-4">
+  <div>
+    <h1 class="text-3xl font-bold">Admin Dashboard</h1>
+    <p class="text-gray-500 mt-1">Signed in as <%= admin.name %> (<%= admin.email %>) &middot; <span class="font-semibold text-gray-700"><%= admin.role %></span></p>
+  </div>
+  <div class="flex gap-2">
+    <a href="/" class="text-sm font-medium text-blue-600 hover:underline">Storefront</a>
+    <a href="/profile" class="text-sm font-medium text-blue-600 hover:underline">Profile</a>
+  </div>
+</div>
+
+<!-- Stats -->
+<div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8" id="statsGrid">
+  <div class="bg-white rounded-lg p-4 shadow-sm border">
+    <p class="text-sm text-gray-500">Users</p>
+    <p class="text-2xl font-bold"><%= stats.users %></p>
+  </div>
+  <div class="bg-white rounded-lg p-4 shadow-sm border">
+    <p class="text-sm text-gray-500">Admins</p>
+    <p class="text-2xl font-bold"><%= stats.adminUsers %></p>
+  </div>
+  <div class="bg-white rounded-lg p-4 shadow-sm border">
+    <p class="text-sm text-gray-500">Products</p>
+    <p class="text-2xl font-bold"><%= stats.products %></p>
+  </div>
+  <div class="bg-white rounded-lg p-4 shadow-sm border">
+    <p class="text-sm text-gray-500">Requests Today</p>
+    <p class="text-2xl font-bold"><%= stats.requestsToday %></p>
+  </div>
+  <div class="bg-white rounded-lg p-4 shadow-sm border">
+    <p class="text-sm text-gray-500">Requests Total</p>
+    <p class="text-2xl font-bold"><%= stats.requestsTotal %></p>
+  </div>
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
+  <!-- Users -->
+  <div class="bg-white rounded-lg p-5 shadow-sm border">
+    <h2 class="text-lg font-semibold mb-3">Users</h2>
+    <div class="overflow-x-auto max-h-80 overflow-y-auto">
+      <table class="w-full text-sm">
+        <thead class="text-left text-gray-500 border-b">
+          <tr>
+            <th class="py-2 pr-2">Name</th>
+            <th class="py-2 pr-2">Email</th>
+            <th class="py-2 pr-2">Role</th>
+            <th class="py-2">Provider</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% users.forEach(function(u){ %>
+          <tr class="border-b border-gray-100">
+            <td class="py-2 pr-2 font-medium"><%= u.name %></td>
+            <td class="py-2 pr-2 text-gray-500"><%= u.email %></td>
+            <td class="py-2 pr-2">
+              <span class="px-2 py-0.5 rounded text-xs font-semibold <%= u.role === 'admin' ? 'bg-red-100 text-red-700' : 'bg-gray-100 text-gray-600' %>"><%= u.role %></span>
+            </td>
+            <td class="py-2 text-gray-500"><%= u.provider %></td>
+          </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Products -->
+  <div class="bg-white rounded-lg p-5 shadow-sm border">
+    <h2 class="text-lg font-semibold mb-3">Products</h2>
+    <div class="overflow-x-auto max-h-80 overflow-y-auto">
+      <table class="w-full text-sm">
+        <thead class="text-left text-gray-500 border-b">
+          <tr>
+            <th class="py-2 pr-2">Name</th>
+            <th class="py-2 pr-2">Price</th>
+            <th class="py-2">Stock</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% products.forEach(function(p){ %>
+          <tr class="border-b border-gray-100">
+            <td class="py-2 pr-2 font-medium"><%= p.name %></td>
+            <td class="py-2 pr-2 text-gray-500"><%= Number(p.price).toFixed(2) %></td>
+            <td class="py-2 <%= p.stock <= 5 ? 'text-red-600 font-semibold' : 'text-gray-600' %>"><%= p.stock %></td>
+          </tr>
+          <% }); %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Request log monitor -->
+<div class="bg-white rounded-lg p-5 shadow-sm border">
+  <div class="flex items-center justify-between mb-3">
+    <h2 class="text-lg font-semibold">Request Log (live monitor)</h2>
+    <span class="text-xs text-gray-400" id="logStatus">refreshing every 10s</span>
+  </div>
+  <div class="overflow-x-auto max-h-96 overflow-y-auto">
+    <table class="w-full text-sm" id="logTable">
+      <thead class="text-left text-gray-500 border-b">
+        <tr>
+          <th class="py-2 pr-2">Time</th>
+          <th class="py-2 pr-2">Method</th>
+          <th class="py-2 pr-2">Path</th>
+          <th class="py-2 pr-2">Status</th>
+          <th class="py-2 pr-2">IP</th>
+          <th class="py-2">User</th>
+        </tr>
+      </thead>
+      <tbody id="logBody">
+        <% logs.forEach(function(l){ %>
+        <tr class="border-b border-gray-100">
+          <td class="py-2 pr-2 text-gray-500"><%= new Date(l.created_at + 'Z').toLocaleTimeString() %></td>
+          <td class="py-2 pr-2 font-medium"><%= l.method %></td>
+          <td class="py-2 pr-2 text-gray-600 truncate max-w-[200px]"><%= l.path %></td>
+          <td class="py-2 pr-2">
+            <span class="px-2 py-0.5 rounded text-xs font-semibold <%= l.status >= 500 ? 'bg-red-100 text-red-700' : (l.status >= 400 ? 'bg-yellow-100 text-yellow-700' : 'bg-green-100 text-green-700') %>"><%= l.status %></span>
+          </td>
+          <td class="py-2 pr-2 text-gray-500"><%= l.ip %></td>
+          <td class="py-2 text-gray-500"><%= l.user_id || '-' %></td>
+        </tr>
+        <% }); %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+  async function refreshLogs() {
+    try {
+      const res = await fetch('/api/admin/logs?limit=100');
+      if (!res.ok) return;
+      const data = await res.json();
+      const tbody = document.getElementById('logBody');
+      if (!tbody || !data.logs) return;
+      tbody.innerHTML = data.logs.map(function (l) {
+        const statusClass = l.status >= 500 ? 'bg-red-100 text-red-700' : (l.status >= 400 ? 'bg-yellow-100 text-yellow-700' : 'bg-green-100 text-green-700');
+        const time = l.created_at ? new Date(l.created_at + 'Z').toLocaleTimeString() : '-';
+        return '<tr class="border-b border-gray-100">' +
+          '<td class="py-2 pr-2 text-gray-500">' + escapeHtml(time) + '</td>' +
+          '<td class="py-2 pr-2 font-medium">' + escapeHtml(l.method) + '</td>' +
+          '<td class="py-2 pr-2 text-gray-600 truncate max-w-[200px]">' + escapeHtml(l.path) + '</td>' +
+          '<td class="py-2 pr-2"><span class="px-2 py-0.5 rounded text-xs font-semibold ' + statusClass + '">' + escapeHtml(String(l.status)) + '</span></td>' +
+          '<td class="py-2 pr-2 text-gray-500">' + escapeHtml(l.ip || '') + '</td>' +
+          '<td class="py-2 text-gray-500">' + escapeHtml(String(l.user_id || '-')) + '</td></tr>';
+      }).join('');
+      document.getElementById('logStatus').textContent = 'updated ' + new Date().toLocaleTimeString();
+    } catch (e) { /* ignore */ }
+  }
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  setInterval(refreshLogs, 10000);
+</script>

@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Footwear – BOSERA</title>
-  <link rel="stylesheet" href="css/style.css?v=3">
+  <title>Hoodies &amp; Sweatshirts – BOSERA</title>
+  <link rel="stylesheet" href="css/style.css?v=16">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -22,46 +22,77 @@
     <div class="container">
       <div class="header-row">
         <button class="mobile-menu-btn" id="mobileMenuBtn"><i class="fas fa-bars"></i></button>
-        <a href="/" class="logo"><span class="logo-text">BOSERA</span></a>
         <nav class="navbar" id="navbar">
           <ul class="nav-list">
-            <li class="nav-item"><a href="/new-arrivals" class="nav-link">New Arrivals</a></li>
             <li class="nav-item dropdown">
-              <a href="/clothing" class="nav-link">Clothing <i class="fas fa-chevron-down"></i></a>
+              <a href="#" class="nav-link">Women <i class="fas fa-chevron-down"></i></a>
               <div class="dropdown-menu">
                 <div class="dropdown-grid">
                   <div class="dropdown-col">
-                    <h4>Tees</h4><a href="#">All Tees</a><a href="#">Oversized Tees</a><a href="#">Graphic Tees</a><a href="#">Longline Tees</a>
+                    <h4>Tops</h4><a href="#">All Tops</a><a href="#">Crop Tops</a><a href="#">Corset Tops</a><a href="#">Off-Shoulder</a>
                   </div>
                   <div class="dropdown-col">
-                    <h4>Shirts</h4><a href="#">All Shirts</a><a href="#">Boxy Shirts</a><a href="#">Overshirts</a><a href="#">Denim Shirts</a>
+                    <h4>Dresses</h4><a href="#">Mini Dresses</a><a href="#">Maxi Dresses</a><a href="#">Party Wear</a>
                   </div>
                   <div class="dropdown-col">
-                    <h4>Bottoms</h4>
-                    <a href="#">Trousers</a><a href="#">Jeans</a><a href="#">Cargo Pants</a><a href="#">Shorts</a>
+                    <h4>Coords</h4><a href="#">Top &amp; Skirt Sets</a><a href="#">Top &amp; Trouser Sets</a><a href="#">Blazer Sets</a>
                   </div>
                   <div class="dropdown-col">
-                    <h4>Coords</h4>
-                    <a href="#">Track Sets</a><a href="#">Top &amp; Trouser Sets</a><a href="#">Blazer Sets</a>
+                    <h4>Accessories</h4><a href="#">Handbags</a><a href="#">Sling Bags</a><a href="#">Tote Bags</a>
                   </div>
                 </div>
               </div>
             </li>
-            <li class="nav-item"><a href="/footwear" class="nav-link">Footwear</a></li>
-            <li class="nav-item"><a href="/track-order" class="nav-link">Track Order</a></li>
-            <li class="nav-item"><a href="/about-us" class="nav-link">About Us</a></li>
-            <li class="nav-item"><a href="/support" class="nav-link">Support</a></li>
+            <li class="nav-item dropdown">
+              <a href="#" class="nav-link">Men <i class="fas fa-chevron-down"></i></a>
+              <div class="dropdown-menu">
+                <div class="dropdown-grid">
+                  <div class="dropdown-col">
+                    <h4>Tees</h4><a href="#">Oversized Tees</a><a href="#">Graphic Tees</a><a href="#">Longline Tees</a>
+                  </div>
+                  <div class="dropdown-col">
+                    <h4>Shirts</h4><a href="#">Boxy Shirts</a><a href="#">Overshirts</a><a href="#">Denim Shirts</a>
+                  </div>
+                  <div class="dropdown-col">
+                    <h4>Bottoms</h4><a href="#">Trousers</a><a href="#">Jeans</a><a href="#">Cargo Pants</a><a href="#">Shorts</a>
+                  </div>
+                  <div class="dropdown-col">
+                    <h4>Coords</h4><a href="#">Track Sets</a><a href="#">Top &amp; Trouser Sets</a>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="nav-item dropdown">
+              <a href="#" class="nav-link">Accessories <i class="fas fa-chevron-down"></i></a>
+              <div class="dropdown-menu">
+                <div class="dropdown-grid">
+                  <div class="dropdown-col">
+                    <h4>Bags</h4><a href="#">All Bags</a><a href="#">Sling Bags</a><a href="#">Tote Bags</a>
+                  </div>
+                  <div class="dropdown-col">
+                    <h4>Hoodies</h4><a href="/hoodies">Hoodies</a><a href="#">Sweatshirts</a><a href="#">Crewnecks</a>
+                  </div>
+                  <div class="dropdown-col">
+                    <h4>Accessories</h4><a href="#">Caps</a><a href="#">Socks</a><a href="#">Belts</a>
+                  </div>
+                  <div class="dropdown-col">
+                    <h4>More</h4><a href="#">New Arrivals</a><a href="/sale">Sale</a>
+                  </div>
+                </div>
+              </div>
+            </li>
           </ul>
         </nav>
+        <a href="/" class="logo"><span class="logo-text">BOSERA</span></a>
         <div class="header-right">
           <a href="#" class="header-icon" id="searchBtn"><i class="fas fa-search"></i></a>
           <div class="header-icon account-wrap" id="accountWrap">
-            <a href="#" class="header-icon" id="accountBtn"><i class="far fa-user"></i></a>
+            <a href="/account" class="header-icon" id="accountBtn"><i class="far fa-user"></i></a>
             <div class="account-dropdown" id="accountDropdown">
               <div class="account-dropdown-header" id="accountDropdownHeader">
                 <strong id="accountName">My Account</strong><span id="accountEmail"></span>
               </div>
-              <a href="#">My Orders</a><a href="#">Wishlist</a><a href="#">Settings</a>
+              <a href="/orders">My Orders</a><a href="/wishlist">Wishlist</a><a href="/account">Settings</a>
               <a href="#" id="logoutBtn">Logout</a>
               <div class="account-dropdown-footer" id="accountDropdownFooter">
                 <a href="#" id="loginOpenBtn">Login</a><a href="#" id="signupOpenBtn">Sign Up</a>
@@ -78,15 +109,16 @@
 
 <div class="mobile-menu" id="mobileMenu">
   <div class="mobile-menu-header"><span>Menu</span><button id="closeMenu"><i class="fas fa-times"></i></button></div>
-  <ul class="mobile-nav-list">
-    <li><a href="/new-arrivals">New Arrivals</a></li>
-    <li class="has-submenu"><a href="/clothing">Clothing <i class="fas fa-chevron-right"></i></a>
+    <ul class="mobile-nav-list">
+    <li class="has-submenu"><a href="#">Women <i class="fas fa-chevron-right"></i></a>
+      <ul class="submenu"><li><a href="#">Tops</a></li><li><a href="#">Dresses</a></li><li><a href="#">Coords</a></li><li><a href="#">Accessories</a></li></ul>
+    </li>
+    <li class="has-submenu"><a href="#">Men <i class="fas fa-chevron-right"></i></a>
       <ul class="submenu"><li><a href="#">Tees</a></li><li><a href="#">Shirts</a></li><li><a href="#">Bottoms</a></li><li><a href="#">Coords</a></li></ul>
     </li>
-    <li><a href="/footwear">Footwear</a></li>
-    <li><a href="/track-order">Track Order</a></li>
-    <li><a href="/about-us">About Us</a></li>
-    <li><a href="/support">Support</a></li>
+    <li class="has-submenu"><a href="#">Accessories <i class="fas fa-chevron-right"></i></a>
+      <ul class="submenu"><li><a href="#">Bags</a></li><li><a href="/hoodies">Hoodies</a></li><li><a href="#">Caps</a></li><li><a href="#">Socks</a></li></ul>
+    </li>
   </ul>
 </div>
 <div class="overlay" id="overlay"></div>
@@ -94,14 +126,14 @@
 <section class="page-hero">
   <div class="container">
     <span class="eyebrow">BOSERA</span>
-    <h1>Footwear</h1>
-    <p>Step out in style with our latest footwear collection.</p>
+    <h1>Hoodies &amp; Sweatshirts</h1>
+    <p>Layer up in our coziest streetwear essentials.</p>
   </div>
 </section>
 
 <section style="padding:40px 0;">
   <div class="container">
-    <div class="product-grid" id="footwearPageGrid"></div>
+    <div class="product-grid" id="hoodiesGrid"></div>
   </div>
 </section>
 
@@ -131,15 +163,15 @@
       </div>
       <div class="footer-col">
         <h4>Quick Links</h4>
-        <a href="/new-arrivals">New Arrivals</a><a href="#">Best Sellers</a><a href="#">Sale</a><a href="/track-order">Track Order</a><a href="#">Size Guide</a>
+        <a href="/new-arrivals">New Arrivals</a><a href="/best-sellers">Best Sellers</a><a href="/sale">Sale</a><a href="/track-order">Track Order</a><a href="/size-guide">Size Guide</a>
       </div>
       <div class="footer-col">
         <h4>Categories</h4>
-        <a href="#">Tees</a><a href="#">Shirts</a><a href="/footwear">Footwear</a><a href="#">Hoodies</a><a href="#">Coords</a>
+        <a href="#">Tees</a><a href="#">Shirts</a><a href="/hoodies">Hoodies</a><a href="#">Hoodies</a><a href="#">Coords</a>
       </div>
       <div class="footer-col">
         <h4>Customer Care</h4>
-        <a href="/support">Contact Us</a><a href="#">FAQs</a><a href="#">Shipping Policy</a><a href="#">Return Policy</a><a href="#">Privacy Policy</a>
+        <a href="/support">Contact Us</a><a href="/faqs">FAQs</a><a href="/shipping-policy">Shipping Policy</a><a href="/return-policy">Return Policy</a><a href="/privacy-policy">Privacy Policy</a>
       </div>
       <div class="footer-col">
         <h4>Contact</h4>
@@ -150,11 +182,11 @@
     </div>
     <div class="footer-bottom">
       <p>&copy; 2026 BOSERA. All rights reserved.</p>
-      <p style="font-size:12px;color:#666;margin-top:4px;">Made with Love By Ayushman B.</p>
+      <p style="font-size:12px;color:#666;margin-top:4px;">Made with ♥ By Ayushman B.</p>
     </div>
   </div>
 </footer>
 
-<script src="js/script.js"></script>
+<script src="js/script.js?v=7"></script>
 </body>
 </html>

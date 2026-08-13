@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
+const { body, param } = require('express-validator');
 const { authenticate } = require('../middleware/auth');
+const { handleValidation } = require('../middleware/validate');
 
 module.exports = function (db) {
   router.use(authenticate);
@@ -20,30 +22,58 @@ module.exports = function (db) {
     }
   });
 
-  router.post('/', (req, res) => {
-    try {
-      const { product_id, quantity } = req.body;
-      const existing = db.prepare('SELECT id, quantity FROM cart_items WHERE user_id = ? AND product_id = ?').get(req.user.id, product_id);
-      if (existing) {
-        db.prepare('UPDATE cart_items SET quantity = quantity + ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?').run(quantity || 1, existing.id);
-        const updated = db.prepare('SELECT * FROM cart_items WHERE id = ?').get(existing.id);
-        return res.json(updated);
-      }
-      const result = db.prepare('INSERT INTO cart_items (user_id, product_id, quantity) VALUES (?, ?, ?) RETURNING *').get(req.user.id, product_id, quantity || 1);
-      res.status(201).json(result);
-    } catch (err) {
-      res.status(400).json({ error: err.message });
-    }
-  });
+  router.post(
+    '/',
+    body('product_id').isInt({ min: 1 }).withMessage('A valid product is required'),
+    body('quantity')
+      .optional()
+      .isInt({ min: 1, max: 100 })
+      .withMessage('Quantity must be between 1 and 100'),
+    handleValidation,
+    (req, res) => {
+      try {
+        const product_id = Number(req.body.product_id);
+        const quantity = req.body.quantity != null ? Number(req.body.quantity) : 1;
 
-  router.delete('/:id', (req, res) => {
-    try {
-      db.prepare('DELETE FROM cart_items WHERE id = ? AND user_id = ?').run(req.params.id, req.user.id);
-      res.json({ message: 'Item removed' });
-    } catch (err) {
-      res.status(500).json({ error: err.message });
+        const product = db.prepare('SELECT id, name FROM products WHERE id = ?').get(product_id);
+        if (!product) return res.status(404).json({ error: 'Product not found' });
+
+        const existing = db
+          .prepare('SELECT id, quantity FROM cart_items WHERE user_id = ? AND product_id = ?')
+          .get(req.user.id, product_id);
+        if (existing) {
+          db.prepare(
+            'UPDATE cart_items SET quantity = quantity + ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?'
+          ).run(quantity, existing.id);
+          const updated = db.prepare('SELECT * FROM cart_items WHERE id = ?').get(existing.id);
+          return res.json(updated);
+        }
+        const result = db
+          .prepare('INSERT INTO cart_items (user_id, product_id, quantity) VALUES (?, ?, ?) RETURNING *')
+          .get(req.user.id, product_id, quantity);
+        res.status(201).json(result);
+      } catch (err) {
+        res.status(400).json({ error: err.message });
+      }
     }
-  });
+  );
+
+  router.delete(
+    '/:id',
+    param('id').isInt({ min: 1 }).withMessage('A valid cart item id is required'),
+    handleValidation,
+    (req, res) => {
+      try {
+        db.prepare('DELETE FROM cart_items WHERE id = ? AND user_id = ?').run(
+          Number(req.params.id),
+          req.user.id
+        );
+        res.json({ message: 'Item removed' });
+      } catch (err) {
+        res.status(500).json({ error: err.message });
+      }
+    }
+  );
 
   return router;
 };

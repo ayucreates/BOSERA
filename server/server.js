@@ -2,12 +2,56 @@ require('dotenv').config({ path: require('path').join(__dirname, '.env') });
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const Database = require('better-sqlite3');
+const bcrypt = require('bcryptjs');
+const crypto = require('crypto');
 const path = require('path');
 const fs = require('fs');
+const helmet = require('helmet');
+const rateLimit = require('express-rate-limit');
+const passport = require('passport');
+const GoogleStrategy = require('passport-google-oauth20').Strategy;
+
+const { authenticate, requireRole } = require('./middleware/auth');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Trust the TLS-terminating proxy (Render) so req.secure / req.ip are correct
+app.set('trust proxy', 1);
+
+// ---------- Security headers (helmet) ----------
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        'default-src': ["'self'"],
+        'script-src': ["'self'", "'unsafe-inline'", "'unsafe-eval'", 'https://cdnjs.cloudflare.com', 'https://ajax.googleapis.com', 'https://cdn.tailwindcss.com'],
+        'style-src': ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com', 'https://cdnjs.cloudflare.com'],
+        'font-src': ["'self'", 'data:', 'https://fonts.gstatic.com', 'https://cdnjs.cloudflare.com'],
+        'img-src': ["'self'", 'data:', 'https:', 'http:'],
+        'connect-src': ["'self'", 'https:', 'http:'],
+        'object-src': ["'none'"],
+      },
+    },
+    crossOriginEmbedderPolicy: false,
+    crossOriginResourcePolicy: { policy: 'cross-origin' },
+  })
+);
+
+// ---------- HTTPS everywhere ----------
+app.use((req, res, next) => {
+  if (process.env.NODE_ENV === 'production' && !req.secure) {
+    return res.redirect('https://' + req.get('host') + req.originalUrl);
+  }
+  next();
+});
+
+// ---------- Body parsing with size limits ----------
+app.use(express.json({ limit: '10kb' }));
+app.use(express.urlencoded({ extended: true, limit: '10kb' }));
+app.use(cookieParser());
+
+// ---------- Database ----------
 const dbPath = path.join(__dirname, 'data', 'litebouyszone.db');
 const dataDir = path.join(__dirname, 'data');
 if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
@@ -19,10 +63,134 @@ db.pragma('foreign_keys = ON');
 const migration = fs.readFileSync(path.join(__dirname, 'migrations', '001_initial.sql'), 'utf8');
 db.exec(migration);
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-app.use(cookieParser());
+// ---------- Security migrations (idempotent) ----------
+function ensureColumn(table, column, ddl) {
+  const cols = db.prepare(`PRAGMA table_info(${table})`).all().map((c) => c.name);
+  if (!cols.includes(column)) {
+    db.exec(`ALTER TABLE ${table} ADD COLUMN ${ddl};`);
+  }
+}
+ensureColumn('users', 'role', 'role TEXT NOT NULL DEFAULT \'user\'');
+ensureColumn('users', 'google_id', 'google_id TEXT');
+ensureColumn('users', 'provider', 'provider TEXT NOT NULL DEFAULT \'local\'');
+db.exec(`CREATE TABLE IF NOT EXISTS request_logs (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  method TEXT NOT NULL,
+  path TEXT NOT NULL,
+  status INTEGER NOT NULL,
+  ip TEXT,
+  user_agent TEXT,
+  user_id INTEGER,
+  created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);`);
+db.exec(`CREATE INDEX IF NOT EXISTS idx_request_logs_created ON request_logs(created_at);`);
+db.exec(`CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);`);
 
+// ---------- Seed admin user from env ----------
+(function ensureAdmin() {
+  const email = (process.env.ADMIN_EMAIL || '').trim().toLowerCase();
+  if (!email) return;
+  const existing = db.prepare('SELECT id FROM users WHERE email = ?').get(email);
+  if (existing) {
+    db.prepare("UPDATE users SET role = 'admin', updated_at = CURRENT_TIMESTAMP WHERE id = ?").run(existing.id);
+  } else if (process.env.ADMIN_PASSWORD) {
+    db.prepare("INSERT INTO users (name, email, password_hash, role, provider) VALUES (?, ?, ?, 'admin', 'local')").run(
+      'Admin',
+      email,
+      bcrypt.hashSync(process.env.ADMIN_PASSWORD, 10)
+    );
+  }
+  console.log('[admin] Admin user ensured for:', email);
+})();
+
+// ---------- Google OAuth (trusted authentication) ----------
+if (process.env.GOOGLE_CLIENT_ID && process.env.GOOGLE_CLIENT_SECRET) {
+  passport.use(
+    new GoogleStrategy(
+      {
+        clientID: process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        callbackURL: process.env.GOOGLE_CALLBACK_URL || '/api/auth/google/callback',
+      },
+      (accessToken, refreshToken, profile, done) => {
+        try {
+          const googleId = String(profile.id);
+          const email =
+            profile.emails && profile.emails[0] && profile.emails[0].value
+              ? String(profile.emails[0].value).toLowerCase()
+              : null;
+
+          let user = db.prepare('SELECT * FROM users WHERE google_id = ?').get(googleId);
+          if (!user && email) {
+            user = db.prepare('SELECT * FROM users WHERE email = ?').get(email);
+          }
+          if (!user) {
+            const rnd = bcrypt.hashSync(crypto.randomBytes(24).toString('hex'), 10);
+            const displayName = profile.displayName || (email ? email.split('@')[0] : 'Google User');
+            const result = db
+              .prepare("INSERT INTO users (name, email, password_hash, role, provider, google_id) VALUES (?, ?, ?, 'user', 'google', ?)")
+              .run(displayName, email, rnd, googleId);
+            user = db.prepare('SELECT * FROM users WHERE id = ?').get(result.lastInsertRowid);
+          } else if (!user.google_id) {
+            db.prepare("UPDATE users SET google_id = ?, provider = 'google', updated_at = CURRENT_TIMESTAMP WHERE id = ?").run(googleId, user.id);
+          }
+          return done(null, user);
+        } catch (err) {
+          return done(err, null);
+        }
+      }
+    )
+  );
+} else {
+  console.warn('[auth] Google OAuth disabled - set GOOGLE_CLIENT_ID & GOOGLE_CLIENT_SECRET to enable');
+}
+app.use(passport.initialize());
+
+// ---------- Rate limiting ----------
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 20,
+  standardHeaders: 'draft-7',
+  legacyHeaders: false,
+  message: { error: 'Too many requests. Please try again later.' },
+});
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  limit: 300,
+  standardHeaders: 'draft-7',
+  legacyHeaders: false,
+  message: { error: 'Too many requests. Please try again later.' },
+});
+
+app.use('/api', (req, res, next) => {
+  if (req.path.startsWith('/auth')) return next(); // auth has its own stricter limiter
+  apiLimiter(req, res, next);
+});
+
+// ---------- Request logging & monitoring ----------
+app.use((req, res, next) => {
+  res.on('finish', () => {
+    try {
+      const p = req.path;
+      if (p === '/favicon.ico' || /^\/?(css|js|images|uploads)\//.test(p)) return;
+      db.prepare(
+        'INSERT INTO request_logs (method, path, status, ip, user_agent, user_id) VALUES (?, ?, ?, ?, ?, ?)'
+      ).run(
+        req.method,
+        String(p).slice(0, 500),
+        res.statusCode,
+        req.ip || '',
+        String(req.headers['user-agent'] || '').slice(0, 300),
+        req.user ? req.user.id : null
+      );
+    } catch (e) {
+      /* logging must never break a request */
+    }
+  });
+  next();
+});
+
+// ---------- Views & static ----------
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
@@ -31,19 +199,21 @@ app.use('/js', express.static(path.join(__dirname, '..', 'js')));
 app.use('/images', express.static(path.join(__dirname, '..', 'images')));
 app.use(express.static(path.join(__dirname, 'public')));
 
+// ---------- Routes ----------
 const authRoutes = require('./routes/auth')(db);
 const productRoutes = require('./routes/products')(db);
 const cartRoutes = require('./routes/cart')(db);
+const adminRoutes = require('./routes/admin')(db);
 
+app.use('/api/auth', authLimiter);
 app.use('/api/auth', authRoutes);
 app.use('/api/products', productRoutes);
 app.use('/api/cart', cartRoutes);
-
-const { authenticate } = require('./middleware/auth');
+app.use('/api/admin', adminRoutes);
 
 app.get('/profile', authenticate, (req, res) => {
   try {
-    const user = db.prepare('SELECT id, name, email FROM users WHERE id = ?').get(req.user.id);
+    const user = db.prepare('SELECT id, name, email, role FROM users WHERE id = ?').get(req.user.id);
     if (!user) return res.status(404).send('User not found');
 
     const cartItems = db.prepare(`
@@ -54,7 +224,7 @@ app.get('/profile', authenticate, (req, res) => {
       ORDER BY ci.created_at DESC
     `).all(req.user.id);
 
-    const profileHtml = app.render('profile', { user, cartItems }, (err, html) => {
+    app.render('profile', { user, cartItems }, (err, html) => {
       if (err) throw err;
       app.render('layout', { title: 'Profile', body: html }, (err2, fullHtml) => {
         if (err2) throw err2;
@@ -67,19 +237,51 @@ app.get('/profile', authenticate, (req, res) => {
   }
 });
 
-const pages = ['new-arrivals', 'clothing', 'footwear', 'track-order', 'about-us', 'support', 'wishlist'];
-pages.forEach(p => {
-  app.get('/' + p, (req, res) => {
-    res.sendFile(path.join(__dirname, '..', p + '.html'));
-  });
+// Admin dashboard page (Role-Based Access Control)
+app.get('/admin', authenticate, requireRole(db, 'admin'), (req, res) => {
+  try {
+    const stats = {
+      users: db.prepare('SELECT COUNT(*) AS n FROM users').get().n,
+      adminUsers: db.prepare("SELECT COUNT(*) AS n FROM users WHERE role = 'admin'").get().n,
+      products: db.prepare('SELECT COUNT(*) AS n FROM products').get().n,
+      requestsToday: db.prepare("SELECT COUNT(*) AS n FROM request_logs WHERE date(created_at) = date('now')").get().n,
+      requestsTotal: db.prepare('SELECT COUNT(*) AS n FROM request_logs').get().n,
+    };
+    const users = db.prepare('SELECT id, name, email, role, provider, created_at FROM users ORDER BY id DESC LIMIT 100').all();
+    const products = db.prepare('SELECT id, name, slug, price, stock FROM products ORDER BY created_at DESC LIMIT 100').all();
+    const logs = db.prepare('SELECT * FROM request_logs ORDER BY id DESC LIMIT 100').all();
+    res.render('admin', { admin: req.dbUser, stats, users, products, logs });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server error');
+  }
 });
 
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'index.html'));
-});
+const ROOT_DIR = path.join(__dirname, '..');
+const HTML_404 = path.join(ROOT_DIR, '404.html');
 
 app.get('/health', (req, res) => {
   res.json({ status: 'ok' });
+});
+
+// JSON 404 for unknown API routes
+app.use('/api', (req, res) => {
+  res.status(404).json({ message: 'Route not found' });
+});
+
+// Serve static HTML pages (extensionless + .html) with a styled 404 fallback
+app.get('*', (req, res) => {
+  if (req.path === '/favicon.ico') return res.status(204).end();
+
+  let p = req.path;
+  if (p === '/' || p === '') p = '/index.html';
+  else if (!p.includes('.')) p += '.html';
+
+  const file = path.resolve(ROOT_DIR, '.' + p);
+  if (file.startsWith(ROOT_DIR + path.sep) && fs.existsSync(file) && fs.statSync(file).isFile()) {
+    return res.sendFile(file);
+  }
+  res.status(404).sendFile(HTML_404);
 });
 
 app.listen(PORT, () => {

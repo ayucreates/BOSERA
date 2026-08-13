@@ -4,12 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>BOSERA – Unisex Clothing & Streetwear Store</title>
-  <link rel="stylesheet" href="css/style.css?v=3">
+  <link rel="stylesheet" href="css/style.css?v=16">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
-<body>
+<body class="home">
 
 <!-- Announcement Bar -->
 <div class="announcement-bar">
@@ -27,25 +27,52 @@
         <button class="mobile-menu-btn" id="mobileMenuBtn">
           <i class="fas fa-bars"></i>
         </button>
-        <a href="/" class="logo">
-          <span class="logo-text">BOSERA</span>
-        </a>        <nav class="navbar" id="navbar">
+        <nav class="navbar" id="navbar">
           <ul class="nav-list">
-            <li class="nav-item"><a href="/new-arrivals" class="nav-link">New Arrivals</a></li>
             <li class="nav-item dropdown">
-              <a href="#" class="nav-link">Clothing <i class="fas fa-chevron-down"></i></a>
+              <a href="#" class="nav-link">Women <i class="fas fa-chevron-down"></i></a>
               <div class="dropdown-menu">
-                  <div class="dropdown-grid">
+                <div class="dropdown-grid">
+                  <div class="dropdown-col">
+                    <h4>Tops</h4>
+                    <a href="#">All Tops</a>
+                    <a href="#">Crop Tops</a>
+                    <a href="#">Corset Tops</a>
+                    <a href="#">Off-Shoulder</a>
+                  </div>
+                  <div class="dropdown-col">
+                    <h4>Dresses</h4>
+                    <a href="#">Mini Dresses</a>
+                    <a href="#">Maxi Dresses</a>
+                    <a href="#">Party Wear</a>
+                  </div>
+                  <div class="dropdown-col">
+                    <h4>Coords</h4>
+                    <a href="#">Top & Skirt Sets</a>
+                    <a href="#">Top & Trouser Sets</a>
+                    <a href="#">Blazer Sets</a>
+                  </div>
+                  <div class="dropdown-col">
+                    <h4>Accessories</h4>
+                    <a href="#">Handbags</a>
+                    <a href="#">Sling Bags</a>
+                    <a href="#">Tote Bags</a>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="nav-item dropdown">
+              <a href="#" class="nav-link">Men <i class="fas fa-chevron-down"></i></a>
+              <div class="dropdown-menu">
+                <div class="dropdown-grid">
                   <div class="dropdown-col">
                     <h4>Tees</h4>
-                    <a href="#">All Tees</a>
                     <a href="#">Oversized Tees</a>
                     <a href="#">Graphic Tees</a>
                     <a href="#">Longline Tees</a>
                   </div>
                   <div class="dropdown-col">
                     <h4>Shirts</h4>
-                    <a href="#">All Shirts</a>
                     <a href="#">Boxy Shirts</a>
                     <a href="#">Overshirts</a>
                     <a href="#">Denim Shirts</a>
@@ -61,29 +88,57 @@
                     <h4>Coords</h4>
                     <a href="#">Track Sets</a>
                     <a href="#">Top & Trouser Sets</a>
-                    <a href="#">Blazer Sets</a>
                   </div>
                 </div>
               </div>
             </li>
-            <li class="nav-item"><a href="/footwear" class="nav-link">Footwear</a></li>
-            <li class="nav-item"><a href="/track-order" class="nav-link">Track Order</a></li>
-            <li class="nav-item"><a href="/about-us" class="nav-link">About Us</a></li>
-            <li class="nav-item"><a href="/support" class="nav-link">Support</a></li>
+            <li class="nav-item dropdown">
+              <a href="#" class="nav-link">Accessories <i class="fas fa-chevron-down"></i></a>
+              <div class="dropdown-menu">
+                <div class="dropdown-grid">
+                  <div class="dropdown-col">
+                    <h4>Bags</h4>
+                    <a href="#">All Bags</a>
+                    <a href="#">Sling Bags</a>
+                    <a href="#">Tote Bags</a>
+                  </div>
+                  <div class="dropdown-col">
+                    <h4>Hoodies</h4>
+                    <a href="/hoodies">Hoodies</a>
+                    <a href="#">Sweatshirts</a>
+                    <a href="#">Crewnecks</a>
+                  </div>
+                  <div class="dropdown-col">
+                    <h4>Accessories</h4>
+                    <a href="#">Caps</a>
+                    <a href="#">Socks</a>
+                    <a href="#">Belts</a>
+                  </div>
+                  <div class="dropdown-col">
+                    <h4>More</h4>
+                    <a href="#">New Arrivals</a>
+                    <a href="/sale">Sale</a>
+                  </div>
+                </div>
+              </div>
+            </li>
           </ul>
         </nav>
+        <a href="/" class="logo">
+          <span class="logo-text">BOSERA</span>
+        </a>
         <div class="header-right">
           <a href="#" class="header-icon" id="searchBtn"><i class="fas fa-search"></i></a>
           <div class="header-icon account-wrap" id="accountWrap">
-            <a href="#" class="header-icon" id="accountBtn"><i class="far fa-user"></i></a>
+            <a href="/account" class="header-icon" id="accountBtn"><i class="far fa-user"></i></a>
             <div class="account-dropdown" id="accountDropdown">
               <div class="account-dropdown-header" id="accountDropdownHeader">
                 <strong id="accountName">My Account</strong>
                 <span id="accountEmail"></span>
               </div>
-              <a href="#">My Orders</a>
-              <a href="#">Wishlist</a>
-              <a href="#">Settings</a>
+              <a href="/orders">My Orders</a>
+              <a href="/wishlist">Wishlist</a>
+              <a href="/account">Settings</a>
               <a href="#" id="logoutBtn">Logout</a>
               <div class="account-dropdown-footer" id="accountDropdownFooter">
                 <a href="#" id="loginOpenBtn">Login</a>
@@ -164,7 +219,8 @@
       <span>Total</span>
       <span id="cartTotal">₹0</span>
     </div>
-    <button class="checkout-btn">Checkout</button>
+    <a href="/cart" class="checkout-btn" style="display:block;text-align:center;margin-bottom:10px;">View Cart</a>
+    <a href="/checkout" class="checkout-btn" style="display:block;text-align:center;">Checkout</a>
   </div>
 </div>
 
@@ -175,9 +231,17 @@
     <button id="closeMenu"><i class="fas fa-times"></i></button>
   </div>
   <ul class="mobile-nav-list">
-    <li><a href="/new-arrivals">New Arrivals</a></li>
     <li class="has-submenu">
-      <a href="#">Clothing <i class="fas fa-chevron-right"></i></a>
+      <a href="#">Women <i class="fas fa-chevron-right"></i></a>
+      <ul class="submenu">
+        <li><a href="#">Tops</a></li>
+        <li><a href="#">Dresses</a></li>
+        <li><a href="#">Coords</a></li>
+        <li><a href="#">Accessories</a></li>
+      </ul>
+    </li>
+    <li class="has-submenu">
+      <a href="#">Men <i class="fas fa-chevron-right"></i></a>
       <ul class="submenu">
         <li><a href="#">Tees</a></li>
         <li><a href="#">Shirts</a></li>
@@ -185,10 +249,15 @@
         <li><a href="#">Coords</a></li>
       </ul>
     </li>
-    <li><a href="/footwear">Footwear</a></li>
-    <li><a href="/track-order">Track Order</a></li>
-    <li><a href="/about-us">About Us</a></li>
-    <li><a href="/support">Support</a></li>
+    <li class="has-submenu">
+      <a href="#">Accessories <i class="fas fa-chevron-right"></i></a>
+      <ul class="submenu">
+        <li><a href="#">Bags</a></li>
+        <li><a href="/hoodies">Hoodies</a></li>
+        <li><a href="#">Caps</a></li>
+        <li><a href="#">Socks</a></li>
+      </ul>
+    </li>
   </ul>
 </div>
 <div class="overlay" id="overlay"></div>
@@ -197,7 +266,7 @@
 <section class="hero">
   <div class="hero-slider" id="heroSlider">
     <div class="hero-slide active">
-      <img src="https://littleboxindia.com/cdn/shop/files/new-arrivals_web_banner_July.webp?v=1783656790&width=1920" alt="New Arrivals">
+      <img src="https://www.bonkerscorner.com/cdn/shop/files/main_banner_1_dae22d89-2b75-4bcd-93e2-2096fefe9c31_5600x2000_crop_center.jpg?v=1782816084&width=1920" alt="New Arrivals">
       <div class="hero-content">
         <span class="hero-eyebrow">New Drop</span>
         <h1 class="hero-title">New Arrivals</h1>
@@ -206,30 +275,30 @@
       </div>
     </div>
     <div class="hero-slide">
-      <img src="https://littleboxindia.com/cdn/shop/files/New_Arrival_Curve_July-desktop.webp?v=1783656823&width=1920" alt="Curve New Arrivals">
+      <img src="https://www.bonkerscorner.com/cdn/shop/files/spidey_black_wo_3_5600x2000_crop_center.jpg?v=1786083071&width=1920" alt="Marvel Drop">
       <div class="hero-content">
         <span class="hero-eyebrow">Trending</span>
-        <h1 class="hero-title">Curve Collection</h1>
-        <p class="hero-subtitle">Sizes and styles that move with you.</p>
+        <h1 class="hero-title">Marvel Drop</h1>
+        <p class="hero-subtitle">Bold prints that take over every room.</p>
         <a href="/clothing" class="hero-cta">Explore</a>
       </div>
     </div>
     <div class="hero-slide">
-      <img src="https://littleboxindia.com/cdn/shop/files/Vacation_banner_1920_750_f62efc58-1280-4649-af29-432ac5abbfe4.webp?v=1780587939&width=1920" alt="Vacation Collection">
+      <img src="https://www.bonkerscorner.com/cdn/shop/files/womens_second_banner_1_2800x1000_crop_center.jpg?v=1782816422&width=1920" alt="Women Collection">
       <div class="hero-content">
-        <span class="hero-eyebrow">Summer</span>
-        <h1 class="hero-title">Vacation Edit</h1>
-        <p class="hero-subtitle">Bold fits for every getaway.</p>
+        <span class="hero-eyebrow">Women</span>
+        <h1 class="hero-title">Women Edit</h1>
+        <p class="hero-subtitle">Fits that flatter, styles that stand out.</p>
         <a href="/clothing" class="hero-cta">Shop Now</a>
       </div>
     </div>
     <div class="hero-slide">
-      <img src="https://littleboxindia.com/cdn/shop/files/web_banner_bag_updated_29-5-26.webp?v=1780046788&width=1920" alt="Handbags">
+      <img src="https://www.bonkerscorner.com/cdn/shop/files/mens_second_banner_6dab768c-4c98-4b21-881a-1e35f9e94414_2800x1000_crop_center.jpg?v=1782816084&width=1920" alt="Men Collection">
       <div class="hero-content">
-        <span class="hero-eyebrow">Accessories</span>
-        <h1 class="hero-title">Bags & More</h1>
-        <p class="hero-subtitle">Complete the look.</p>
-        <a href="/footwear" class="hero-cta">Shop Now</a>
+        <span class="hero-eyebrow">Men</span>
+        <h1 class="hero-title">Men Edit</h1>
+        <p class="hero-subtitle">Oversized fits built for everyday.</p>
+        <a href="/clothing" class="hero-cta">Shop Now</a>
       </div>
     </div>
   </div>
@@ -273,107 +342,78 @@
   </div>
 </section>
 
-<!-- Shop by Category -->
-<section class="shop-by-category">
+<!-- Filter & Sort Bar -->
+<section class="filter-bar">
   <div class="container">
-    <div class="section-title">
-      <div>
-        <h2>Shop by Category</h2>
-        <p class="sub">Find your next fit across the store</p>
+    <div class="filter-bar-inner">
+      <button class="filter-toggle" id="filterToggle">
+        <svg width="12" height="10" viewBox="0 0 12 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M6.55372 7.58824L1 7.58825M11.1818 7.58825L8.40496 7.58824M2.85124 2.41177L1 2.41173M11.1818 2.41173L4.70248 2.41177M4.70248 1V3.82352M8.40496 9V6.17648" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+        <span>Filters</span>
+      </button>
+      <div class="filter-summary" id="filterSummary"></div>
+      <div class="sort-wrap">
+        <div class="sort-select-wrap">
+          <select id="sortSelect">
+            <option value="relevance" selected>Relevance</option>
+            <option value="best-selling">Best Selling</option>
+            <option value="price-asc">Price, low to high</option>
+            <option value="price-desc">Price, high to low</option>
+            <option value="newest">Newest</option>
+            <option value="oldest">Oldest</option>
+          </select>
+          <svg class="sort-chevron" width="10" height="6" viewBox="0 0 8 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6.75 1.5L3.75 4.5L0.75 1.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </div>
       </div>
-    </div>
-    <div class="category-tags">
-      <a href="#" class="cat-tag">Tops</a>
-      <a href="#" class="cat-tag">Dresses</a>
-      <a href="#" class="cat-tag">Handbags</a>
-      <a href="#" class="cat-tag">Footwear</a>
-      <a href="#" class="cat-tag">Trousers</a>
-      <a href="#" class="cat-tag">Coords</a>
     </div>
   </div>
 </section>
 
-<!-- Products: Tops -->
+<!-- Filter Drawer (slides in from left) -->
+<div class="filter-drawer" id="filterDrawer">
+  <div class="filter-drawer-header">
+    <span>Filters</span>
+    <button id="filterDrawerClose"><i class="fas fa-times"></i></button>
+  </div>
+  <div class="filter-drawer-body">
+    <div class="filter-group">
+      <h4>Category</h4>
+      <label class="filter-option"><input type="checkbox" class="filter-cat" value="tops"> Tops</label>
+      <label class="filter-option"><input type="checkbox" class="filter-cat" value="shirts"> Shirts</label>
+      <label class="filter-option"><input type="checkbox" class="filter-cat" value="hoodies"> Hoodies</label>
+      <label class="filter-option"><input type="checkbox" class="filter-cat" value="trousers"> Bottoms</label>
+      <label class="filter-option"><input type="checkbox" class="filter-cat" value="coords"> Co-Ords</label>
+      <label class="filter-option"><input type="checkbox" class="filter-cat" value="accessories"> Accessories</label>
+    </div>
+    <div class="filter-group">
+      <h4>Price</h4>
+      <label class="filter-option"><input type="radio" name="filterPrice" class="filter-price" value=""> All Prices</label>
+      <label class="filter-option"><input type="radio" name="filterPrice" class="filter-price" value="0-800"> Under ₹800</label>
+      <label class="filter-option"><input type="radio" name="filterPrice" class="filter-price" value="800-1500"> ₹800 - ₹1,500</label>
+      <label class="filter-option"><input type="radio" name="filterPrice" class="filter-price" value="1500-99999"> Above ₹1,500</label>
+    </div>
+  </div>
+  <div class="filter-drawer-footer">
+    <button class="filter-clear" id="filterClear">Clear All</button>
+    <button class="filter-apply" id="filterApply">Apply Filters</button>
+  </div>
+</div>
+<div class="overlay" id="filterOverlay"></div>
+
+<!-- Products: All -->
 <section class="product-section">
   <div class="container">
     <div class="section-title">
       <div>
-        <h2>Tops</h2>
-        <p class="sub">Statement tops for every mood</p>
+        <h2>Shop All</h2>
+        <p class="sub">Every drop, one place</p>
       </div>
       <a href="/clothing" class="view-all">View All</a>
     </div>
-    <div class="product-grid" id="topsGrid"></div>
-  </div>
-</section>
-
-<!-- Products: Dresses -->
-<section class="product-section">
-  <div class="container">
-    <div class="section-title">
-      <div>
-        <h2>Dresses</h2>
-        <p class="sub">Easier fits, bolder energy</p>
-      </div>
-      <a href="/clothing" class="view-all">View All</a>
-    </div>
-    <div class="product-grid" id="dressesGrid"></div>
-  </div>
-</section>
-
-<!-- Products: Handbags -->
-<section class="product-section">
-  <div class="container">
-    <div class="section-title">
-      <div>
-        <h2>Handbags</h2>
-        <p class="sub">Carry it all in style</p>
-      </div>
-      <a href="/clothing" class="view-all">View All</a>
-    </div>
-    <div class="product-grid" id="handbagsGrid"></div>
-  </div>
-</section>
-
-<!-- Products: Footwear -->
-<section class="product-section">
-  <div class="container">
-    <div class="section-title">
-      <div>
-        <h2>Footwear</h2>
-        <p class="sub">Step up your everyday look</p>
-      </div>
-      <a href="/footwear" class="view-all">View All</a>
-    </div>
-    <div class="product-grid" id="footwearGrid"></div>
-  </div>
-</section>
-
-<!-- Products: Trousers -->
-<section class="product-section">
-  <div class="container">
-    <div class="section-title">
-      <div>
-        <h2>Trousers</h2>
-        <p class="sub">Clean lines, relaxed fits</p>
-      </div>
-      <a href="/clothing" class="view-all">View All</a>
-    </div>
-    <div class="product-grid" id="trousersGrid"></div>
-  </div>
-</section>
-
-<!-- Products: Coords -->
-<section class="product-section">
-  <div class="container">
-    <div class="section-title">
-      <div>
-        <h2>Coords</h2>
-        <p class="sub">Match it up, dress it down</p>
-      </div>
-      <a href="/clothing" class="view-all">View All</a>
-    </div>
-    <div class="product-grid" id="coordsGrid"></div>
+    <div class="product-grid" id="allProductsGrid"></div>
   </div>
 </section>
 
@@ -464,26 +504,26 @@
       <div class="footer-col">
         <h4>Quick Links</h4>
         <a href="#">New Arrivals</a>
-        <a href="#">Best Sellers</a>
-        <a href="#">Sale</a>
+        <a href="/best-sellers">Best Sellers</a>
+        <a href="/sale">Sale</a>
         <a href="#">Track Order</a>
-        <a href="#">Size Guide</a>
+        <a href="/size-guide">Size Guide</a>
       </div>
       <div class="footer-col">
         <h4>Categories</h4>
         <a href="#">Tees</a>
         <a href="#">Shirts</a>
-        <a href="#">Footwear</a>
+        <a href="/hoodies">Hoodies</a>
         <a href="#">Hoodies</a>
         <a href="#">Coords</a>
       </div>
       <div class="footer-col">
         <h4>Customer Care</h4>
-        <a href="#">Contact Us</a>
-        <a href="#">FAQs</a>
-        <a href="#">Shipping Policy</a>
-        <a href="#">Return Policy</a>
-        <a href="#">Privacy Policy</a>
+        <a href="/contact">Contact Us</a>
+        <a href="/faqs">FAQs</a>
+        <a href="/shipping-policy">Shipping Policy</a>
+        <a href="/return-policy">Return Policy</a>
+        <a href="/privacy-policy">Privacy Policy</a>
       </div>
       <div class="footer-col">
         <h4>Contact</h4>
@@ -494,11 +534,11 @@
     </div>
     <div class="footer-bottom">
       <p>&copy; 2026 BOSERA. All rights reserved.</p>
-    <p style="font-size:12px;color:#666;margin-top:4px;">Made with Love By Ayushman B.</p>
+    <p style="font-size:12px;color:#666;margin-top:4px;">Made with ♥ By Ayushman B.</p>
     </div>
   </div>
 </footer>
 
-<script src="js/script.js"></script>
+<script src="js/script.js?v=7"></script>
 </body>
 </html>

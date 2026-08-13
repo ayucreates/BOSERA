@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Track Order – BOSERA</title>
+  <title>My Account – BOSERA</title>
   <link rel="stylesheet" href="css/style.css?v=16">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
@@ -76,7 +76,7 @@
                     <h4>Accessories</h4><a href="#">Caps</a><a href="#">Socks</a><a href="#">Belts</a>
                   </div>
                   <div class="dropdown-col">
-                    <h4>More</h4><a href="#">New Arrivals</a><a href="/sale">Sale</a>
+                    <h4>More</h4><a href="/new-arrivals">New Arrivals</a><a href="/sale">Sale</a>
                   </div>
                 </div>
               </div>
@@ -99,8 +99,8 @@
               </div>
             </div>
           </div>
-          <a href="#" class="header-icon wishlist-icon" id="wishlistIcon"><i class="far fa-heart"></i><span class="badge">0</span></a>
-          <a href="#" class="header-icon cart-icon" id="cartIcon"><i class="fas fa-shopping-bag"></i><span class="badge">0</span></a>
+          <a href="/wishlist" class="header-icon wishlist-icon" id="wishlistIcon"><i class="far fa-heart"></i><span class="badge">0</span></a>
+          <a href="/cart" class="header-icon cart-icon" id="cartIcon"><i class="fas fa-shopping-bag"></i><span class="badge">0</span></a>
         </div>
       </div>
     </div>
@@ -123,24 +123,112 @@
 </div>
 <div class="overlay" id="overlay"></div>
 
+<div class="auth-modal" id="loginModal">
+  <div class="auth-modal-content">
+    <button class="auth-close" id="loginClose">&times;</button>
+    <h2>Login</h2>
+    <form id="loginForm">
+      <input type="email" placeholder="Email" required>
+      <input type="password" placeholder="Password" required>
+      <button type="submit">Login</button>
+      <p>Don't have an account? <a href="#" id="loginToSignup">Sign Up</a></p>
+    </form>
+  </div>
+</div>
+
+<div class="auth-modal" id="signupModal">
+  <div class="auth-modal-content">
+    <button class="auth-close" id="signupClose">&times;</button>
+    <h2>Sign Up</h2>
+    <form id="signupForm">
+      <input type="text" placeholder="Full Name" required>
+      <input type="email" placeholder="Email" required>
+      <input type="password" placeholder="Password" minlength="6" required>
+      <button type="submit">Create Account</button>
+      <p>Already have an account? <a href="#" id="signupToLogin">Login</a></p>
+    </form>
+  </div>
+</div>
+
+<div class="splash-modal" id="splashModal">
+  <div class="splash-modal-content">
+    <button class="splash-close" id="splashClose">&times;</button>
+    <div class="splash-icon" id="splashIcon"><i class="far fa-heart"></i></div>
+    <h2 id="splashTitle">Save to Wishlist</h2>
+    <p id="splashText">Login to save your favourite items and never lose track of what you love.</p>
+    <div class="splash-buttons">
+      <a href="#" class="splash-btn splash-btn-primary" id="splashLoginBtn">Login</a>
+      <a href="#" class="splash-btn splash-btn-secondary" id="splashSignupBtn">Create Account</a>
+    </div>
+    <p class="splash-continue"><a href="#" id="splashContinue">Continue browsing</a></p>
+  </div>
+</div>
+
+<div class="cart-slideout" id="cartSlideout">
+  <div class="cart-slideout-header">
+    <h3>Shopping Cart</h3>
+    <button id="cartClose">&times;</button>
+  </div>
+  <div class="cart-slideout-body" id="cartBody"><p class="cart-empty">Your cart is empty.</p></div>
+  <div class="cart-slideout-footer">
+    <div class="cart-total"><span>Total</span><span id="cartTotal">₹0</span></div>
+    <a href="/cart" class="checkout-btn" style="display:block;text-align:center;margin-bottom:10px;">View Cart</a>
+    <a href="/checkout" class="checkout-btn" style="display:block;text-align:center;">Checkout</a>
+  </div>
+</div>
+
 <section class="page-hero">
   <div class="container">
     <span class="eyebrow">BOSERA</span>
-    <h1>Track Your Order</h1>
-    <p>Enter your order ID to check the status.</p>
+    <h1>My Account</h1>
+    <p>Manage your profile, orders &amp; wishlist.</p>
   </div>
 </section>
 
-<section style="padding:40px 0;">
-  <div class="container" style="max-width:600px;">
-    <form id="trackForm" style="display:flex;gap:12px;">
-      <input type="text" name="orderId" placeholder="Enter Order ID" style="flex:1;padding:14px 16px;border:1px solid #ddd;border-radius:2px;font-size:14px;">
-      <button type="submit" style="padding:14px 28px;background:#0a0a0a;color:#fff;font-weight:800;border-radius:2px;font-size:14px;text-transform:uppercase;letter-spacing:0.08em;">Track</button>
-    </form>
-    <div id="trackResult" style="margin-top:48px;">
-      <div style="padding:32px;background:#fafafa;border-radius:2px;text-align:center;">
-        <i class="fas fa-box" style="font-size:48px;color:#ddd;margin-bottom:16px;"></i>
-        <p style="color:#888;">Enter an order ID above to see tracking details.</p>
+<section style="padding:48px 0;min-height:60vh;">
+  <div class="container">
+    <div class="account-grid">
+      <aside class="menu-card panel" style="padding:0;">
+        <a class="menu-item" href="/orders"><i class="fas fa-box"></i> My Orders</a>
+        <a class="menu-item" href="/wishlist"><i class="fas fa-heart"></i> Wishlist</a>
+        <a class="menu-item" href="/cart"><i class="fas fa-shopping-bag"></i> Cart</a>
+        <a class="menu-item" href="/track-order"><i class="fas fa-truck"></i> Track Order</a>
+        <a class="menu-item active" href="/account"><i class="fas fa-user"></i> Settings</a>
+        <a class="menu-item" href="/support"><i class="fas fa-life-ring"></i> Support</a>
+        <a class="menu-item" href="#" id="accountLogoutBtn" style="color:#c0392b;"><i class="fas fa-sign-out-alt" style="color:#c0392b;"></i> Logout</a>
+      </aside>
+      <div>
+        <div id="accountAuth" style="display:none;">
+          <div class="panel" style="text-align:center;padding:60px 32px;">
+            <i class="far fa-user" style="font-size:48px;color:#ddd;margin-bottom:16px;"></i>
+            <h2>Please login to view your account</h2>
+            <p style="margin-bottom:24px;">Login or create an account to manage your profile, orders &amp; wishlist.</p>
+            <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;">
+              <button class="btn btn-dark" id="accLoginBtn">Login</button>
+              <button class="btn btn-outline" id="accSignupBtn">Create Account</button>
+            </div>
+          </div>
+        </div>
+        <div id="accountFormWrap" style="display:none;">
+          <div class="panel" style="margin-bottom:20px;">
+            <h2>Profile &amp; Settings</h2>
+            <div class="form-grid">
+              <div class="field"><label>Full Name</label><input type="text" id="accName"></div>
+              <div class="field"><label>Email</label><input type="email" id="accEmail"></div>
+              <div class="field"><label>Phone</label><input type="tel" id="accPhone" placeholder="+91 00000 00000"></div>
+              <div class="field"><label>Delivery Address</label><input type="text" id="accAddress" placeholder="Address, city, pincode"></div>
+            </div>
+            <button class="btn btn-dark" id="accountSaveBtn">Save Changes</button>
+          </div>
+          <div class="panel">
+            <h2>Quick Stats</h2>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+              <div style="background:#fafafa;padding:20px;border-radius:2px;text-align:center;"><div style="font-size:28px;font-weight:900;" id="accStatOrders">0</div><p style="font-size:12px;color:#888;margin-top:4px;">Orders</p></div>
+              <div style="background:#fafafa;padding:20px;border-radius:2px;text-align:center;"><div style="font-size:28px;font-weight:900;" id="accStatWishlist">0</div><p style="font-size:12px;color:#888;margin-top:4px;">Wishlist Items</p></div>
+            </div>
+            <p style="margin-top:16px;font-size:13px;color:#888;">Tip: your saved delivery details are used at checkout to speed things up.</p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -164,7 +252,7 @@
     <div class="footer-grid">
       <div class="footer-col">
         <h4>BOSERA</h4>
-        <p>Unisex streetwear & everyday fashion.</p>
+        <p>Unisex streetwear & everyday fashion. Bold fits for everyone, at the best prices.</p>
         <div class="social-links">
           <a href="https://www.instagram.com/litebouys_zone/" target="_blank"><i class="fab fa-instagram"></i></a>
           <a href="https://www.facebook.com/people/Lite-Bouys-Zone/61585258894779/" target="_blank"><i class="fab fa-facebook-f"></i></a>
@@ -176,11 +264,11 @@
       </div>
       <div class="footer-col">
         <h4>Categories</h4>
-        <a href="#">Tees</a><a href="#">Shirts</a><a href="/hoodies">Hoodies</a><a href="#">Hoodies</a><a href="#">Coords</a>
+        <a href="/clothing">Tees</a><a href="/clothing">Shirts</a><a href="/hoodies">Hoodies</a><a href="/clothing">Hoodies</a><a href="/clothing">Coords</a>
       </div>
       <div class="footer-col">
         <h4>Customer Care</h4>
-        <a href="/support">Contact Us</a><a href="/faqs">FAQs</a><a href="/shipping-policy">Shipping Policy</a><a href="/return-policy">Return Policy</a><a href="/privacy-policy">Privacy Policy</a>
+        <a href="/contact">Contact Us</a><a href="/faqs">FAQs</a><a href="/shipping-policy">Shipping Policy</a><a href="/return-policy">Return Policy</a><a href="/privacy-policy">Privacy Policy</a>
       </div>
       <div class="footer-col">
         <h4>Contact</h4>
