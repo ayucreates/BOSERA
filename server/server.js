@@ -13,6 +13,23 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 
 const { authenticate, requireRole } = require('./middleware/auth');
 
+// ---------- Fail-fast config validation ----------
+const REQUIRED_ENV = ['JWT_SECRET'];
+const missing = REQUIRED_ENV.filter((k) => !process.env[k]);
+if (missing.length) {
+  console.error(
+    `[config] Missing required environment variable(s): ${missing.join(', ')}. ` +
+      `Set them in the Render dashboard (or .env for local dev) before starting.`
+  );
+  process.exit(1);
+}
+if ((process.env.JWT_SECRET || '').length < 32) {
+  console.error(
+    '[config] JWT_SECRET must be at least 32 characters. Generate a strong random value (e.g. openssl rand -hex 32).'
+  );
+  process.exit(1);
+}
+
 const app = express();
 const PORT = process.env.PORT || 3000;
 
@@ -25,11 +42,11 @@ app.use(
     contentSecurityPolicy: {
       directives: {
         'default-src': ["'self'"],
-        'script-src': ["'self'", "'unsafe-inline'", "'unsafe-eval'", 'https://cdnjs.cloudflare.com', 'https://ajax.googleapis.com', 'https://cdn.tailwindcss.com'],
-        'style-src': ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com', 'https://cdnjs.cloudflare.com'],
+        'script-src': ["'self'", 'https://cdnjs.cloudflare.com'],
+        'style-src': ["'self'", "'unsafe-inline'", 'https://cdnjs.cloudflare.com', 'https://fonts.googleapis.com', 'https://fonts.gstatic.com'],
         'font-src': ["'self'", 'data:', 'https://fonts.gstatic.com', 'https://cdnjs.cloudflare.com'],
-        'img-src': ["'self'", 'data:', 'https:', 'http:'],
-        'connect-src': ["'self'", 'https:', 'http:'],
+        'img-src': ["'self'", 'data:', 'https:'],
+        'connect-src': ["'self'"],
         'object-src': ["'none'"],
       },
     },
@@ -260,8 +277,34 @@ app.get('/admin', authenticate, requireRole(db, 'admin'), (req, res) => {
 const ROOT_DIR = path.join(__dirname, '..');
 const HTML_404 = path.join(ROOT_DIR, '404.html');
 
+// Private paths that must never be served by the catch-all handler.
+const BLOCKED_PREFIXES = [
+  path.join(ROOT_DIR, 'server'),
+  path.join(ROOT_DIR, 'backend'),
+  path.join(ROOT_DIR, 'frontend'),
+  path.join(ROOT_DIR, 'node_modules'),
+  path.join(ROOT_DIR, 'data'),
+  path.join(ROOT_DIR, '.git'),
+];
+const BLOCKED_FILES = new Set([
+  'package.json',
+  'package-lock.json',
+  'render.yaml',
+  '.env',
+  '.env.example',
+  'Dockerfile',
+]);
+
 app.get('/health', (req, res) => {
   res.json({ status: 'ok' });
+});
+
+app.get('/robots.txt', (req, res) => {
+  res.type('text/plain').sendFile(path.join(ROOT_DIR, 'robots.txt'));
+});
+
+app.get('/.well-known/security.txt', (req, res) => {
+  res.type('text/plain').sendFile(path.join(ROOT_DIR, 'security.txt'));
 });
 
 // JSON 404 for unknown API routes
@@ -269,7 +312,9 @@ app.use('/api', (req, res) => {
   res.status(404).json({ message: 'Route not found' });
 });
 
-// Serve static HTML pages (extensionless + .html) with a styled 404 fallback
+// Serve static HTML pages (extensionless + .html) with a styled 404 fallback.
+// Only public HTML pages at the site root are served; private repo paths
+// (server/, data/, .git/, node_modules/) and dotfiles are always denied.
 app.get('*', (req, res) => {
   if (req.path === '/favicon.ico') return res.status(204).end();
 
@@ -278,7 +323,21 @@ app.get('*', (req, res) => {
   else if (!p.includes('.')) p += '.html';
 
   const file = path.resolve(ROOT_DIR, '.' + p);
-  if (file.startsWith(ROOT_DIR + path.sep) && fs.existsSync(file) && fs.statSync(file).isFile()) {
+
+  // Only HTML pages are served by the catch-all. Anything else (md, json,
+  // yaml, db, logs) is rejected outright.
+  if (!p.toLowerCase().endsWith('.html')) return res.status(404).sendFile(HTML_404);
+
+  const segments = p.split('/').filter(Boolean);
+  const hasDotSegment = segments.some((s) => s.startsWith('.'));
+  const isInside = file.startsWith(ROOT_DIR + path.sep);
+  const isBlocked =
+    BLOCKED_PREFIXES.some((b) => file.startsWith(b + path.sep)) ||
+    BLOCKED_FILES.has(segments[segments.length - 1]) ||
+    hasDotSegment;
+  if (!isInside || isBlocked) return res.status(404).sendFile(HTML_404);
+
+  if (fs.existsSync(file) && fs.statSync(file).isFile()) {
     return res.sendFile(file);
   }
   res.status(404).sendFile(HTML_404);

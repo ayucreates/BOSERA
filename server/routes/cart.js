@@ -49,9 +49,12 @@ module.exports = function (db) {
           return res.json(updated);
         }
         const result = db
-          .prepare('INSERT INTO cart_items (user_id, product_id, quantity) VALUES (?, ?, ?) RETURNING *')
-          .get(req.user.id, product_id, quantity);
-        res.status(201).json(result);
+          .prepare('INSERT INTO cart_items (user_id, product_id, quantity) VALUES (?, ?, ?)')
+          .run(req.user.id, product_id, quantity);
+        const created = db
+          .prepare('SELECT * FROM cart_items WHERE id = ?')
+          .get(result.lastInsertRowid);
+        res.status(201).json(created);
       } catch (err) {
         res.status(400).json({ error: err.message });
       }

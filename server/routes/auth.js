@@ -47,7 +47,12 @@ module.exports = function (db) {
         const user = db
           .prepare('SELECT id, name, email, role FROM users WHERE id = ?')
           .get(result.lastInsertRowid);
-        setAuthCookie(res, user);
+        try {
+          setAuthCookie(res, user);
+        } catch (tokenErr) {
+          db.prepare('DELETE FROM users WHERE id = ?').run(user.id);
+          return res.status(500).json({ error: 'Could not complete registration, please try again' });
+        }
         res.status(201).json({ user });
       } catch (err) {
         res.status(400).json({ error: err.message });

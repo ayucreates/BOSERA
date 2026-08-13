@@ -1,0 +1,4 @@
+Contact: mailto:Litebouys4@gmail.com
+Expires: 2027-08-13T00:00:00.000Z
+Preferred-Languages: en
+Canonical: https://bosera.onrender.com/.well-known/security.txt
