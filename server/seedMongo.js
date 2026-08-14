@@ -1,11 +1,14 @@
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import fs from 'fs';
 import Product from '../backend/models/Product.js';
 import Category from '../backend/models/Category.js';
 
 dotenv.config();
 
 const MONGO_URI = process.env.MONGO_URI || 'mongodb://localhost:27017/bosera';
+
+const catSlug = (name) => name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
 async function seed() {
   try {
@@ -16,53 +19,30 @@ async function seed() {
     await Category.deleteMany({});
     console.log('Cleared existing data');
 
-    const categories = await Category.insertMany([
-      { name: 'Tops', slug: 'tops' },
-      { name: 'Dresses', slug: 'dresses' },
-      { name: 'Handbags', slug: 'handbags' },
-      { name: 'Footwear', slug: 'footwear' },
-      { name: 'Trousers', slug: 'trousers' },
-      { name: 'Coords', slug: 'coords' },
-    ]);
+    const curated = JSON.parse(fs.readFileSync(new URL('../curatedProducts.json', import.meta.url), 'utf8'));
+
+    const categories = await Category.insertMany(
+      [...new Set(curated.map(p => p.category))].map(name => ({ name, slug: catSlug(name) }))
+    );
     console.log(`Seeded ${categories.length} categories`);
 
     const catMap = {};
     categories.forEach(c => catMap[c.slug] = c._id);
 
-    const products = [
-      { name: 'Tie Back Halter Fitted Top in Powder Blue', slug: 'tie-back-halter-top-powder-blue', price: 749, category: catMap.tops, image_url: 'https://littleboxindia.com/cdn/shop/files/20260625101011-TP13301_20_2.jpg?v=1783617144&width=480', description: 'Stylish halter top with tie back detail', isNewArrival: true },
-      { name: 'V-Neck Collared Knit Fitted Top in Navy', slug: 'v-neck-collared-knit-top-navy', price: 599, category: catMap.tops, image_url: 'https://littleboxindia.com/cdn/shop/files/V-Neck_Collared_Layered_Look_Fitted_Knit_Top_in_Navy_Blue.webp?v=1769775291&width=480', description: 'Classic v-neck knit top' },
-      { name: 'Asymmetric Neck Curved Hem Half Sleeve Top', slug: 'asymmetric-neck-curved-hem-top', price: 799, category: catMap.tops, image_url: 'https://littleboxindia.com/cdn/shop/files/20260603103035-3.jpg?v=1780591852&width=480', description: 'Modern asymmetric neck top' },
-      { name: 'Ruched Waist Batwing Sleeve Mini Dress in Dusty Blue', slug: 'ruched-waist-batwing-dress-dusty-blue', price: 999, category: catMap.dresses, image_url: 'https://littleboxindia.com/cdn/shop/files/20260703124130-DR14223_20_1.jpg?v=1783676885&width=480', description: 'Elegant mini dress with ruched waist', isNewArrival: true },
-      { name: 'Off Shoulder Mesh Ruched Fitted Dress in Coco', slug: 'off-shoulder-mesh-dress-coco', price: 1199, category: catMap.dresses, image_url: 'https://littleboxindia.com/cdn/shop/files/Off_Shoulder_Mesh_Ruched_Fitted_Dress_With_Long_Sleeve_in_Coco_0.webp?v=1784022172&width=480', description: 'Chic off-shoulder dress' },
-      { name: 'Maroon Faux Fishbone One-Shoulder Dress', slug: 'maroon-faux-fishbone-dress', price: 1199, category: catMap.dresses, image_url: 'https://littleboxindia.com/cdn/shop/files/Maroon_Faux_Fishbone_Design_Romantic_One-Shoulder_Dress.webp?v=1754570398&width=480', description: 'Bold one-shoulder dress' },
-      { name: 'Functional Shoulder Bag With Contrast Strap', slug: 'functional-shoulder-bag-contrast-strap', price: 2199, category: catMap.handbags, image_url: 'https://littleboxindia.com/cdn/shop/files/20260512114021-SHB1035_20_1.jpg?v=1778659618&width=480', description: 'Practical shoulder bag with contrast strap' },
-      { name: 'Adjustable Strap Shoulder Bag in Espresso', slug: 'adjustable-strap-shoulder-bag-espresso', price: 2399, category: catMap.handbags, image_url: 'https://littleboxindia.com/cdn/shop/files/20260512114315-SHB1034_20_1.jpg?v=1778659317&width=480', description: 'Versatile adjustable strap bag' },
-      { name: 'Glossy Shoulder Bag With Tie Detail in Red', slug: 'glossy-shoulder-bag-tie-detail-red', price: 1399, category: catMap.handbags, image_url: 'https://littleboxindia.com/cdn/shop/files/20260512104923-SHB1004_20_4.jpg?v=1778657418&width=480', description: 'Glossy red bag with tie detail' },
-      { name: 'Double Buckle Strap Platform Mary Jane in Black', slug: 'double-buckle-platform-mary-jane-black', price: 1699, category: catMap.footwear, image_url: 'https://littleboxindia.com/cdn/shop/files/20260605105653-PL1311_20_2.jpg?v=1780661873&width=480', description: 'Stylish platform mary janes' },
-      { name: 'Motorcycle Side Zipper Chunky Sole Knee Boots', slug: 'motorcycle-side-zipper-knee-boots', price: 1799, category: catMap.footwear, image_url: 'https://littleboxindia.com/cdn/shop/files/Motorcycle_Side_Zipper_Chunky_Sole_Knee_Boots.jpg?v=1769686487&width=480', description: 'Edgy knee boots with side zipper' },
-      { name: 'Oxford Lace Up Brogue Boots', slug: 'oxford-lace-up-brogue-boots', price: 1799, category: catMap.footwear, image_url: 'https://littleboxindia.com/cdn/shop/files/20260422111623-BT1294_4.jpg?v=1776949362&width=480', description: 'Classic brogue boots' },
-      { name: 'High Waist Wide Leg Linen Trousers in White', slug: 'high-waist-wide-leg-linen-trousers-white', price: 999, category: catMap.trousers, image_url: 'https://littleboxindia.com/cdn/shop/files/High_Waist_Wide_Leg_Linen_Trousers_In_White.webp?v=1769519079&width=480', description: 'Comfortable linen trousers' },
-      { name: 'Striped Suit Pants High Waist in Brown', slug: 'striped-suit-pants-high-waist-brown', price: 1099, category: catMap.trousers, image_url: 'https://littleboxindia.com/cdn/shop/files/Striped_Suit_Pants_High_Waist_Trousers_in_Brown.jpg?v=1781597998&width=480', description: 'Professional striped pants' },
-      { name: 'High Waist Pleated Trousers in Black', slug: 'high-waist-pleated-trousers-black', price: 1099, category: catMap.trousers, image_url: 'https://littleboxindia.com/cdn/shop/products/High_Waist_Pleated_Trousers_In_Black.jpg?v=1769664453&width=480', description: 'Elegant pleated trousers' },
-      { name: 'Tie Front Shrug & Cami Dress Co-Ord in Cocoa', slug: 'tie-front-shrug-cami-coord-cocoa', price: 1599, category: catMap.coords, image_url: 'https://littleboxindia.com/cdn/shop/files/20260709122819-set_203a.jpg?v=1783613995&width=480', description: 'Matching co-ord set', isBestSeller: true },
-      { name: 'Off Shoulder Crop Top & Wide Leg Pant in Grey', slug: 'off-shoulder-crop-top-wide-leg-pant-grey', price: 899, category: catMap.coords, image_url: 'https://littleboxindia.com/cdn/shop/products/Off_Shoulder_Crop_Top_And_Wide_Leg_Pant_In_Grey.jpg?v=1741852524&width=480', description: 'Casual co-ord set' },
-      { name: 'Striped V-Neck Jacket & Wide-Leg Pants Suit', slug: 'striped-v-neck-jacket-wide-leg-pants-suit', price: 1849, category: catMap.coords, image_url: 'https://littleboxindia.com/cdn/shop/files/Navy_Blue_Striped_V-Neck_Asymmetric_Long_Sleeve_Jacket_Wide-Leg_Pants_Suit.jpg?v=1770297504&width=480', description: 'Formal striped suit' },
-    ];
-
-    await Product.insertMany(products.map(p => ({
-      ...p,
-      images: [{ url: p.image_url, alt: p.name }],
-      stock: 100,
-      sizes: [
-        { size: 'XS', stock: 10 },
-        { size: 'S', stock: 20 },
-        { size: 'M', stock: 30 },
-        { size: 'L', stock: 20 },
-        { size: 'XL', stock: 10 }
-      ],
+    const products = curated.map(p => ({
+      name: p.name,
+      slug: p.slug,
+      price: p.price,
+      originalPrice: p.compareAtPrice || null,
+      discount: p.discount || 0,
+      description: 'Streetwear essentials crafted for bold, unisex fits.',
+      images: [{ url: p.image, alt: p.name }],
+      category: catMap[catSlug(p.category)],
+      sizes: p.sizes && p.sizes.length ? p.sizes : [{ size: 'M', stock: 100 }],
       isActive: true
-    })));
+    }));
+
+    await Product.insertMany(products);
     console.log(`Seeded ${products.length} products`);
 
     await mongoose.disconnect();

@@ -43,14 +43,30 @@
   function write(key, val) { localStorage.setItem(key, JSON.stringify(val)); }
 
   // ---------- Products ----------
+  // Mongo backend returns _id, images[], originalPrice, category{name}; the
+  // mobile UI expects id, image_url, old_price, category_name.
+  function normalizeProduct(p) {
+    if (!p) return p;
+    return {
+      ...p,
+      id: p.id != null ? p.id : (p._id || ''),
+      image_url: p.image_url || (p.images && p.images[0] && p.images[0].url) || '',
+      old_price: p.old_price || p.originalPrice || null,
+      category_name: p.category_name || (p.category && (p.category.name || p.category)) || ''
+    };
+  }
+  function normalizeList(list) {
+    return (list || []).map(normalizeProduct);
+  }
+
   function fetchProducts() {
     if (window._productsPromise) return window._productsPromise;
-    window._productsPromise = fetch(apiUrl('/api/products'))
+    window._productsPromise = fetch(apiUrl('/api/products?limit=100'))
       .then(function (r) {
         if (!r.ok) throw new Error('Failed to load products');
         return r.json();
       })
-      .then(function (data) { return data.products || data || []; })
+      .then(function (data) { return normalizeList(data.products || data || []); })
       .catch(function (e) {
         window._productsPromise = null;
         throw e;
@@ -223,7 +239,7 @@
         e.preventDefault();
         e.stopPropagation();
         var p = {
-          id: Number(wish.dataset.id),
+          id: wish.dataset.id,
           name: wish.dataset.name,
           price: Number(wish.dataset.price),
           slug: wish.dataset.slug,
@@ -247,7 +263,7 @@
       if (cardAdd) {
         e.preventDefault();
         var card = cardAdd.closest('.m-card');
-        var id = Number(card && card.querySelector('[data-wish]') && card.querySelector('[data-wish]').dataset.id);
+        var id = (card && card.querySelector('[data-wish]') && card.querySelector('[data-wish]').dataset.id);
         var prodById = window._productById;
         if (prodById && prodById[id]) { addToCart(prodById[id]); toast('Added to cart'); }
         else {
@@ -415,7 +431,7 @@
     items.addEventListener('click', function (e) {
       var btn = e.target.closest('.m-cart-qty button, .m-cart-remove');
       if (!btn) return;
-      var id = Number(btn.dataset.id);
+      var id = btn.dataset.id;
       if (e.target.closest('.m-cart-remove')) removeFromCart(id);
       else updateQty(id, Number(btn.dataset.dir));
       render();

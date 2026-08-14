@@ -271,7 +271,7 @@
     body.addEventListener('click', function (e) {
       var btn = e.target.closest('.m-cart-qty button, .m-cart-remove');
       if (!btn) return;
-      var id = Number(btn.dataset.id);
+      var id = btn.dataset.id;
       if (e.target.closest('.m-cart-remove') || btn.classList.contains('m-cart-remove')) {
         api.removeFromCart(id);
         api.toast('Removed from cart');
