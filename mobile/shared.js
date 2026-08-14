@@ -119,11 +119,7 @@
         return '<span>' + s + '</span><span class="sep">★</span>';
       }).join('');
       topbar =
-        '<div class="m-top-marquee"><div class="announcement-track">' + annHtml + annHtml + '</div></div>' +
-        '<div class="m-top-promo">' +
-        '  <div class="m-top-promo-txt"><strong>Welcome to BOSERA!</strong><span>Get a faster checkout + exclusive rewards in our app</span></div>' +
-        '  <a class="m-top-promo-btn" href="/"><i class="fab fa-app-store" style="margin-right:6px;"></i>Open App</a>' +
-        '</div>';
+        '<div class="m-top-marquee"><div class="announcement-track">' + annHtml + annHtml + '</div></div>';
     }
     document.body.insertAdjacentHTML('afterbegin',
       '<header class="m-header" id="mHeader">' +
@@ -135,7 +131,11 @@
       '      <button class="m-icon-btn" id="mCartBtn" aria-label="Cart"><i class="fas fa-shopping-bag"></i><span class="m-count-badge hidden" id="mCartBadge">0</span></button>' +
       '    </div>' +
       '  </div>' +
-      '  <button class="m-header-search" id="mHeaderSearch"><i class="fas fa-search"></i><span>Search bonkerscorner</span></button>' +
+      '  <form class="m-header-search" id="mHeaderSearch" autocomplete="off">' +
+      '    <i class="fas fa-search"></i>' +
+      '    <input type="search" id="mHeaderSearchInput" placeholder="Search Bosera" autocomplete="off" spellcheck="false">' +
+      '    <div class="m-header-search-results" id="mHeaderSearchResults"></div>' +
+      '  </form>' +
       '</header>' +
 
       '<div class="m-overlay" id="mOverlay"></div>' +
@@ -147,14 +147,6 @@
       '    <a href="/account" class="m-drawer-cta">Account</a>' +
       '    <a href="/cart">Cart</a>' +
       '  </div>' +
-      '</div>' +
-
-      '<div class="m-search" id="mSearch">' +
-      '  <div class="m-search-row">' +
-      '    <input type="search" id="mSearchInput" placeholder="Search products..." autocomplete="off">' +
-      '    <button id="mSearchClose"><i class="fas fa-times"></i></button>' +
-      '  </div>' +
-      '  <div class="m-search-results" id="mSearchResults"></div>' +
       '</div>' +
 
       '<div class="m-cart-drawer" id="mCartDrawer">' +
@@ -190,70 +182,50 @@
     overlay.addEventListener('click', close);
   }
 
-  function wireSearch(api) {
-    var panel = document.getElementById('mSearch');
-    var input = document.getElementById('mSearchInput');
-    var results = document.getElementById('mSearchResults');
+  function wireHeaderSearch(api) {
+    var input = document.getElementById('mHeaderSearchInput');
+    var results = document.getElementById('mHeaderSearchResults');
+    var form = document.getElementById('mHeaderSearch');
+    if (!input || !results) return;
 
-    var open = function () {
-      panel.classList.add('open');
-      if (input.value) doSearch();
-    };
-    var close = function () {
-      panel.classList.remove('open');
-      results.innerHTML = '';
-    };
-    var openBtn = document.getElementById('mSearchOpen');
-    if (openBtn) openBtn.addEventListener('click', function (e) {
-      e.preventDefault();
-      var drawer = document.getElementById('mDrawer');
-      var overlay = document.getElementById('mOverlay');
-      drawer.classList.remove('open');
-      overlay.classList.remove('active');
-      document.body.style.overflow = '';
-      open();
-      setTimeout(function () { input.focus(); }, 120);
-    });
-    var headerSearch = document.getElementById('mHeaderSearch');
-    if (headerSearch) headerSearch.addEventListener('click', function (e) {
-      e.preventDefault();
-      open();
-      setTimeout(function () { input.focus(); }, 120);
-    });
-    document.getElementById('mSearchClose').addEventListener('click', function () {
-      close();
-      input.value = '';
-    });
-    input.addEventListener('blur', function () {
-      setTimeout(function () { close(); }, 250);
-    });
-
-    var debounce;
+    var debounceTimer;
     function doSearch() {
       var q = input.value.trim().toLowerCase();
-      clearTimeout(debounce);
-      debounce = setTimeout(function () {
+      clearTimeout(debounceTimer);
+      if (!q) {
+        results.innerHTML = '';
+        results.style.display = 'none';
+        return;
+      }
+      debounceTimer = setTimeout(function () {
         api.searchProducts(q).then(function (list) {
           if (!list.length) {
-            results.innerHTML = '<div class="m-empty" style="padding:20px;"><p>No products found</p></div>';
-            return;
+            results.innerHTML = '<div class="m-header-search-empty">No products found</div>';
+          } else {
+            results.innerHTML = list.slice(0, 6).map(function (p) {
+              return '<a class="m-header-search-result" href="/product?slug=' + encodeURIComponent(p.slug) + '">' +
+                '<img src="' + esc(p.image_url) + '" loading="lazy">' +
+                '<div><div class="t">' + esc(p.name) + '</div><div class="p">' + esc(api.money(p.price)) + '</div></div>' +
+                '</a>';
+            }).join('');
           }
-          results.innerHTML = list.slice(0, 8).map(function (p) {
-            return '<a class="m-search-result" data-close href="/product?slug=' + encodeURIComponent(p.slug) + '">' +
-              '<img src="' + esc(p.image_url) + '" loading="lazy">' +
-              '<div><div class="t">' + esc(p.name) + '</div><div class="p">' + esc(api.money(p.price)) + '</div></div>' +
-              '</a>';
-          }).join('');
+          results.style.display = 'block';
         });
-      }, 250);
+      }, 200);
     }
+
     input.addEventListener('input', doSearch);
-    results.addEventListener('click', function (e) {
-      if (e.target.closest('a')) close();
+    input.addEventListener('focus', function () { if (input.value.trim()) doSearch(); });
+
+    // Hide results when clicking outside
+    document.addEventListener('click', function (e) {
+      if (!form.contains(e.target)) {
+        results.style.display = 'none';
+      }
     });
 
-    window._mSearchOpen = open;
-    window._mSearchClose = close;
+    // Prevent form submission (we handle via input)
+    form.addEventListener('submit', function (e) { e.preventDefault(); });
   }
 
   function wireCart(api) {
@@ -317,20 +289,9 @@
   function wireScroll() {
     var header = document.getElementById('mHeader');
     var lastY = window.scrollY || 0;
-    var shown = false;
     window.addEventListener('scroll', function () {
       var y = window.scrollY || 0;
       header.classList.toggle('scrolled', y > 8);
-
-      // Search bar: reveal when scrolling up, hide when scrolling down.
-      var goingUp = y < lastY;
-      if (goingUp && !shown) {
-        if (window._mSearchOpen) window._mSearchOpen();
-        shown = true;
-      } else if (!goingUp && shown) {
-        if (window._mSearchClose) window._mSearchClose();
-        shown = false;
-      }
       lastY = y;
     }, { passive: true });
   }
@@ -351,7 +312,7 @@
     inject();
     var api = requireAPI();
     wireMenu();
-    wireSearch(api);
+    wireHeaderSearch(api);
     wireCart(api);
     wireScroll();
     wireToast(api);
