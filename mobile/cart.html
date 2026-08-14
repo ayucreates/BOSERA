@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Shopping Cart – BOSERA</title>
+  <link rel="stylesheet" href="/mobile/mobile.css?v=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body data-page="cart">
+
+<main>
+  <section class="m-page-hero">
+    <span class="eyebrow">BOSERA</span>
+    <h1>Shopping Cart</h1>
+    <p>Review your items before checking out.</p>
+  </section>
+
+  <div class="m-free-note" id="mFreeNote" style="margin:0 16px 10px;display:none;">
+    Add <strong id="mFreeLeft"></strong> more for FREE shipping.
+  </div>
+
+  <div class="m-panel">
+    <div id="mCartItems"></div>
+    <div class="m-empty hidden" id="mCartEmpty" style="padding:30px 10px;">
+      <i class="fas fa-shopping-bag"></i>
+      <h3>Your cart is empty</h3>
+      <p>Add some fits you love before checking out.</p>
+      <a class="btn btn-dark" href="/" style="display:inline-flex;">Start Shopping</a>
+    </div>
+  </div>
+
+  <section class="m-section" style="padding-top:0;">
+    <div class="m-panel" style="margin-bottom:24px;">
+      <h2 style="font-size:15px;font-weight:800;text-transform:uppercase;letter-spacing:.04em;margin-bottom:10px;">Order Summary</h2>
+      <div class="m-cart-summary"><span>Subtotal</span><span id="mSubtotal">₹0</span></div>
+      <div class="m-cart-summary"><span>Shipping</span><span id="mShipping">FREE</span></div>
+      <div class="m-cart-summary total"><span>Total</span><span id="mGrandTotal">₹0</span></div>
+    </div>
+    <div style="padding:0 16px;">
+      <a class="btn btn-dark btn-block" href="/checkout">Proceed To Checkout</a>
+      <a class="btn btn-outline btn-block" href="/" style="margin-top:10px;">Continue Shopping</a>
+    </div>
+  </section>
+</main>
+
+<script src="/mobile/mobile.js?v=1"></script>
+<script src="/mobile/shared.js?v=1"></script>
+</body>
+</html>

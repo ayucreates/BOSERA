@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Checkout – BOSERA</title>
+  <link rel="stylesheet" href="/mobile/mobile.css?v=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body data-page="checkout">
+
+<main>
+  <section class="m-page-hero">
+    <span class="eyebrow">BOSERA</span>
+    <h1>Checkout</h1>
+    <p>Almost there — quick &amp; secure checkout.</p>
+  </section>
+
+  <div class="m-panel">
+    <div id="mCheckoutItems"></div>
+    <div class="m-divider"></div>
+    <div class="m-cart-summary"><span>Subtotal</span><span id="mCheckoutSubtotal">₹0</span></div>
+    <div class="m-cart-summary"><span>Shipping</span><span id="mCheckoutShipping">FREE</span></div>
+    <div class="m-cart-summary total"><span>Total</span><span id="mCheckoutTotal">₹0</span></div>
+  </div>
+
+  <form class="m-form" id="mCheckoutForm" style="padding-bottom:30px;">
+    <h2>Delivery Details</h2>
+    <div class="m-field"><label>Full Name *</label><input name="name" type="text" placeholder="Full Name"></div>
+    <div class="m-field"><label>Phone *</label><input name="phone" type="tel" placeholder="+91 00000 00000"></div>
+    <div class="m-field"><label>Email</label><input name="email" type="email" placeholder="you@email.com"></div>
+    <div class="m-field"><label>Address *</label><input name="address" type="text" placeholder="House no, street, area"></div>
+    <div class="m-field"><label>City *</label><input name="city" type="text" placeholder="City"></div>
+    <div class="m-field"><label>State *</label><input name="state" type="text" placeholder="State"></div>
+    <div class="m-field"><label>Pincode *</label><input name="pincode" type="text" placeholder="Pincode" inputmode="numeric"></div>
+
+    <h2>Payment Method</h2>
+    <label class="m-radio">
+      <input type="radio" name="payment" value="COD" checked>
+      <span><strong>Cash on Delivery</strong><p>Pay when your order arrives</p></span>
+    </label>
+    <label class="m-radio">
+      <input type="radio" name="payment" value="UPI">
+      <span><strong>UPI</strong><p>Pay via UPI</p></span>
+    </label>
+
+    <button class="btn btn-dark btn-block" type="submit" style="margin-top:6px;">Place Order</button>
+  </form>
+</main>
+
+<script src="/mobile/mobile.js?v=1"></script>
+<script src="/mobile/shared.js?v=1"></script>
+</body>
+</html>

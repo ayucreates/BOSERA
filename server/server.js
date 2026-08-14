@@ -214,6 +214,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.use('/css', express.static(path.join(__dirname, '..', 'css')));
 app.use('/js', express.static(path.join(__dirname, '..', 'js')));
 app.use('/images', express.static(path.join(__dirname, '..', 'images')));
+app.use('/mobile', express.static(path.join(__dirname, '..', 'mobile')));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // ---------- Routes ----------
@@ -312,6 +313,29 @@ app.use('/api', (req, res) => {
   res.status(404).json({ message: 'Route not found' });
 });
 
+const MOBILE_DIR = path.join(ROOT_DIR, 'mobile');
+const MOBILE_UA = /Mobile|Android|iPhone|iPad|iPod|IEMobile|BlackBerry|Opera Mini/i;
+
+// Device detection: prefers an explicit ?mobile=1 / ?desktop=1 override, then a
+// saved "view" cookie, then falls back to the User-Agent. Same URL serves both
+// experiences (mobile pages live in /mobile, extensionless mapping preserved).
+app.use((req, res, next) => {
+  req.showMobile = undefined;
+
+  if (req.query.mobile === '1' || req.query.mobile === 'true') req.showMobile = true;
+  else if (req.query.desktop === '1' || req.query.desktop === 'true') req.showMobile = false;
+  else if (req.cookies && req.cookies.view === 'mobile') req.showMobile = true;
+  else if (req.cookies && req.cookies.view === 'desktop') req.showMobile = false;
+  else req.showMobile = MOBILE_UA.test(req.headers['user-agent'] || '');
+
+  if (req.query.mobile === '1' || req.query.mobile === 'true') {
+    res.cookie('view', 'mobile', { httpOnly: true, sameSite: 'lax', maxAge: 30 * 24 * 60 * 60 * 1000 });
+  } else if (req.query.desktop === '1' || req.query.desktop === 'true') {
+    res.cookie('view', 'desktop', { httpOnly: true, sameSite: 'lax', maxAge: 30 * 24 * 60 * 60 * 1000 });
+  }
+  next();
+});
+
 // Serve static HTML pages (extensionless + .html) with a styled 404 fallback.
 // Only public HTML pages at the site root are served; private repo paths
 // (server/, data/, .git/, node_modules/) and dotfiles are always denied.
@@ -337,8 +361,27 @@ app.get('*', (req, res) => {
     hasDotSegment;
   if (!isInside || isBlocked) return res.status(404).sendFile(HTML_404);
 
-  if (fs.existsSync(file) && fs.statSync(file).isFile()) {
-    return res.sendFile(file);
+  // Mobile view: serve the parallel page from /mobile, e.g. /hoodies -> /mobile/hoodies.html.
+  let htmlFile = file;
+  if (req.showMobile) {
+    const mobilePage = path.join(MOBILE_DIR, segments.join(path.sep));
+    if (fs.existsSync(mobilePage) && fs.statSync(mobilePage).isFile() && mobilePage.endsWith('.html')) {
+      htmlFile = mobilePage;
+    }
+  }
+
+  if (fs.existsSync(htmlFile) && fs.statSync(htmlFile).isFile()) {
+    res.set('Vary', 'User-Agent');
+    return res.sendFile(htmlFile);
+  }
+
+  // Mobile view: fall back to the mobile 404 page before the desktop one.
+  if (req.showMobile) {
+    const mobile404 = path.join(MOBILE_DIR, '404.html');
+    if (fs.existsSync(mobile404) && fs.statSync(mobile404).isFile()) {
+      res.status(404).set('Vary', 'User-Agent').sendFile(mobile404);
+      return;
+    }
   }
   res.status(404).sendFile(HTML_404);
 });

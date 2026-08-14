@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>My Orders – BOSERA</title>
+  <link rel="stylesheet" href="/mobile/mobile.css?v=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body data-page="orders">
+
+<main>
+  <section class="m-page-hero">
+    <span class="eyebrow">BOSERA</span>
+    <h1>My Orders</h1>
+    <p>All your BOSERA orders in one place.</p>
+  </section>
+
+  <div class="m-panel" id="mOrdersAuth" style="display:none;">
+    <div class="m-empty" style="padding:20px 10px;">
+      <i class="fas fa-user"></i>
+      <h3>Please login to view your orders</h3>
+      <p>Login to see your order history and track deliveries.</p>
+      <a class="btn btn-dark" href="/account" style="display:inline-flex;">Login</a>
+    </div>
+  </div>
+
+  <div class="m-empty" id="mOrdersEmpty" style="display:none;">
+    <i class="fas fa-box-open"></i>
+    <h3>No orders yet</h3>
+    <p>When you place an order it will show up here.</p>
+    <a class="btn btn-dark" href="/" style="display:inline-flex;">Start Shopping</a>
+  </div>
+
+  <div id="mOrdersList"></div>
+</main>
+
+<script src="/mobile/mobile.js?v=1"></script>
+<script src="/mobile/shared.js?v=1"></script>
+</body>
+</html>

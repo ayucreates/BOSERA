@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>My Account – BOSERA</title>
+  <link rel="stylesheet" href="/mobile/mobile.css?v=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body data-page="account">
+
+<main>
+  <section class="m-page-hero">
+    <span class="eyebrow">BOSERA</span>
+    <h1>My Account</h1>
+    <p>Manage your profile, orders &amp; wishlist.</p>
+  </section>
+
+  <div class="m-panel" id="mAccountAuth" style="display:none;">
+    <div class="m-empty" style="padding:20px 10px;">
+      <i class="fas fa-user"></i>
+      <h3>Please login to view your account</h3>
+      <p>Login or create an account to manage your profile, orders &amp; wishlist.</p>
+      <a class="btn btn-dark" href="/account?login=1" style="display:inline-flex;">Login</a>
+    </div>
+  </div>
+
+  <div id="mAccountForm" style="display:none;">
+    <div class="m-form" style="padding-top:0;">
+      <h2>Profile &amp; Settings</h2>
+      <div class="m-field"><label>Full Name</label><input id="accName" type="text"></div>
+      <div class="m-field"><label>Email</label><input id="accEmail" type="email"></div>
+      <div class="m-field"><label>Phone</label><input id="accPhone" type="tel" placeholder="+91 00000 00000"></div>
+      <div class="m-field"><label>Delivery Address</label><input id="accAddress" type="text" placeholder="Address, city, pincode"></div>
+      <button class="btn btn-dark" id="accountSaveBtn" type="button">Save Changes</button>
+    </div>
+
+    <div class="m-grid" style="grid-template-columns:repeat(2,1fr);padding:0 16px 14px;">
+      <div class="m-cat-tile"><div style="font-size:26px;font-weight:800;margin-bottom:4px;" id="accStatOrders">0</div><span>Orders</span></div>
+      <div class="m-cat-tile"><div style="font-size:26px;font-weight:800;margin-bottom:4px;" id="accStatWishlist">0</div><span>Wishlist Items</span></div>
+    </div>
+
+    <div style="padding:0 16px 24px;">
+      <a class="btn btn-outline btn-block" href="/orders" style="margin-bottom:10px;">My Orders</a>
+      <a class="btn btn-outline btn-block" href="/wishlist" style="margin-bottom:10px;">Wishlist</a>
+      <a class="btn btn-outline btn-block" href="/track-order" style="margin-bottom:10px;">Track Order</a>
+      <a class="btn btn-outline btn-block" href="/support" style="margin-bottom:10px;">Support</a>
+      <button class="btn btn-dark btn-block" id="accountLogoutBtn" style="background:#c0392b;">Logout</button>
+    </div>
+  </div>
+
+  <div class="m-form" id="mAuthForms">
+    <h2>Login</h2>
+    <div class="m-field"><label>Email</label><input id="loginEmail" type="email"></div>
+    <div class="m-field"><label>Password</label><input id="loginPassword" type="password"></div>
+    <button class="btn btn-dark btn-block" id="loginBtn" type="button">Login</button>
+    <p class="m-error hidden" id="loginError"></p>
+
+    <h2 style="margin-top:24px;">Create Account</h2>
+    <div class="m-field"><label>Full Name</label><input id="signupName" type="text"></div>
+    <div class="m-field"><label>Email</label><input id="signupEmail" type="email"></div>
+    <div class="m-field"><label>Password</label><input id="signupPassword" type="password" minlength="6"></div>
+    <button class="btn btn-yellow btn-block" id="signupBtn" type="button">Sign Up</button>
+    <p class="m-error hidden" id="signupError"></p>
+  </div>
+</main>
+
+<script src="/mobile/mobile.js?v=1"></script>
+<script src="/mobile/shared.js?v=1"></script>
+</body>
+</html>

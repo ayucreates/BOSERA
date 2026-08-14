@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Track Order – BOSERA</title>
+  <link rel="stylesheet" href="/mobile/mobile.css?v=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body data-page="track">
+
+<main>
+  <section class="m-page-hero">
+    <span class="eyebrow">BOSERA</span>
+    <h1>Track Your Order</h1>
+    <p>Enter your order ID to check the status.</p>
+  </section>
+
+  <form class="m-form" id="mTrackForm" style="display:flex;gap:10px;align-items:stretch;">
+    <div class="m-field" style="flex:1;margin-bottom:0;"><input name="orderId" type="text" placeholder="Enter Order ID"></div>
+    <button class="btn btn-dark" type="submit" style="padding:0 20px;">Track</button>
+  </form>
+
+  <div id="mTrackResult" style="margin-top:6px;"></div>
+</main>
+
+<script src="/mobile/mobile.js?v=1"></script>
+<script src="/mobile/shared.js?v=1"></script>
+</body>
+</html>
