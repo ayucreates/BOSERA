@@ -36,6 +36,7 @@
         if (!r.ok) throw new Error('Failed to load products');
         return r.json();
       })
+      .then(function (data) { return data.products || []; })
       .catch(function (e) {
         window._productsPromise = null;
         throw e;
