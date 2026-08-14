@@ -145,9 +145,16 @@ body[data-page="index"] .m-header-search {
   text-align: left;
   border: 1px solid rgba(255,255,255,0.45);
   border-radius: 999px;
-  background: rgba(0,0,0,0.35);
-  -webkit-backdrop-filter: blur(4px);
-  backdrop-filter: blur(4px);
+  background: transparent;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-10px);
+  transition: opacity 0.3s ease, visibility 0.3s ease, transform 0.3s ease;
+}
+body[data-page="index"] .m-header-search.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
 }
 body[data-page="index"] .m-header-search input {
   background: transparent;

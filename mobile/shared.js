@@ -288,10 +288,20 @@
 
   function wireScroll() {
     var header = document.getElementById('mHeader');
+    var searchBar = document.getElementById('mHeaderSearch');
     var lastY = window.scrollY || 0;
     window.addEventListener('scroll', function () {
       var y = window.scrollY || 0;
       header.classList.toggle('scrolled', y > 8);
+
+      if (searchBar) {
+        var goingUp = y < lastY;
+        if (goingUp && y > 50) {
+          searchBar.classList.add('visible');
+        } else {
+          searchBar.classList.remove('visible');
+        }
+      }
       lastY = y;
     }, { passive: true });
   }
