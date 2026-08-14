@@ -74,7 +74,7 @@
   }
 
   function buildMenuGroups() {
-    var html = '';
+    var html = '<a class="m-nav-link" id="mSearchOpen" href="#"><span><i class="fas fa-search" style="margin-right:10px;"></i>Search</span></a>';
     Object.keys(MENU).forEach(function (group) {
       html += '<div class="m-nav-group-title">' + esc(group) + '</div>';
       MENU[group].forEach(function (it) {
@@ -112,20 +112,11 @@
 
   function inject() {
     document.body.insertAdjacentHTML('afterbegin',
-      '<div class="announcement-bar"><div class="announcement-track">' +
-      '<span>' + ANNOUNCEMENT.split(' | ').map(function (t, i) {
-        return '<span>' + esc(t) + '</span><span class="sep">|</span>';
-      }).join('') + '<span>' + esc(ANNOUNCEMENT.split(' | ')[0]) + '</span><span class="sep">|</span>' +
-      '</div></div>' +
-
       '<header class="m-header" id="mHeader">' +
       '  <div class="m-header-row">' +
       '    <button class="m-icon-btn" id="mMenuBtn" aria-label="Menu"><i class="fas fa-bars"></i></button>' +
       '    <a href="/" class="m-logo">BOS<span class="accent">ERA</span></a>' +
       '    <div class="m-header-right">' +
-      '      <button class="m-icon-btn" id="mSearchBtn" aria-label="Search"><i class="fas fa-search"></i></button>' +
-      '      <a href="/account" class="m-icon-btn" aria-label="Account"><i class="far fa-user"></i></a>' +
-      '      <a href="/wishlist" class="m-icon-btn" aria-label="Wishlist"><i class="far fa-heart"></i><span class="m-count-badge hidden" id="mWishBadge">0</span></a>' +
       '      <button class="m-icon-btn" id="mCartBtn" aria-label="Cart"><i class="fas fa-shopping-bag"></i><span class="m-count-badge hidden" id="mCartBadge">0</span></button>' +
       '    </div>' +
       '  </div>' +
@@ -194,7 +185,15 @@
       if (input.value) doSearch();
     };
     var close = function () { panel.classList.remove('open'); document.body.style.overflow = ''; };
-    document.getElementById('mSearchBtn').addEventListener('click', open);
+    var openBtn = document.getElementById('mSearchOpen');
+    if (openBtn) openBtn.addEventListener('click', function (e) {
+      e.preventDefault();
+      var drawer = document.getElementById('mDrawer');
+      var overlay = document.getElementById('mOverlay');
+      drawer.classList.remove('open');
+      overlay.classList.remove('active');
+      open();
+    });
     document.getElementById('mSearchClose').addEventListener('click', close);
 
     var debounce;

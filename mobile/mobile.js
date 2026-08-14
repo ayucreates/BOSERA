@@ -730,7 +730,19 @@
     }
 
     var page = (document.body.dataset.page || '').replace(/-/g, '_');
-    if (page && window[page + '_init']) window[page + '_init'](api);
+    var initFns = {
+      index: index_init,
+      category: category_init,
+      product: product_init,
+      cart: cart_init,
+      checkout: checkout_init,
+      orders: orders_init,
+      track: track_init,
+      wishlist: wishlist_init,
+      account: account_init,
+      order_success: order_success_init,
+    };
+    if (page && initFns[page]) initFns[page](api);
   }
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
