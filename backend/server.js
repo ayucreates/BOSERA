@@ -48,6 +48,7 @@ async function seedIfEmpty() {
       { name: 'Dance', slug: 'dance' },
     ]);
     const catMap = Object.fromEntries(categories.map(c => [c.slug, c._id]));
+    const catSlug = (name) => name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
 
     const products = curated.map(p => ({
       name: p.name,
@@ -57,7 +58,7 @@ async function seedIfEmpty() {
       discount: p.discount || 0,
       description: 'Streetwear essentials crafted for bold, unisex fits.',
       images: [{ url: p.image, alt: p.name }],
-      category: catMap[p.category],
+      category: catMap[catSlug(p.category)],
       sizes: p.sizes && p.sizes.length ? p.sizes : [{ size: 'M', stock: 100 }],
       isNewArrival: false,
       isBestSeller: false,
