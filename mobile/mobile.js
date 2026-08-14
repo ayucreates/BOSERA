@@ -17,6 +17,10 @@
     return '';
   })();
 
+  function apiUrl(path) {
+    return API_BASE + path;
+  }
+
   var LS_CART = 'lbz_cart';
   var LS_WISH = 'lbz_wishlist';
   var LS_ORDERS = 'lbz_orders';
