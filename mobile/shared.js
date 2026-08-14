@@ -111,8 +111,23 @@
   }
 
   function inject() {
+    var isIndex = document.body && document.body.dataset.page === 'index';
+    var topbar = '';
+    if (isIndex) {
+      var annSpans = ANNOUNCEMENT.split('|').map(function (s) { return esc(s.trim()); }).filter(Boolean);
+      var annHtml = annSpans.map(function (s) {
+        return '<span>' + s + '</span><span class="sep">★</span>';
+      }).join('');
+      topbar =
+        '<div class="m-top-marquee"><div class="announcement-track">' + annHtml + annHtml + '</div></div>' +
+        '<div class="m-top-promo">' +
+        '  <div class="m-top-promo-txt"><strong>Welcome to BOSERA!</strong><span>Get a faster checkout + exclusive rewards in our app</span></div>' +
+        '  <a class="m-top-promo-btn" href="/"><i class="fab fa-app-store" style="margin-right:6px;"></i>Open App</a>' +
+        '</div>';
+    }
     document.body.insertAdjacentHTML('afterbegin',
       '<header class="m-header" id="mHeader">' +
+      topbar +
       '  <div class="m-header-row">' +
       '    <button class="m-icon-btn" id="mMenuBtn" aria-label="Menu"><i class="fas fa-bars"></i></button>' +
       '    <a href="/" class="m-logo">BOS<span class="accent">ERA</span></a>' +
@@ -120,6 +135,7 @@
       '      <button class="m-icon-btn" id="mCartBtn" aria-label="Cart"><i class="fas fa-shopping-bag"></i><span class="m-count-badge hidden" id="mCartBadge">0</span></button>' +
       '    </div>' +
       '  </div>' +
+      '  <button class="m-header-search" id="mHeaderSearch"><i class="fas fa-search"></i><span>Search bonkerscorner</span></button>' +
       '</header>' +
 
       '<div class="m-overlay" id="mOverlay"></div>' +
@@ -195,6 +211,12 @@
       drawer.classList.remove('open');
       overlay.classList.remove('active');
       document.body.style.overflow = '';
+      open();
+      setTimeout(function () { input.focus(); }, 120);
+    });
+    var headerSearch = document.getElementById('mHeaderSearch');
+    if (headerSearch) headerSearch.addEventListener('click', function (e) {
+      e.preventDefault();
       open();
       setTimeout(function () { input.focus(); }, 120);
     });
