@@ -46,7 +46,7 @@ app.use(
         'style-src': ["'self'", "'unsafe-inline'", 'https://cdnjs.cloudflare.com', 'https://fonts.googleapis.com', 'https://fonts.gstatic.com'],
         'font-src': ["'self'", 'data:', 'https://fonts.gstatic.com', 'https://cdnjs.cloudflare.com'],
         'img-src': ["'self'", 'data:', 'https:'],
-        'connect-src': ["'self'"],
+        'connect-src': ["'self'", 'https://bosera-backend.onrender.com'],
         'object-src': ["'none'"],
       },
     },
