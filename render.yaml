@@ -3,7 +3,7 @@ services:
     name: bosera-api
     env: node
     buildCommand: npm install
-    startCommand: cd backend && node server.js
+    startCommand: node backend/server.js
     envVars:
       - key: JWT_SECRET
         generateValue: true
