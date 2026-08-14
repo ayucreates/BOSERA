@@ -319,7 +319,7 @@
       }, 5000);
     }
     fetchProducts().then(function (list) {
-      renderGrid(document.getElementById('mAllGrid'), list);
+      renderGrid(document.getElementById('mAllGrid'), list.slice(0, 6));
       renderGrid(document.getElementById('mNewGrid'), list.slice(0, 8));
     }).catch(function () { toast('Failed to load products', true); });
   }
@@ -332,6 +332,63 @@
         ? list.filter(function (p) { return (p.category_name || '').toLowerCase() === cat.toLowerCase(); })
         : list;
       renderGrid(grid, filtered);
+    }).catch(function () { toast('Failed to load products', true); });
+  }
+
+  // /clothing — dynamic category filter chips + sort control.
+  function clothing_init(api) {
+    var chips = document.getElementById('mFilterChips');
+    var sortSel = document.getElementById('mSortSelect');
+    var grid = document.getElementById('mCatGrid');
+    var countEl = document.getElementById('mFilterCount');
+    var state = { cat: 'all', sort: 'featured' };
+    var all = [];
+
+    function buildChips() {
+      var unique = [];
+      all.forEach(function (p) {
+        var c = p.category_name || 'Other';
+        if (unique.indexOf(c) === -1) unique.push(c);
+      });
+      unique.sort();
+      var opts = [{ label: 'All', value: 'all' }].concat(unique.map(function (c) {
+        return { label: c, value: c };
+      }));
+      chips.innerHTML = opts.map(function (o) {
+        return '<button class="m-chip' + (state.cat === o.value ? ' active' : '') + '" data-cat="' + esc(o.value) + '">' + esc(o.label) + '</button>';
+      }).join('');
+    }
+
+    function applyFilter() {
+      var filtered = state.cat === 'all'
+        ? all.slice()
+        : all.filter(function (p) { return (p.category_name || 'Other') === state.cat; });
+      var sorted = filtered.sort(function (a, b) {
+        if (state.sort === 'price-asc') return Number(a.price) - Number(b.price);
+        if (state.sort === 'price-desc') return Number(b.price) - Number(a.price);
+        if (state.sort === 'name') return (a.name || '').localeCompare(b.name || '');
+        return 0;
+      });
+      if (countEl) countEl.textContent = sorted.length + ' product' + (sorted.length === 1 ? '' : 's');
+      renderGrid(grid, sorted);
+    }
+
+    chips.addEventListener('click', function (e) {
+      var b = e.target.closest('.m-chip');
+      if (!b || state.cat === b.dataset.cat) return;
+      state.cat = b.dataset.cat;
+      chips.querySelectorAll('.m-chip').forEach(function (c) { c.classList.toggle('active', c === b); });
+      applyFilter();
+    });
+    sortSel.addEventListener('change', function () {
+      state.sort = sortSel.value;
+      applyFilter();
+    });
+
+    fetchProducts().then(function (list) {
+      all = list;
+      buildChips();
+      applyFilter();
     }).catch(function () { toast('Failed to load products', true); });
   }
 
@@ -763,6 +820,7 @@
     var page = (document.body.dataset.page || '').replace(/-/g, '_');
     var initFns = {
       index: index_init,
+      clothing: clothing_init,
       category: category_init,
       product: product_init,
       cart: cart_init,

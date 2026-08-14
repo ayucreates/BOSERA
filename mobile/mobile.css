@@ -781,7 +781,8 @@ details.faq-item .faq-body { padding: 0 16px 14px; font-size: 13px; color: #555;
 .m-toast.error { background: #c0392b; }
 
 /* ---------- Filter chips ---------- */
-.m-chips { display: flex; gap: 8px; overflow-x: auto; padding: 4px 14px 14px; -webkit-overflow-scrolling: touch; }
+.m-chips { display: flex; gap: 8px; overflow-x: auto; padding: 0; -webkit-overflow-scrolling: touch; scrollbar-width: none; }
+.m-chips::-webkit-scrollbar { display: none; }
 .m-chip {
   flex-shrink: 0;
   padding: 8px 14px;
@@ -793,6 +794,23 @@ details.faq-item .faq-body { padding: 0 16px 14px; font-size: 13px; color: #555;
   letter-spacing: 0.06em;
 }
 .m-chip.active { background: #0a0a0a; color: #fff; border-color: #0a0a0a; }
+
+/* ---------- Clothing filter bar ---------- */
+.m-filterbar { padding: 2px 14px 14px; display: flex; flex-direction: column; gap: 10px; }
+.m-filter-row { display: flex; align-items: center; gap: 10px; }
+.m-filter-label { font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.08em; color: #888; flex-shrink: 0; }
+.m-filter-label i { margin-right: 4px; color: #ffb800; }
+.m-sort-select {
+  flex: 1;
+  padding: 9px 12px;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  background: #fff;
+  color: #0a0a0a;
+}
+.m-filter-count { font-size: 11px; color: #999; text-transform: uppercase; letter-spacing: 0.08em; }
 
 /* ---------- Info tiles (contact/support) ---------- */
 .m-tiles { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 6px 16px; }
