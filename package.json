@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node server/server.js",
     "seed": "node server/seed.js",
+    "seed:mongo": "node server/seedMongo.js",
     "keepalive": "node server/keepalive.js"
   },
   "dependencies": {
