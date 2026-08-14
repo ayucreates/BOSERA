@@ -739,7 +739,7 @@ details.faq-item[open] summary::after { transform: rotate(45deg); }
 details.faq-item .faq-body { padding: 0 16px 14px; font-size: 13px; color: #555; }
 
 /* ---------- Feature tiles (home) ---------- */
-.m-features { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 6px 14px 20px; }
+.m-features { border-top: 1px solid #eee; display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; padding: 16px 14px 20px; }
 .m-feature { background: #f6f6f6; border-radius: 10px; padding: 16px 12px; text-align: center; }
 .m-feature i { font-size: 20px; color: #ffb800; display: block; margin-bottom: 8px; }
 .m-feature strong { font-size: 12px; text-transform: uppercase; letter-spacing: 0.04em; }
