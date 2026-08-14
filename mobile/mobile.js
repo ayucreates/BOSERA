@@ -7,6 +7,20 @@
 (function () {
   'use strict';
 
+  // Configurable API base — set via <meta name="api-base" content="https://api.example.com">
+  // or window.BOSERA_API_BASE = 'https://api.example.com' before this script loads.
+  // Empty string = same-origin (current SQLite server).
+  var API_BASE = (function () {
+    var meta = document.querySelector('meta[name="api-base"]');
+    if (meta && meta.content) return meta.content.replace(/\/+$/, '');
+    if (window.BOSERA_API_BASE) return String(window.BOSERA_API_BASE).replace(/\/+$/, '');
+    return '';
+  })();
+
+  function apiUrl(path) {
+    return API_BASE + path;
+  }
+
   var LS_CART = 'lbz_cart';
   var LS_WISH = 'lbz_wishlist';
   var LS_ORDERS = 'lbz_orders';
@@ -31,12 +45,12 @@
   // ---------- Products ----------
   function fetchProducts() {
     if (window._productsPromise) return window._productsPromise;
-    window._productsPromise = fetch('/api/products')
+    window._productsPromise = fetch(apiUrl('/api/products'))
       .then(function (r) {
         if (!r.ok) throw new Error('Failed to load products');
         return r.json();
       })
-      .then(function (data) { return data.products || []; })
+      .then(function (data) { return data.products || data || []; })
       .catch(function (e) {
         window._productsPromise = null;
         throw e;
@@ -114,21 +128,21 @@
   }
 
   function apiLogin(email, password) {
-    return fetch('/api/auth/login', {
+    return fetch(apiUrl('/api/auth/login'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email: email, password: password }),
     }).then(function (r) { return r.json().then(function (d) { return { ok: r.ok, data: d }; }); });
   }
   function apiRegister(name, email, password) {
-    return fetch('/api/auth/register', {
+    return fetch(apiUrl('/api/auth/register'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name: name, email: email, password: password }),
     }).then(function (r) { return r.json().then(function (d) { return { ok: r.ok, data: d }; }); });
   }
   function apiLogout() {
-    return fetch('/api/auth/logout', { method: 'POST' });
+    return fetch(apiUrl('/api/auth/logout'), { method: 'POST' });
   }
 
   // ---------- Orders (localStorage) ----------
