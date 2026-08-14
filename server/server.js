@@ -105,8 +105,8 @@ db.exec(`CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);`);
 
 // ---------- Auto-seed products if empty ----------
 const productCount = db.prepare('SELECT COUNT(*) as n FROM products').get().n;
-if (productCount === 0) {
-  console.log('[seed] Products table empty — seeding sample data...');
+if (productCount < 18) {
+  console.log(`[seed] Products count ${productCount} < 18 — seeding sample data...`);
   const categories = [
     { name: 'Tops', slug: 'tops' },
     { name: 'Dresses', slug: 'dresses' },
@@ -350,6 +350,11 @@ const BLOCKED_FILES = new Set([
 
 app.get('/health', (req, res) => {
   res.json({ status: 'ok' });
+});
+app.get('/debug/products', (req, res) => {
+  const count = db.prepare('SELECT COUNT(*) as n FROM products').get().n;
+  const sample = db.prepare('SELECT id, name, slug, price, image_url FROM products LIMIT 5').all();
+  res.json({ count, sample });
 });
 
 app.get('/robots.txt', (req, res) => {
