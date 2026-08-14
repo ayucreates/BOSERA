@@ -178,13 +178,15 @@
     var panel = document.getElementById('mSearch');
     var input = document.getElementById('mSearchInput');
     var results = document.getElementById('mSearchResults');
+
     var open = function () {
       panel.classList.add('open');
-      document.body.style.overflow = 'hidden';
-      setTimeout(function () { input.focus(); }, 120);
       if (input.value) doSearch();
     };
-    var close = function () { panel.classList.remove('open'); document.body.style.overflow = ''; };
+    var close = function () {
+      panel.classList.remove('open');
+      results.innerHTML = '';
+    };
     var openBtn = document.getElementById('mSearchOpen');
     if (openBtn) openBtn.addEventListener('click', function (e) {
       e.preventDefault();
@@ -192,9 +194,17 @@
       var overlay = document.getElementById('mOverlay');
       drawer.classList.remove('open');
       overlay.classList.remove('active');
+      document.body.style.overflow = '';
       open();
+      setTimeout(function () { input.focus(); }, 120);
     });
-    document.getElementById('mSearchClose').addEventListener('click', close);
+    document.getElementById('mSearchClose').addEventListener('click', function () {
+      close();
+      input.value = '';
+    });
+    input.addEventListener('blur', function () {
+      setTimeout(function () { close(); }, 250);
+    });
 
     var debounce;
     function doSearch() {
@@ -219,6 +229,9 @@
     results.addEventListener('click', function (e) {
       if (e.target.closest('a')) close();
     });
+
+    window._mSearchOpen = open;
+    window._mSearchClose = close;
   }
 
   function wireCart(api) {
@@ -281,8 +294,22 @@
 
   function wireScroll() {
     var header = document.getElementById('mHeader');
+    var lastY = window.scrollY || 0;
+    var shown = false;
     window.addEventListener('scroll', function () {
-      header.classList.toggle('scrolled', window.scrollY > 8);
+      var y = window.scrollY || 0;
+      header.classList.toggle('scrolled', y > 8);
+
+      // Search bar: reveal when scrolling up, hide when scrolling down.
+      var goingUp = y < lastY;
+      if (goingUp && !shown) {
+        if (window._mSearchOpen) window._mSearchOpen();
+        shown = true;
+      } else if (!goingUp && shown) {
+        if (window._mSearchClose) window._mSearchClose();
+        shown = false;
+      }
+      lastY = y;
     }, { passive: true });
   }
 
